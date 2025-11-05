@@ -20,7 +20,8 @@ class TrabajadoresController extends BaseController
 
         $data['listaTrabajadores'] = $model->getTrabajadores();
 
-        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php', 'templates/footer.view.php'), $data);
+        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php',
+            'templates/footer.view.php'), $data);
     }
 
     public function getAllTrabajadoresBySalario(): void
@@ -35,7 +36,8 @@ class TrabajadoresController extends BaseController
 
         $data['listaTrabajadores'] = $model->getTrabajadoresPorSalario();
 
-        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php', 'templates/footer.view.php'), $data);
+        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php',
+            'templates/footer.view.php'), $data);
     }
 
     public function getTrabajadoresStandard(): void
@@ -50,7 +52,8 @@ class TrabajadoresController extends BaseController
 
         $data['listaTrabajadores'] = $model->getTrabajadoresStandard();
 
-        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php', 'templates/footer.view.php'), $data);
+        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php',
+            'templates/footer.view.php'), $data);
     }
 
     public function getTrabajadoresCarlos(): void
@@ -65,6 +68,7 @@ class TrabajadoresController extends BaseController
 
         $data['listaTrabajadores'] = $model->getTrabajadoresCarlos();
 
-        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php', 'templates/footer.view.php'), $data);
+        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php',
+            'templates/footer.view.php'), $data);
     }
 }
