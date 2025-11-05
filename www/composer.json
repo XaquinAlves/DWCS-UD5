@@ -10,7 +10,9 @@
     },
     "require": {
         "steampixel/simple-php-router": "^0.7.1",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+      "ext-mysqli": "*",
+      "ext-pdo": "*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "@stable"
