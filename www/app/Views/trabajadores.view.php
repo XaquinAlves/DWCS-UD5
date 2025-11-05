@@ -26,7 +26,7 @@
                                 <tbody>
                                 <?php foreach ($trabajadores as $trabajador) { ?>
                                 <tr>
-                                    <td><?php echo $ ?></td>
+                                    <td><?php echo $trabajador['username'] ?></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
