@@ -13,11 +13,12 @@ class TrabajadoresController extends BaseController
         $data = array(
             'titulo' => 'Trabajadores',
             'breadcrumb' => ['trabajadores'],
-            'seccion' => '/trabajadores'
+            'seccion' => '/trabajadores',
+            'tituloEjercicio' => 'Lista de todos los trabajadores'
         );
         $model = new TrabajadoresDbModel();
 
-        $data['listaTrabajadores'] = $model->getTrabajadores();
+        $data['listaTrabajadores'] = $model->getTrabajadoresCarlos();
 
         $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php', 'templates/footer.view.php'), $data);
     }

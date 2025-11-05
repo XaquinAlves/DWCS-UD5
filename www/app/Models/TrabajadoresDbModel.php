@@ -21,21 +21,36 @@ class TrabajadoresDbModel extends BaseDbModel
 
     public function getTrabajadoresPorSalario(): array
     {
-        $sql = "SELECT * FROM trabajadores ORDER BY salarioBruto DESC";
+        $sql = "SELECT tr.username as nombre, tr.salarioBruto as salario, tr.retencionIRPF as retencion, tr.activo,
+                rol.nombre_rol as rol, co.country_name as pais 
+                FROM trabajadores as tr 
+                LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
+                LEFT JOIN aux_countries as co ON co.id = tr.id_country
+                ORDER BY salario DESC";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
     }
 
     public function getTrabajadoresStandard(): array
     {
-        $sql = "SELECT * FROM trabajadores WHERE id_rol = 5";
+        $sql = "SELECT tr.username as nombre, tr.salarioBruto as salario, tr.retencionIRPF as retencion, tr.activo,
+                rol.nombre_rol as rol, co.country_name as pais 
+                FROM trabajadores as tr 
+                LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
+                LEFT JOIN aux_countries as co ON co.id = tr.id_country
+                WHERE tr.id_rol = 5";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
     }
 
-    public function getTrabajadoresCarlos() : array
+    public function getTrabajadoresCarlos(): array
     {
-        $sql = "SELECT * FROM trabajadores WHERE username LIKE Carlos%";
+        $sql = "SELECT tr.username as nombre, tr.salarioBruto as salario, tr.retencionIRPF as retencion, tr.activo,
+                rol.nombre_rol as rol, co.country_name as pais 
+                FROM trabajadores as tr  
+                LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
+                LEFT JOIN aux_countries as co ON co.id = tr.id_country
+                WHERE tr.username LIKE 'Carlos%'";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
     }
