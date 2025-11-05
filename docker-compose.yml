@@ -1,0 +1,63 @@
+#version: '3'
+volumes:
+  mysql-data:
+    name: ${PROJECT_NAME}-data
+
+networks:
+  network-id:
+    name: ${PROJECT_NAME}-network
+
+services:
+  mysql:
+    build:
+      context: ./docker/mysql
+      args:
+        mysql_version: ${MYSQL_VERSION}    
+    container_name: ${PROJECT_NAME}-mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql/dumps:/docker-entrypoint-initdb.d
+    ports:
+      - "${MYSQL_PORT}:3306"
+    restart: always
+    networks:
+      - network-id
+
+  php:
+    build:
+      context: ./docker/php
+      args:
+        php_version: ${PHP_VERSION}
+        document_root: ${DOCUMENT_ROOT}
+    extra_hosts:  #Permite la conexión mediante host.docker.internal
+      - "host.docker.internal:host-gateway"
+    container_name: ${PROJECT_NAME}-php
+    ports:
+      - "${PHP_PORT}:80"      
+    volumes:
+      - ./www:/var/www/html
+    links:
+      - mysql
+    networks:
+      - network-id
+
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - ${PHPMYADMIN_PORT}:80
+    links:
+      - mysql
+    environment:      
+      PMA_HOST: ${PROJECT_NAME}-mysql      
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      UPLOAD_LIMIT: 256M
+    networks:
+      - network-id
