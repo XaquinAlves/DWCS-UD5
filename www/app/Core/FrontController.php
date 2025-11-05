@@ -2,6 +2,7 @@
 
 namespace Com\Daw2\Core;
 
+use Com\Daw2\Controllers\CsvController;
 use Com\Daw2\Controllers\ErroresController;
 use Com\Daw2\Controllers\InicioController;
 use Com\Daw2\Controllers\TrabajadoresController;
@@ -97,6 +98,15 @@ class FrontController
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->getTrabajadoresCarlosAssoc();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/poblacion-pontevedra',
+            function () {
+                $controlador = new CsvController();
+                $controlador->getPoblacionPontevedra();
             },
             'get'
         );
