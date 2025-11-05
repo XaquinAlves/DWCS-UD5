@@ -73,6 +73,14 @@
                           <p>Trabajadores con nombre Carlos</p>
                       </a>
                   </li>
+                  <li class="nav-item">
+                      <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-all-asoc" class="nav-link
+                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-all-asoc' ? 'active' :
+                              ''; ?>">
+                          <i class="fas fa-book nav-icon"></i>
+                          <p>Todos los trabajadores(ASOC)</p>
+                      </a>
+                  </li>
               </ul>
           </li>
         </ul>

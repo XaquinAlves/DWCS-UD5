@@ -39,6 +39,15 @@ class FrontController
         );
 
         Route::add(
+            '/trabajadores-all-asoc',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->getAllTrabajadoresAsoc();
+            },
+            'get'
+        );
+
+        Route::add(
             '/trabajadores-salario',
             function () {
                 $controlador = new TrabajadoresController();

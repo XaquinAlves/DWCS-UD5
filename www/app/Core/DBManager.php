@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Com\Daw2\Core;
 
+use mysqli;
 use PDO;
 
 class DBManager
@@ -11,6 +12,8 @@ class DBManager
     // Contenedor de la instancia de la Clase
     private static ?DBManager $instance = null;
     private ?PDO $db = null;
+
+    private ?MYSQLI $mysqli = null;
 
     //Previene creacion de objetos via new
 
@@ -26,6 +29,21 @@ class DBManager
             self::$instance = new self();
         }
         return self::$instance;
+    }
+
+    public function getMysqliConnection(): MYSQLI
+    {
+        if (is_null($this->mysqli)) {
+            $host = $_ENV['db.host'];
+            $db = $_ENV['db.schema'];
+            $user = $_ENV['db.user'];
+            $pass = $_ENV['db.pass'];
+            $charset = $_ENV['db.charset'];
+            $emulated = (bool)$_ENV['db.emulated'];
+
+            $this->mysqli = new mysqli($host, $user, $pass, $db);
+        }
+        return $this->mysqli;
     }
 
     public function getConnection($emulatePrepares = false): PDO

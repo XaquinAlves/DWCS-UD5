@@ -24,6 +24,22 @@ class TrabajadoresController extends BaseController
             'templates/footer.view.php'), $data);
     }
 
+    public function getAllTrabajadoresAsoc(): void
+    {
+        $data = array(
+            'titulo' => 'Trabajadores1',
+            'breadcrumb' => ['trabajadores','trabajadores1'],
+            'seccion' => '/trabajadores',
+            'tituloEjercicio' => 'Lista de todos los trabajadores'
+        );
+        $model = new TrabajadoresDbModel();
+
+        $data['listaTrabajadores'] = $model->getTrabajadoresAsoc();
+
+        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
     public function getAllTrabajadoresBySalario(): void
     {
         $data = array(

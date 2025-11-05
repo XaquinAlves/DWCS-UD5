@@ -19,6 +19,21 @@ class TrabajadoresDbModel extends BaseDbModel
         return $stmt->fetchAll();
     }
 
+    public function getTrabajadoresAsoc(): array
+    {
+        $sql = "SELECT tr.username as nombre, tr.salarioBruto as salario, tr.retencionIRPF as retencion, tr.activo,
+                rol.nombre_rol as rol, co.country_name as pais 
+                FROM trabajadores as tr 
+                LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
+                LEFT JOIN aux_countries as co ON co.id = tr.id_country";
+        $query = $this->mysqli->query($sql);
+        $result = [];
+        do {
+            $result[] = mysqli_fetch_assoc($query);
+        } while ($result[count($result) - 1] !== null);
+        array_pop($result);
+        return $result;
+    }
     public function getTrabajadoresPorSalario(): array
     {
         $sql = "SELECT tr.username as nombre, tr.salarioBruto as salario, tr.retencionIRPF as retencion, tr.activo,
