@@ -17,7 +17,7 @@ class TrabajadoresController extends BaseController
         );
         $model = new TrabajadoresDbModel();
 
-        $data['trabajadores'] = $model->getTrabajadores();
+        $data['listaTrabajadores'] = $model->getTrabajadores();
 
         $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php', 'templates/footer.view.php'), $data);
     }

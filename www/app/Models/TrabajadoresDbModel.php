@@ -10,7 +10,11 @@ class TrabajadoresDbModel extends BaseDbModel
 {
     public function getTrabajadores(): array
     {
-        $sql = "SELECT * FROM trabajadores";
+        $sql = "SELECT tr.username as nombre, tr.salarioBruto as salario, tr.retencionIRPF as retencion, tr.activo as
+                activo, rol.nombre_rol as rol, co.country_name as pais 
+                FROM trabajadores as tr 
+                LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
+                LEFT JOIN aux_countries as co ON co.id = tr.id_country";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
     }

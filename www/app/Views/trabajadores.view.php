@@ -20,19 +20,24 @@
                                     <th>Retención IRPF</th>
                                     <th>Activo</th>
                                     <th>ID Rol</th>
-                                    <th>Pais</th>
+                                    <th>ID Pais</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($trabajadores as $trabajador) { ?>
+                                <?php foreach ($listaTrabajadores as $trabajador) { ?>
                                 <tr>
-                                    <td><?php echo $trabajador['username'] ?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><?php echo $trabajador['nombre'] ?></td>
+                                    <td><?php echo $trabajador['salario'] ?></td>
+                                    <td><?php echo $trabajador['retencion'] ?></td>
+                                    <td><?php if ($trabajador['activo'] == 0) {
+                                            echo "No";
+                                        } else {
+                                            echo "Si";
+                                        }?></td>
+                                    <td><?php echo $trabajador['rol'] ?></td>
+                                    <td><?php echo $trabajador['pais'] ?></td>
                                 </tr>
+                                <?php } ?>
                                 </tbody>
                             </table>
                         </div>
