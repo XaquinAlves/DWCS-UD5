@@ -39,10 +39,10 @@ class FrontController
         );
 
         Route::add(
-            '/trabajadores-all-asoc',
+            '/trabajadores-all-assoc',
             function () {
                 $controlador = new TrabajadoresController();
-                $controlador->getAllTrabajadoresAsoc();
+                $controlador->getAllTrabajadoresAssoc();
             },
             'get'
         );
@@ -57,10 +57,28 @@ class FrontController
         );
 
         Route::add(
+            '/trabajadores-salario-assoc',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->getAllTrabajadoresBySalarioAssoc();
+            },
+            'get'
+        );
+
+        Route::add(
             '/trabajadores-standard',
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->getTrabajadoresStandard();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/trabajadores-standard-assoc',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->getTrabajadoresStandardAssoc();
             },
             'get'
         );
@@ -74,6 +92,14 @@ class FrontController
             'get'
         );
 
+        Route::add(
+            '/trabajadores-carlos-assoc',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->getTrabajadoresCarlosAssoc();
+            },
+            'get'
+        );
 
         Route::pathNotFound(
             function () {
