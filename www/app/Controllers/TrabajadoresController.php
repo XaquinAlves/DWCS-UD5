@@ -27,7 +27,7 @@ class TrabajadoresController extends BaseController
     public function getAllTrabajadoresAsoc(): void
     {
         $data = array(
-            'titulo' => 'Trabajadores1',
+            'titulo' => 'Trabajadores1 con fetch_assoc()',
             'breadcrumb' => ['trabajadores','trabajadores1'],
             'seccion' => '/trabajadores',
             'tituloEjercicio' => 'Lista de todos los trabajadores'
@@ -41,6 +41,22 @@ class TrabajadoresController extends BaseController
     }
 
     public function getAllTrabajadoresBySalario(): void
+    {
+        $data = array(
+            'titulo' => 'Trabajadores2',
+            'breadcrumb' => ['trabajadores','trabajadores2'],
+            'seccion' => '/trabajadores',
+            'tituloEjercicio' => 'Lista de todos los trabajadores ordenados por salario'
+        );
+        $model = new TrabajadoresDbModel();
+
+        $data['listaTrabajadores'] = $model->getTrabajadoresPorSalario();
+
+        $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
+    public function getAllTrabajadoresBySalarioAsoc(): void
     {
         $data = array(
             'titulo' => 'Trabajadores2',
