@@ -38,6 +38,33 @@ class FrontController
             'get'
         );
 
+        Route::add(
+            '/trabajadores_salario',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->getAllTrabajadoresBySalario();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/trabajadores_standard',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->getTrabajadoresStandard();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/trabajadores_carlos',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->getTrabajadoresCarlos();
+            },
+            'get'
+        );
+
 
         Route::pathNotFound(
             function () {

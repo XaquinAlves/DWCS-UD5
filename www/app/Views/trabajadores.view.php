@@ -1,7 +1,7 @@
 <?php declare(strict_types=1); ?>
 <div class="row">
     <div class="col-12">
-        <!-- Card con textarea -->
+        <!-- Card -->
         <div class="card shadow mb-4">
             <form method="post" action="">
                 <!-- Card Header -->
@@ -19,8 +19,8 @@
                                     <th>Salario Bruto</th>
                                     <th>Retención IRPF</th>
                                     <th>Activo</th>
-                                    <th>ID Rol</th>
-                                    <th>ID Pais</th>
+                                    <th>Rol</th>
+                                    <th>Pais</th>
                                 </tr>
                                 </thead>
                                 <tbody>
