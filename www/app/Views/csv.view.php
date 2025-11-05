@@ -17,16 +17,36 @@ declare(strict_types=1);
                         <div class="row">
                             <div class="col-12">
                                 <table class="table table-bordered table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td></td>
-                                    </tr>
+                                <?php $first = true;
+                                foreach ($datoscsv as $row) {
+                                    if ($first) {
+                                        ?>
+                                            <thead>
+                                                <tr>
+                                                    <?php foreach ($row as $column) {
+                                                        ?>
+                                                        <th><?php echo $column; ?></th>
+                                                    <?php }
+                                                        $first = false;
+                                                    ?>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                    <?php } else {
+                                        ?>
+                                        <tr>
+                                            <?php foreach ($row as $column) { ?>
+                                                <td><?php echo  $column; ?></td>
+                                            <?php }
+                                            ?>
+                                        </tr>
+                                    <?php }
+                                }
+                                ?>
                                     </tbody>
+                                    <tfoot>
+
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

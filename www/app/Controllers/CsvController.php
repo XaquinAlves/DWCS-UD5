@@ -20,6 +20,8 @@ class CsvController extends BaseController
         $model = new CsvModel($_ENV['folder.data'] . "poblacion_pontevedra.csv");
         $data['datoscsv'] = $model->getPoblacionPontevedra();
 
+
+
         $this->view->showViews(array('templates/header.view.php', 'csv.view.php',
             'templates/footer.view.php'), $data);
     }
