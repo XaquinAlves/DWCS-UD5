@@ -30,7 +30,7 @@ class FrontController
         );
 
         Route::add(
-            '/trabajadores',
+            '/trabajadores-all',
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->getAllTrabajadores();
@@ -39,7 +39,7 @@ class FrontController
         );
 
         Route::add(
-            '/trabajadores_salario',
+            '/trabajadores-salario',
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->getAllTrabajadoresBySalario();
@@ -48,7 +48,7 @@ class FrontController
         );
 
         Route::add(
-            '/trabajadores_standard',
+            '/trabajadores-standard',
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->getTrabajadoresStandard();
@@ -57,7 +57,7 @@ class FrontController
         );
 
         Route::add(
-            '/trabajadores_carlos',
+            '/trabajadores-carlos',
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->getTrabajadoresCarlos();
