@@ -29,8 +29,12 @@ declare(strict_types=1);
                                 <?php foreach ($listaTrabajadores as $trabajador) { ?>
                                 <tr class="<?php echo !$trabajador['activo'] ? 'bg-danger' : '' ?>">
                                     <td><?php echo $trabajador['nombre'] ?></td>
-                                    <td><?php echo $trabajador['salario'] ?></td>
-                                    <td><?php echo $trabajador['retencion'] ?></td>
+                                    <td><?php echo
+                                        number_format(floatval($trabajador['salario']), 2, ',', '.')
+                                    ?></td>
+                                    <td><?php echo
+                                        number_format(floatval($trabajador['retencion']), 0, ',', '.') . '%'
+                                    ?></td>
                                     <td><?php echo $trabajador['rol'] ?></td>
                                     <td><?php echo $trabajador['pais'] ?></td>
                                 </tr>
