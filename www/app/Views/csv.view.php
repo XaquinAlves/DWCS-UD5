@@ -35,8 +35,11 @@ declare(strict_types=1);
                                     <?php } else {
                                         ?>
                                         <tr>
-                                            <?php foreach ($row as $column) { ?>
-                                                <td><?php echo  $column; ?></td>
+                                            <?php for ($i = 0; $i < count($row); $i++) {
+                                                if ($i === 3) {
+                                                    $row[$i] = number_format(floatval($row[$i]), 0, ',', '.');
+                                                } ?>
+                                                <td><?php echo $row[$i] ?></td>
                                             <?php }
                                             ?>
                                         </tr>
@@ -45,18 +48,22 @@ declare(strict_types=1);
                                 ?>
                                     </tbody>
                                     <tfoot>
+                                    <?php if(isset($maximo)){ ?>
                                         <tr>
                                             <td><?php echo $maximo[0] ?></td>
                                             <td><?php echo $maximo[2] ?></td>
                                             <td>max</td>
                                             <td><?php echo $maximo[3] ?></td>
                                         </tr>
+                                    <?php } ?>
+                                    <?php if(isset($minimo)) { ?>
                                         <tr>
                                             <td><?php echo $minimo[0] ?></td>
                                             <td><?php echo $minimo[2] ?></td>
                                             <td>min</td>
                                             <td><?php echo $minimo[3] ?></td>
                                         </tr>
+                                    <?php } ?>
                                     </tfoot>
                                 </table>
                             </div>

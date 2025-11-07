@@ -7,7 +7,6 @@ declare(strict_types=1);
     <div class="col-12">
         <!-- Card -->
         <div class="card shadow mb-4">
-            <form method="post" action="">
                 <!-- Card Header -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -22,22 +21,16 @@ declare(strict_types=1);
                                     <th>Username</th>
                                     <th>Salario Bruto</th>
                                     <th>Retención IRPF</th>
-                                    <th>Activo</th>
                                     <th>Rol</th>
                                     <th>Pais</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($listaTrabajadores as $trabajador) { ?>
-                                <tr>
+                                <tr class="<?php echo !$trabajador['activo'] ? 'bg-danger' : '' ?>">
                                     <td><?php echo $trabajador['nombre'] ?></td>
                                     <td><?php echo $trabajador['salario'] ?></td>
                                     <td><?php echo $trabajador['retencion'] ?></td>
-                                    <td><?php if ($trabajador['activo'] == 0) {
-                                            echo "No";
-                                        } else {
-                                            echo "Si";
-                                        }?></td>
                                     <td><?php echo $trabajador['rol'] ?></td>
                                     <td><?php echo $trabajador['pais'] ?></td>
                                 </tr>

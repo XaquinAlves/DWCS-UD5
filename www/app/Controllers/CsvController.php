@@ -13,12 +13,12 @@ class CsvController extends BaseController
     {
         $data = array(
             'titulo' => 'Histórico población Pontevedra',
-            'breadcrumb' => ['trabajadores','trabajadores1'],
-            'seccion' => '/trabajadores',
+            'breadcrumb' => ['csv','CSV1','Poblacion Pontevedra'],
+            'seccion' => '/poblacion-pontevedra',
             'tituloCard' => 'Datos del CSV'
         );
         $model = new CsvModel($_ENV['folder.data'] . "poblacion_pontevedra.csv");
-        $data['datoscsv'] = $model->getPoblacionPontevedra();
+        $data['datoscsv'] = $model->getPoblacion();
         $min = [];
         $min[3] = PHP_INT_MAX;
         $max = [];
@@ -42,6 +42,21 @@ class CsvController extends BaseController
 
         $data['minimo'] = $min;
         $data['maximo'] = $max;
+
+        $this->view->showViews(array('templates/header.view.php', 'csv.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
+    public function getPoblacionGruposEdad(): void
+    {
+        $data = array(
+            'titulo' => 'Población España grupos edad',
+            'breadcrumb' => ['csv','CSV2','Poblacion grupos edad'],
+            'seccion' => '/poblacion-grupos-edad',
+            'tituloCard' => 'Datos del CSV'
+        );
+        $model = new CsvModel($_ENV['folder.data'] . "poblacion_grupos_edad.csv");
+        $data['datoscsv'] = $model->getPoblacion();
 
         $this->view->showViews(array('templates/header.view.php', 'csv.view.php',
             'templates/footer.view.php'), $data);

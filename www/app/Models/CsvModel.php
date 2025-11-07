@@ -13,7 +13,7 @@ class CsvModel
         $this->filename = $filename;
     }
 
-    public function getPoblacionPontevedra(): array
+    public function getPoblacion(): array
     {
         $csvFile = file($this->filename);
         $data = [];

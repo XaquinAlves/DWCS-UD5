@@ -111,6 +111,15 @@ class FrontController
             'get'
         );
 
+        Route::add(
+            '/poblacion-grupos-edad',
+            function () {
+                $controlador = new CsvController();
+                $controlador->getPoblacionGruposEdad();
+            },
+            'get'
+        );
+
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();
