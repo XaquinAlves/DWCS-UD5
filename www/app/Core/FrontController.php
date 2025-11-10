@@ -124,7 +124,7 @@ class FrontController
         Route::add(
             '/usuarios',
             function () {
-                $controlador = new UsuariosController();
+                $controlador = new TrabajadoresController();
                 $controlador->getUsuarios();
             },
             'get'

@@ -19,20 +19,6 @@ declare(strict_types=1);
                     <div class="row">
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_rol">Tipo de usuario:</label>
-                                <select name="input_rol" id="input_rol" class="form-control"
-                                        data-placeholder="Tipo de usuario">
-                                    <option value="">-</option>
-                                    <?php foreach ($listaRoles as $rol) { ?>
-                                        <option value="<?php echo $rol['id_rol'] ?>">
-                                            <?php echo $rol['nombre_rol'] ?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="mb-3">
                                 <label for="input_nombre">Nombre de usuario:</label>
                                 <input type="text" class="form-control" name="input_nombre"
                                        id="input_nombre" value="" />
@@ -40,7 +26,21 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="rango_salario">Año fundación:</label>
+                                <label for="input_rol">Tipo de usuario:</label>
+                                <select name="input_rol" id="input_rol" class="form-control"
+                                        data-placeholder="Tipo de usuario">
+                                    <option value="">-</option>
+                                    <?php foreach ($listaRoles as $rol) { ?>
+                                        <option value="<?php echo $rol['id_rol'] ?>">
+                                            <?php echo ucfirst($rol['nombre_rol']) ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="rango_salario">Rango salarial:</label>
                                 <div class="row">
                                     <div class="col-6">
                                         <input type="text" class="form-control" name="min_salario" id="min_salario"

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Models\AuxRolTrabajadorModel;
 use Com\Daw2\Models\TrabajadoresDbModel;
 
 class TrabajadoresController extends BaseController
@@ -134,6 +135,36 @@ class TrabajadoresController extends BaseController
         $data['listaTrabajadores'] = $model->getTrabajadoresCarlosAssoc();
 
         $this->view->showViews(array('templates/header.view.php', 'trabajadores.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
+    public function getUsuarios(): void
+    {
+        $modelAux = new AuxRolTrabajadorModel();
+
+        $data = array(
+            'titulo' => 'Usuarios',
+            'breadcrumb' => ['trabajadores','Usuarios'],
+            'seccion' => '/usuarios',
+            'tituloEjercicio' => 'Lista de usuarios',
+            'listaRoles' => $modelAux->getAll()
+        );
+        $model = new TrabajadoresDbModel();
+        $filters = [];
+
+        if (isset($_GET)) {
+            if (!empty($_GET['input_nombre'])) {
+                $filters['username'] = $_GET['input_nombre'];
+            } elseif (!empty($_GET['input_rol'])) {
+                $filters['id_rol'] = $_GET['input_rol'];
+            } elseif (!empty($_GET['max_salario']) && !empty($_GET['min_salario'])) {
+                $filters['salario'] = [$_GET['min_salario'], $_GET['max_salario']];
+            }
+        }
+
+        $data['listaUsuarios'] = $model->getByFilters($filters);
+
+        $this->view->showViews(array('templates/header.view.php', 'usuarios.view.php',
             'templates/footer.view.php'), $data);
     }
 }
