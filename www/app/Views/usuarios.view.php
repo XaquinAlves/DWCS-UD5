@@ -28,10 +28,11 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="input_rol">Tipo de usuario:</label>
                                 <select name="input_rol" id="input_rol" class="form-control"
-                                        data-placeholder="Tipo de usuario">
+                                        data-placeholder="Rol">
                                     <option value="">-</option>
                                     <?php foreach ($listaRoles as $rol) { ?>
-                                        <option value="<?php echo $rol['id_rol'] ?>">
+                                        <option value="<?php echo $rol['id_rol'] ?>" <?php echo isset($_GET['input_rol'])
+                                            && $_GET['input_rol'] == $rol['id_rol'] ? 'selected' : '' ?>>
                                             <?php echo ucfirst($rol['nombre_rol']) ?>
                                         </option>
                                     <?php } ?>
@@ -55,12 +56,26 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_nacion">Nacionalidad:</label>
-                                <select name="input_nacion" id="input_nacion" class="form-control"
-                                        data-placeholder="Continente">
+                                <label for="input_irpf">Porcentaje de retención:</label>
+                                <input type="number" class="form-control" name="input_irpf"
+                                       id="input_irpf"
+                                       value="<?php echo isset($_GET['input_irpf']) &&
+                                       $_GET['input_irpf'] == $input['irpf'] ? $input['irpf'] : '' ?>"
+                                       min="18" max="30" placeholder="18 - 30" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="input_pais">Nacionalidad:</label>
+                                <select name="input_pais" id="input_pais" class="form-control"
+                                        data-placeholder="Pais">
                                     <option value="">-</option>
-                                    <option value="1" >Europa</option>
-                                    <option value="2" >Asia</option>
+                                    <?php foreach ($listaPaises as $pais) { ?>
+                                        <option value="<?php echo $pais['id'] ?>" <?php echo isset($_GET['input_pais'])
+                                                && $_GET['input_pais'] == $pais['id'] ?>>
+                                            <?php echo ucfirst($pais['country_name']) ?>
+                                        </option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Models\AuxPaisModel;
 use Com\Daw2\Models\AuxRolTrabajadorModel;
 use Com\Daw2\Models\TrabajadoresDbModel;
 
@@ -140,14 +141,17 @@ class TrabajadoresController extends BaseController
 
     public function getUsuarios(): void
     {
-        $modelAux = new AuxRolTrabajadorModel();
+        $modelAuxRol = new AuxRolTrabajadorModel();
+        $modelAuxPais = new AuxPaisModel();
 
         $data = array(
             'titulo' => 'Usuarios',
             'breadcrumb' => ['trabajadores','Usuarios'],
             'seccion' => '/usuarios',
             'tituloEjercicio' => 'Lista de usuarios',
-            'listaRoles' => $modelAux->getAll()
+            'listaRoles' => $modelAuxRol->getAll(),
+            'listaPaises' => $modelAuxPais->getAll(),
+            'input' => []
         );
         $model = new TrabajadoresDbModel();
         $filters = [];
@@ -155,10 +159,22 @@ class TrabajadoresController extends BaseController
         if (isset($_GET)) {
             if (!empty($_GET['input_nombre'])) {
                 $filters['username'] = $_GET['input_nombre'];
-            } elseif (!empty($_GET['input_rol'])) {
+                $data['input']['nombre'] = filter_var($_GET['input_nombre'], FILTER_SANITIZE_STRING);
+            }
+            if (!empty($_GET['input_rol'])) {
                 $filters['id_rol'] = $_GET['input_rol'];
-            } elseif (!empty($_GET['max_salario']) && !empty($_GET['min_salario'])) {
+            }
+            if (!empty($_GET['max_salario']) && !empty($_GET['min_salario'])) {
                 $filters['salario'] = [$_GET['min_salario'], $_GET['max_salario']];
+                $data['input']['min_salario'] = filter_var($_GET['min_salario'], FILTER_SANITIZE_NUMBER_FLOAT);
+                $data['input']['max_salario'] = filter_var($_GET['max_salario'], FILTER_SANITIZE_NUMBER_FLOAT);
+            }
+            if (!empty($_GET['input_irpf'])) {
+                $filters['irpf'] = $_GET['input_irpf'];
+                $data['input']['irpf'] = filter_var($_GET['input_irpf'], FILTER_SANITIZE_NUMBER_INT);
+            }
+            if (!empty($_GET['input_pais'])) {
+                $filters['pais'] = $_GET['input_pais'];
             }
         }
 
