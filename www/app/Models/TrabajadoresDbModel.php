@@ -9,8 +9,8 @@ use Com\Daw2\Core\BaseDbModel;
 class TrabajadoresDbModel extends BaseDbModel
 {
 
-    private const SELECT_FROM_JOIN = "SELECT tr.username as nombre, tr.salarioBruto as salario, tr.retencionIRPF as retencion, tr.activo,
-                rol.nombre_rol as rol, co.country_name as pais 
+    private const SELECT_FROM_JOIN = "SELECT tr.username as nombre, tr.salarioBruto as salario, 
+                tr.retencionIRPF as retencion, tr.activo, rol.nombre_rol as rol, co.country_name as pais 
                 FROM trabajadores as tr 
                 LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
                 LEFT JOIN aux_countries as co ON co.id = tr.id_country";
@@ -23,7 +23,7 @@ class TrabajadoresDbModel extends BaseDbModel
 
     public function getTrabajadoresAssoc(): array
     {
-        $sql = self::SELECT_FROM_JOIN;;
+        $sql = self::SELECT_FROM_JOIN;
         $query = $this->mysqli->query($sql);
         $result = [];
 

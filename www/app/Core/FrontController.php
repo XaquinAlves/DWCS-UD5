@@ -6,6 +6,7 @@ use Com\Daw2\Controllers\CsvController;
 use Com\Daw2\Controllers\ErroresController;
 use Com\Daw2\Controllers\InicioController;
 use Com\Daw2\Controllers\TrabajadoresController;
+use Com\Daw2\Controllers\UsuariosController;
 use Steampixel\Route;
 
 class FrontController
@@ -116,6 +117,15 @@ class FrontController
             function () {
                 $controlador = new CsvController();
                 $controlador->getPoblacionGruposEdad();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/usuarios',
+            function () {
+                $controlador = new UsuariosController();
+                $controlador->getUsuarios();
             },
             'get'
         );
