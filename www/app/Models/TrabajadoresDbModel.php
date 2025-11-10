@@ -122,9 +122,9 @@ class TrabajadoresDbModel extends BaseDbModel
 
             if (!empty($filters['salario'])) {
                 if ($set) {
-                    $sql .= " AND u.salarioBruto BETWEEN :min AND :max ORDER BY u.salarioBruto DESC";
+                    $sql .= " AND u.salarioBruto BETWEEN :min AND :max";
                 } else {
-                    $sql .= " WHERE u.salarioBruto BETWEEN :min AND :max ORDER BY u.salarioBruto DESC";
+                    $sql .= " WHERE u.salarioBruto BETWEEN :min AND :max";
                     $set = true;
                 }
                 $params['min'] = $filters['salario'][0];
