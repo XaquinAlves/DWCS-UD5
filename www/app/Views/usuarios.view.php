@@ -21,7 +21,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="input_nombre">Nombre de usuario:</label>
                                 <input type="text" class="form-control" name="input_nombre"
-                                       id="input_nombre" value="" />
+                                       id="input_nombre" value="<?php echo $input['nombre'] ?? ''  ?>" />
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -31,8 +31,9 @@ declare(strict_types=1);
                                         data-placeholder="Rol">
                                     <option value="">-</option>
                                     <?php foreach ($listaRoles as $rol) { ?>
-                                        <option value="<?php echo $rol['id_rol'] ?>" <?php echo isset($_GET['input_rol'])
-                                            && $_GET['input_rol'] == $rol['id_rol'] ? 'selected' : '' ?>>
+                                        <option value="<?php echo $rol['id_rol'] ?>" <?php echo
+                                            isset($_GET['input_rol']) && $_GET['input_rol'] == $rol['id_rol'] ?
+                                                    'selected' : '' ?>>
                                             <?php echo ucfirst($rol['nombre_rol']) ?>
                                         </option>
                                     <?php } ?>
@@ -45,11 +46,11 @@ declare(strict_types=1);
                                 <div class="row">
                                     <div class="col-6">
                                         <input type="text" class="form-control" name="min_salario" id="min_salario"
-                                               value="" placeholder="Mínimo" />
+                                               value="<?php echo $input['min_salario'] ?? '' ?>" placeholder="Mínimo" />
                                     </div>
                                     <div class="col-6">
                                         <input type="text" class="form-control" name="max_salario" id="max_salario"
-                                               value="" placeholder="Máximo" />
+                                               value="<?php echo $input['max_salario'] ?? '' ?>" placeholder="Máximo" />
                                     </div>
                                 </div>
                             </div>
@@ -58,9 +59,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="input_irpf">Porcentaje de retención:</label>
                                 <input type="number" class="form-control" name="input_irpf"
-                                       id="input_irpf"
-                                       value="<?php echo isset($_GET['input_irpf']) &&
-                                       $_GET['input_irpf'] == $input['irpf'] ? $input['irpf'] : '' ?>"
+                                       id="input_irpf" value="<?php echo $input['irpf'] ?? '' ?>"
                                        min="18" max="30" placeholder="18 - 30" />
                             </div>
                         </div>
@@ -72,7 +71,7 @@ declare(strict_types=1);
                                     <option value="">-</option>
                                     <?php foreach ($listaPaises as $pais) { ?>
                                         <option value="<?php echo $pais['id'] ?>" <?php echo isset($_GET['input_pais'])
-                                                && $_GET['input_pais'] == $pais['id'] ?>>
+                                                && $_GET['input_pais'] == $pais['id'] ? 'selected' : '' ?>>
                                             <?php echo ucfirst($pais['country_name']) ?>
                                         </option>
                                     <?php } ?>

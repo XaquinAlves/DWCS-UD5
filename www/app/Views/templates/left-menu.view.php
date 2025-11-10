@@ -105,6 +105,14 @@
                           <p>Trabajadores con nombre Carlos(ASSOC)</p>
                       </a>
                   </li>
+                  <li class="nav-item">
+                      <a href="<?php echo $_ENV['host.folder'] ?>usuarios" class="nav-link
+                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'usuarios' ?
+                              'active' : ''; ?>">
+                          <i class="fas fa-book nav-icon"></i>
+                          <p>Filtrar Usuarios</p>
+                      </a>
+                  </li>
               </ul>
           </li>
           <li class="nav-item">
