@@ -25,4 +25,17 @@ class CsvModel
 
         return $data;
     }
+
+    public function getPoblacionShort(): array
+    {
+        $csvFile = file($this->filename);
+        $data = [];
+
+        foreach ($csvFile as $line) {
+            $data[] = str_getcsv($line, ";");
+            $data[count($data) - 1][3] = preg_replace('/\./', '', $data[count($data) - 1][3]);
+        }
+
+        return $data;
+    }
 }
