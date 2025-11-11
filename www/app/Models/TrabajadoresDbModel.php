@@ -101,52 +101,46 @@ class TrabajadoresDbModel extends BaseDbModel
         $sql = self::SELECT_FROM_USR;
 
         if (!empty($filters)) {
-            $set = false;
             $params = [];
+
             if (!empty($filters['username'])) {
                 $sql .= " WHERE u.username LIKE :username";
                 $params['username'] = '%' . $filters['username'] . '%';
-
-                $set = true;
             }
 
             if (!empty($filters['id_rol'])) {
-                if ($set) {
+                if (!empty($params)) {
                     $sql .= " AND u.id_rol = :id_rol";
                 } else {
                     $sql .= " WHERE u.id_rol = :id_rol";
-                    $set = true;
                 }
                 $params['id_rol'] = $filters['id_rol'];
             }
 
             if (!empty($filters['salario'])) {
-                if ($set) {
+                if (!empty($params)) {
                     $sql .= " AND u.salarioBruto BETWEEN :min AND :max";
                 } else {
                     $sql .= " WHERE u.salarioBruto BETWEEN :min AND :max";
-                    $set = true;
                 }
                 $params['min'] = $filters['salario'][0];
                 $params['max'] = $filters['salario'][1];
             }
 
             if (!empty($filters['irpf'])) {
-                if ($set) {
+                if (!empty($params)) {
                     $sql .= " AND u.retencionIRPF = :irpf";
                 } else {
                     $sql .= " WHERE u.retencionIRPF = :irpf";
-                    $set = true;
                 }
                 $params['irpf'] = $filters['irpf'];
             }
 
             if (!empty($filters['pais'])) {
-                if ($set) {
+                if (!empty($params)) {
                     $sql .= " AND u.id_country = :pais";
                 } else {
                     $sql .= " WHERE u.id_country = :pais";
-                    $set = true;
                 }
 
                 $params['pais'] = $filters['pais'];
