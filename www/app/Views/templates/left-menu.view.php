@@ -107,8 +107,13 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>usuarios" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'usuarios' ?
-                              'active' : ''; ?>">
+                        <?php echo
+                        substr_compare(
+                            $_SERVER['REQUEST_URI'],
+                            $_ENV['host.folder'] . 'usuarios',
+                            0,
+                            strlen($_ENV['host.folder'] . 'usuarios')
+                        ) === 0 ? 'active' : '';?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Filtrar Usuarios</p>
                       </a>
