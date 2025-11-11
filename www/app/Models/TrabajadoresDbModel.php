@@ -102,48 +102,37 @@ class TrabajadoresDbModel extends BaseDbModel
 
         if (!empty($filters)) {
             $params = [];
+            $conditions = [];
 
             if (!empty($filters['username'])) {
-                $sql .= " WHERE u.username LIKE :username";
                 $params['username'] = '%' . $filters['username'] . '%';
+                $conditions[] = " u.username LIKE :username";
             }
 
             if (!empty($filters['id_rol'])) {
-                if (!empty($params)) {
-                    $sql .= " AND u.id_rol = :id_rol";
-                } else {
-                    $sql .= " WHERE u.id_rol = :id_rol";
-                }
+                $conditions[] = " u.id_rol = :id_rol";
                 $params['id_rol'] = $filters['id_rol'];
             }
 
             if (!empty($filters['salario'])) {
-                if (!empty($params)) {
-                    $sql .= " AND u.salarioBruto BETWEEN :min AND :max";
-                } else {
-                    $sql .= " WHERE u.salarioBruto BETWEEN :min AND :max";
-                }
+                $conditions[] = " u.salarioBruto BETWEEN :min AND :max";
                 $params['min'] = $filters['salario'][0];
                 $params['max'] = $filters['salario'][1];
             }
 
             if (!empty($filters['irpf'])) {
-                if (!empty($params)) {
-                    $sql .= " AND u.retencionIRPF = :irpf";
-                } else {
-                    $sql .= " WHERE u.retencionIRPF = :irpf";
-                }
+                $conditions[] = " u.retencionIRPF = :irpf";
                 $params['irpf'] = $filters['irpf'];
             }
 
             if (!empty($filters['pais'])) {
-                if (!empty($params)) {
-                    $sql .= " AND u.id_country = :pais";
-                } else {
-                    $sql .= " WHERE u.id_country = :pais";
-                }
-
+                $conditions[] = " u.id_country = :pais";
                 $params['pais'] = $filters['pais'];
+            }
+
+            if (!empty($conditions)) {
+                $stringConditions = implode(' AND ', $conditions);
+                $sql .= " WHERE " . $stringConditions;
             }
 
             $statement = $this->pdo->prepare($sql);
