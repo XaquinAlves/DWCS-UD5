@@ -166,15 +166,16 @@ class TrabajadoresController extends BaseController
                 $filters['id_rol'] = $_GET['input_rol'];
             }
 
-            if (!empty($_GET['max_salario']) && !empty($_GET['min_salario'])) {
+            if (!empty($_GET['max_salario']) || !empty($_GET['min_salario'])) {
                 $filters['salario'] = [$_GET['min_salario'], $_GET['max_salario']];
                 $input['min_salario'] = filter_var($_GET['min_salario'], FILTER_SANITIZE_NUMBER_FLOAT);
                 $input['max_salario'] = filter_var($_GET['max_salario'], FILTER_SANITIZE_NUMBER_FLOAT);
             }
 
-            if (!empty($_GET['input_irpf'])) {
-                $filters['irpf'] = $_GET['input_irpf'];
-                $input['irpf'] = filter_var($_GET['input_irpf'], FILTER_SANITIZE_NUMBER_INT);
+            if (!empty($_GET['min_irpf']) || !empty($_GET['max_irpf'])) {
+                $filters['irpf'] = [$_GET['min_irpf'], $_GET['max_irpf']];
+                $input['min_irpf'] = filter_var($_GET['min_irpf'], FILTER_SANITIZE_NUMBER_INT);
+                $input['max_irpf'] = filter_var($_GET['max_irpf'], FILTER_SANITIZE_NUMBER_INT);
             }
 
             if (!empty($_GET['input_pais'])) {

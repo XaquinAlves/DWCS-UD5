@@ -45,11 +45,11 @@ declare(strict_types=1);
                                 <label for="rango_salario">Rango salarial:</label>
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="text" class="form-control" name="min_salario" id="min_salario"
+                                        <input type="number" class="form-control" name="min_salario" id="min_salario"
                                                value="<?php echo $input['min_salario'] ?? '' ?>" placeholder="Mínimo" />
                                     </div>
                                     <div class="col-6">
-                                        <input type="text" class="form-control" name="max_salario" id="max_salario"
+                                        <input type="number" class="form-control" name="max_salario" id="max_salario"
                                                value="<?php echo $input['max_salario'] ?? '' ?>" placeholder="Máximo" />
                                     </div>
                                 </div>
@@ -58,9 +58,16 @@ declare(strict_types=1);
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <label for="input_irpf">Porcentaje de retención:</label>
-                                <input type="number" class="form-control" name="input_irpf"
-                                       id="input_irpf" value="<?php echo $input['irpf'] ?? '' ?>"
-                                       min="18" max="30" placeholder="18 - 30" />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" name="min_irpf" id="min_irpf"
+                                               value="<?php echo $input['min_irpf'] ?? '' ?>" placeholder="Mínimo" />
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" name="max_irpf" id="max_irpf"
+                                               value="<?php echo $input['max_irpf'] ?? '' ?>" placeholder="Máximo" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -107,6 +114,7 @@ declare(strict_types=1);
                             <th>Tipo de usuario</th>
                             <th>Salario</th>
                             <th>Cotización</th>
+                            <th>País</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -120,6 +128,7 @@ declare(strict_types=1);
                                 <td><?php echo
                                         number_format(floatval($usuario['retencionIRPF']), 0, ',', '.') . '%'
                                     ?></td>
+                                <td><?php echo $usuario['country_name'] ?></td>
                             </tr>
                         <?php } ?>
                         </tbody>

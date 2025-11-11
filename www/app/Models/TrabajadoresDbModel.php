@@ -14,8 +14,9 @@ class TrabajadoresDbModel extends BaseDbModel
                 LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
                 LEFT JOIN aux_countries as co ON co.id = tr.id_country";
 
-    private const SELECT_FROM_USR = "SELECT u.username, rol.nombre_rol, u.salarioBruto, u.retencionIRPF
-        FROM trabajadores AS u LEFT JOIN aux_rol_trabajador as rol ON u.id_rol = rol.id_rol";
+    private const SELECT_FROM_USR = "SELECT u.username, rol.nombre_rol, u.salarioBruto, u.retencionIRPF, co.country_name
+        FROM trabajadores AS u LEFT JOIN aux_rol_trabajador as rol ON u.id_rol = rol.id_rol
+        LEFT JOIN aux_countries as co ON co.id = u.id_country";
     public function getTrabajadores(): array
     {
         $sql = self::SELECT_FROM_JOIN;
@@ -105,8 +106,8 @@ class TrabajadoresDbModel extends BaseDbModel
             $conditions = [];
 
             if (!empty($filters['username'])) {
-                $params['username'] = '%' . $filters['username'] . '%';
                 $conditions[] = " u.username LIKE :username";
+                $params['username'] = '%' . $filters['username'] . '%';
             }
 
             if (!empty($filters['id_rol'])) {
@@ -115,14 +116,25 @@ class TrabajadoresDbModel extends BaseDbModel
             }
 
             if (!empty($filters['salario'])) {
-                $conditions[] = " u.salarioBruto BETWEEN :min AND :max";
-                $params['min'] = $filters['salario'][0];
-                $params['max'] = $filters['salario'][1];
+                if (!empty($filters['salario'][0])) {
+                    $conditions[] = " u.salarioBruto >= :min";
+                    $params['min'] = $filters['salario'][0];
+                }
+                if (!empty($filters['salario'][1])) {
+                    $conditions[] = " u.salarioBruto <= :max";
+                    $params['max'] = $filters['salario'][1];
+                }
             }
 
             if (!empty($filters['irpf'])) {
-                $conditions[] = " u.retencionIRPF = :irpf";
-                $params['irpf'] = $filters['irpf'];
+                if (!empty($filters['irpf'][0])) {
+                    $conditions[] = " u.retencionIRPF >= :minirpf";
+                    $params['minirpf'] = $filters['irpf'][0];
+                }
+                if (!empty($filters['irpf'][1])) {
+                    $conditions[] = " u.retencionIRPF <= :maxirpf";
+                    $params['maxirpf'] = $filters['irpf'][1];
+                }
             }
 
             if (!empty($filters['pais'])) {
