@@ -15,7 +15,6 @@ declare(strict_types=1);
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <!--<form action="./?sec=formulario" method="post">                   -->
                     <div class="row">
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
@@ -30,7 +29,7 @@ declare(strict_types=1);
                                 <select name="input_rol" id="input_rol" class="form-control"
                                         data-placeholder="Rol">
                                     <option value="">-</option>
-                                    <?php foreach ($listaRoles as $rol) { ?>
+                                    <?php foreach ($listaRoles ?? [] as $rol) { ?>
                                         <option value="<?php echo $rol['id_rol'] ?>" <?php echo
                                             isset($_GET['input_rol']) && $_GET['input_rol'] == $rol['id_rol'] ?
                                                     'selected' : '' ?>>
@@ -76,7 +75,7 @@ declare(strict_types=1);
                                 <select name="input_pais" id="input_pais" class="form-control"
                                         data-placeholder="Pais">
                                     <option value="">-</option>
-                                    <?php foreach ($listaPaises as $pais) { ?>
+                                    <?php foreach ($listaPaises ?? [] as $pais) { ?>
                                         <option value="<?php echo $pais['id'] ?>" <?php echo isset($_GET['input_pais'])
                                                 && $_GET['input_pais'] == $pais['id'] ? 'selected' : '' ?>>
                                             <?php echo ucfirst($pais['country_name']) ?>
@@ -89,7 +88,7 @@ declare(strict_types=1);
                 </div>
                 <div class="card-footer">
                     <div class="col-12 text-right">
-                        <a href="/usuarios" value="" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
+                        <a href="/usuarios" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
                         <input type="submit" value="Aplicar filtros" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
                 </div>
@@ -102,7 +101,7 @@ declare(strict_types=1);
             <!-- Card Header -->
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary"><?php echo $tituloEjercicio ?></h6>
+                <h6 class="m-0 font-weight-bold text-primary"><?php echo $tituloEjercicio ?? '' ?></h6>
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -118,16 +117,16 @@ declare(strict_types=1);
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($listaUsuarios as $usuario) { ?>
+                        <?php foreach ($listaUsuarios ?? [] as $usuario) { ?>
                             <tr>
                                 <td><?php echo $usuario['username'] ?></td>
                                 <td><?php echo $usuario['nombre_rol'] ?></td>
                                 <td><?php echo
                                     number_format(floatval($usuario['salarioBruto']), 2, ',', '.')
-                                    ?></td>
+                                ?></td>
                                 <td><?php echo
                                         number_format(floatval($usuario['retencionIRPF']), 0, ',', '.') . '%'
-                                    ?></td>
+                                ?></td>
                                 <td><?php echo $usuario['country_name'] ?></td>
                             </tr>
                         <?php } ?>
