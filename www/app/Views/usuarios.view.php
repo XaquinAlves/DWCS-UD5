@@ -110,69 +110,39 @@ declare(strict_types=1);
                         <thead>
                         <tr>
                             <th>
-                                <?php if (!isset($_GET['ordenar']) || $ordenar === 2) { ?>
-                                <a href="<?php echo $url ?>&ordenar=1">
-                                    Nombre de Usuario <?php echo $ordenar === 2 ?
-                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
+                                <a href="<?php echo $url; echo $ordenar === 1 ? '&ordenar=2' : '&ordenar=1'?>">
+                                    Nombre de usuario <?php echo $ordenar === 1 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 2 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
-                                <?php } else { ?>
-                                    <a href="<?php echo $url ?>&ordenar=2">
-                                        Nombre de Usuario <?php echo $ordenar == 1 ?
-                                                '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
-                                    </a>
-                                <?php } ?>
                             </th>
                             <th>
-                                <?php if ($ordenar !== 3) { ?>
-                                <a href="<?php echo $url ?>&ordenar=3">
-                                    Tipo de usuario <?php echo $ordenar == 4 ?
-                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
+                                <a href="<?php echo $url; echo $ordenar === 3 ? '&ordenar=4' : '&ordenar=3'?>">
+                                    Tipo de usuario <?php echo $ordenar === 3 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 4 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
-                                <?php } else { ?>
-                                    <a href="<?php echo $url ?>&ordenar=4">
-                                        Tipo de usuario <?php echo $ordenar == 3 ?
-                                                '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
-                                    </a>
-                                <?php } ?>
                             </th>
                             <th>
-                                <?php if ($ordenar !== 5) { ?>
-                                <a href="<?php echo $url ?>&ordenar=5">
-                                    Salario <?php echo $ordenar == 6 ?
-                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
+                                <a href="<?php echo $url; echo $ordenar === 5 ? '&ordenar=6 ' : '&ordenar=5'?>">
+                                    Salario <?php echo $ordenar === 5 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 6 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
-                                <?php } else { ?>
-                                <a href="<?php echo $url ?>&ordenar=6">
-                                    Salario <?php echo $ordenar == 5 ?
-                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
-                                </a>
-                                <?php } ?>
                             </th>
                             <th>
-                                <?php if ($ordenar !== 7) { ?>
-                                <a href="<?php echo $url ?>&ordenar=7">
-                                    Cotización <?php echo $ordenar === 8 ?
-                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
+                                <a href="<?php echo $url; echo $ordenar === 7 ? '&ordenar=8' : '&ordenar=7'?>">
+                                    Cotización <?php echo $ordenar === 7 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 8 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
-                                <?php } else { ?>
-                                <a href="<?php echo $url ?>&ordenar=8">
-                                    Cotización <?php echo $ordenar == 7 ?
-                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
-                                </a>
-                                <?php } ?>
                             </th>
                             <th>
-                                <?php if ($ordenar !== 9) { ?>
-                                <a href="<?php echo $url ?>&ordenar=9">
-                                    País <?php echo $ordenar === 10 ?
-                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
+                                <a href="<?php echo $url; echo $ordenar === 9 ? '&ordenar=10' : '&ordenar=9'?>">
+                                    País <?php echo $ordenar === 9 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
-                                <?php } else { ?>
-                                <a href="<?php echo $url ?>&ordenar=10">
-                                    Pais <?php echo $ordenar === 9 ?
-                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
-                                </a>
-                                <?php } ?>
                             </th>
                         </tr>
                         </thead>
