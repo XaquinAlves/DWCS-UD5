@@ -107,43 +107,43 @@ class TrabajadoresDbModel extends BaseDbModel
             $params = [];
             $conditions = [];
 
-            if (!empty($filters['username'])) {
+            if (!empty($filters['input_nombre'])) {
                 $conditions[] = " u.username LIKE :username";
-                $params['username'] = '%' . $filters['username'] . '%';
+                $params['username'] = '%' . $filters['input_nombre'] . '%';
             }
 
-            if (!empty($filters['id_rol'])) {
+            if (!empty($filters['input_rol'])) {
                 $conditions[] = " u.id_rol = :id_rol";
-                $params['id_rol'] = $filters['id_rol'];
+                $params['id_rol'] = $filters['input_rol'];
             }
 
-            if (!empty($filters['salario'])) {
-                if (!empty($filters['salario'][0])) {
+            if (!empty($filters['min_salario'] || $filters['max_salario'])) {
+                if (!empty($filters['min_salario'])) {
                     $conditions[] = " u.salarioBruto >= :min";
-                    $params['min'] = $filters['salario'][0];
+                    $params['min'] = $filters['min_salario'];
                 }
-                if (!empty($filters['salario'][1])) {
+                if (!empty($filters['max_salario'])) {
                     $conditions[] = " u.salarioBruto <= :max";
-                    $params['max'] = $filters['salario'][1];
+                    $params['max'] = $filters['max_salario'];
                 }
             }
 
-            if (!empty($filters['irpf'])) {
-                if (!empty($filters['irpf'][0])) {
+            if (!empty($filters['min_irpf']) || !empty($filters['max_irpf'])) {
+                if (!empty($filters['min_irpf'])) {
                     $conditions[] = " u.retencionIRPF >= :minirpf";
-                    $params['minirpf'] = $filters['irpf'][0];
+                    $params['minirpf'] = $filters['min_irpf'];
                 }
-                if (!empty($filters['irpf'][1])) {
+                if (!empty($filters['max_irpf'][1])) {
                     $conditions[] = " u.retencionIRPF <= :maxirpf";
-                    $params['maxirpf'] = $filters['irpf'][1];
+                    $params['maxirpf'] = $filters['max_irpf'];
                 }
             }
 
-            if (!empty($filters['pais'])) {
+            if (!empty($filters['input_pais'])) {
                 $sentence = "( ";
-                for ($i = 0; $i < count($filters['pais']); $i++) {
+                for ($i = 0; $i < count($filters['input_pais']); $i++) {
                     $sentence .= " u.id_country = :pais" . $i . " OR";
-                    $params['pais' . $i] = $filters['pais'][$i];
+                    $params['pais' . $i] = $filters['input_pais'][$i];
                 }
                 $conditions[] = rtrim($sentence, "OR") . ") ";
             }
