@@ -8,7 +8,6 @@ declare(strict_types=1);
     <div class="col-12">
         <div class="card shadow mb-4">
             <form method="get" action="/usuarios">
-                <input type="hidden" name="order" value="1"/>
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>
@@ -72,12 +71,12 @@ declare(strict_types=1);
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <label for="input_pais">Nacionalidad:</label>
-                                <select name="input_pais" id="input_pais" class="form-control"
-                                        data-placeholder="Pais">
+                                <select name="input_pais[]" id="input_pais" class="form-control select2"
+                                        data-placeholder="Pais" multiple>
                                     <option value="">-</option>
                                     <?php foreach ($listaPaises ?? [] as $pais) { ?>
                                         <option value="<?php echo $pais['id'] ?>" <?php echo isset($_GET['input_pais'])
-                                                && $_GET['input_pais'] == $pais['id'] ? 'selected' : '' ?>>
+                                                && in_array($pais['id'], $_GET['input_pais']) ? 'selected' : '' ?>>
                                             <?php echo ucfirst($pais['country_name']) ?>
                                         </option>
                                     <?php } ?>
@@ -109,11 +108,63 @@ declare(strict_types=1);
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>Nombre de usuario</th>
-                            <th>Tipo de usuario</th>
-                            <th>Salario</th>
-                            <th>Cotización</th>
-                            <th>País</th>
+                            <th>
+                                <?php if (!in_array('1', $_GET ?? [])) { ?>
+                                <a href="<?php echo $url ?>&ordenar=1">
+                                    Nombre de Usuario
+                                </a> <?php if ($order === 1) { ?>
+                                        <i class="fas fa-sort-amount-down-alt"></i>
+                                     <?php } ?>
+                                <?php } else { ?>
+                                    <a href="<?php echo $url ?>&ordenar=2">
+                                        Nombre de Usuario
+                                    </a>
+                                <?php } ?>
+                            </th>
+                            <th>
+                                <?php if (!in_array('3', $_GET ?? [])) { ?>
+                                <a href="<?php echo $url ?>&ordenar=3">
+                                    Tipo de usuario
+                                </a>
+                                <?php } else { ?>
+                                    <a href="<?php echo $url ?>&ordenar=4">
+                                        Tipo de usuario
+                                    </a>
+                                <?php } ?>
+                            </th>
+                            <th>
+                                <?php if (!in_array('5', $_GET ?? [])) { ?>
+                                <a href="<?php echo $url ?>&ordenar=5">
+                                    Salario
+                                </a>
+                                <?php } else { ?>
+                                <a href="<?php echo $url ?>&ordenar=6">
+                                    Salario
+                                </a>
+                                <?php } ?>
+                            </th>
+                            <th>
+                                <?php if (!in_array('7', $_GET ?? [])) { ?>
+                                <a href="<?php echo $url ?>&ordenar=7">
+                                    Cotización
+                                </a>
+                                <?php } else { ?>
+                                <a href="<?php echo $url ?>&ordenar=8">
+                                    Cotización
+                                </a>
+                                <?php } ?>
+                            </th>
+                            <th>
+                                <?php if (!in_array('9', $_GET ?? [])) { ?>
+                                <a href="<?php echo $url ?>?<?php echo http_build_query($_GET)  ?>&ordenar=9">
+                                    País
+                                </a>
+                                <?php } else { ?>
+                                <a href="<?php echo $url ?>?<?php echo http_build_query($_GET)  ?>&ordenar=10">
+                                    Pais
+                                </a>
+                                <?php } ?>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>

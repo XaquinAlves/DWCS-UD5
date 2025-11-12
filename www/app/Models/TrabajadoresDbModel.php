@@ -8,6 +8,8 @@ use Com\Daw2\Core\BaseDbModel;
 
 class TrabajadoresDbModel extends BaseDbModel
 {
+    private const ORDER_BY = ['username', 'username DESC', 'nombre_rol', 'nombre_rol DESC', 'salarioBruto',
+        'salarioBruto DESC', 'retencionIRPF', 'retencionIRPF DESC', 'country_name', 'country_name DESC'];
     private const SELECT_FROM_JOIN = "SELECT tr.username as nombre, tr.salarioBruto as salario, 
                 tr.retencionIRPF as retencion, tr.activo, rol.nombre_rol as rol, co.country_name as pais 
                 FROM trabajadores as tr 
@@ -138,14 +140,20 @@ class TrabajadoresDbModel extends BaseDbModel
             }
 
             if (!empty($filters['pais'])) {
-                $conditions[] = " u.id_country = :pais";
-                $params['pais'] = $filters['pais'];
+                $sentence = "( ";
+                for ($i = 0; $i < count($filters['pais']); $i++) {
+                    $sentence .= " u.id_country = :pais" . $i . " OR";
+                    $params['pais' . $i] = $filters['pais'][$i];
+                }
+                $conditions[] = rtrim($sentence, "OR") . ") ";
             }
 
             if (!empty($conditions)) {
                 $stringConditions = implode(' AND ', $conditions);
                 $sql .= " WHERE " . $stringConditions;
             }
+
+            $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters)];
 
             $statement = $this->pdo->prepare($sql);
             $statement->execute($params);
@@ -154,5 +162,17 @@ class TrabajadoresDbModel extends BaseDbModel
         }
 
         return $statement->fetchAll();
+    }
+
+    public function getOrderInt(array $filters): int
+    {
+        if (
+            empty($filters['ordenar']) || filter_var($filters['ordenar'], FILTER_VALIDATE_INT) === false ||
+            $filters['ordenar'] < 1 || $filters['ordenar'] > 10
+        ) {
+            return 1;
+        } else {
+            return (int)($filters['ordenar'] - 1);
+        }
     }
 }

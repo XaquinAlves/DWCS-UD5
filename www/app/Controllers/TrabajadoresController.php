@@ -143,18 +143,24 @@ class TrabajadoresController extends BaseController
     {
         $modelAuxRol = new AuxRolTrabajadorModel();
         $modelAuxPais = new AuxPaisModel();
+        $model = new TrabajadoresDbModel();
         $input = [];
+        $filters = [];
+        $copiaGet = $_GET;
+        unset($copiaGet['ordenar']);
+        $queryParams = http_build_query($copiaGet);
 
         $data = array(
             'titulo' => 'Usuarios',
             'breadcrumb' => ['trabajadores','Usuarios'],
             'seccion' => '/usuarios',
             'tituloEjercicio' => 'Lista de usuarios',
+            'url' => '/usuarios?' . $queryParams,
             'listaRoles' => $modelAuxRol->getAll(),
             'listaPaises' => $modelAuxPais->getAll()
         );
-        $model = new TrabajadoresDbModel();
-        $filters = [];
+
+
 
         if (isset($_GET)) {
             if (!empty($_GET['input_nombre'])) {
@@ -181,8 +187,13 @@ class TrabajadoresController extends BaseController
             if (!empty($_GET['input_pais'])) {
                 $filters['pais'] = $_GET['input_pais'];
             }
+
+            if (!empty($_GET['ordenar'])) {
+                $filters['ordenar'] = $_GET['ordenar'];
+            }
         }
 
+        $data['order'] = $model->getOrderInt($filters);
         $data['listaUsuarios'] = $model->getByFilters($filters);
         $data['input'] = $input;
 
