@@ -110,62 +110,67 @@ declare(strict_types=1);
                         <thead>
                         <tr>
                             <th>
-                                <?php if (!isset($_GET['ordenar']) || $_GET['ordenar'] != 1) { ?>
+                                <?php if (!isset($_GET['ordenar']) || $ordenar === 2) { ?>
                                 <a href="<?php echo $url ?>&ordenar=1">
-                                    Nombre de Usuario <?php echo $ordenar == 1 ?
-                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
+                                    Nombre de Usuario <?php echo $ordenar === 2 ?
+                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
                                 </a>
                                 <?php } else { ?>
                                     <a href="<?php echo $url ?>&ordenar=2">
-                                        Nombre de Usuario <?php echo $ordenar == 2 ?
-                                                '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
+                                        Nombre de Usuario <?php echo $ordenar == 1 ?
+                                                '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
                                     </a>
                                 <?php } ?>
                             </th>
                             <th>
-                                <?php if (!in_array('3', $_GET ?? [])) { ?>
+                                <?php if ($ordenar !== 3) { ?>
                                 <a href="<?php echo $url ?>&ordenar=3">
-                                    Tipo de usuario <?php echo $ordenar == 3 ?
-                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
+                                    Tipo de usuario <?php echo $ordenar == 4 ?
+                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
                                 </a>
                                 <?php } else { ?>
                                     <a href="<?php echo $url ?>&ordenar=4">
-                                        Tipo de usuario
+                                        Tipo de usuario <?php echo $ordenar == 3 ?
+                                                '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
                                     </a>
                                 <?php } ?>
                             </th>
                             <th>
-                                <?php if (!in_array('5', $_GET ?? [])) { ?>
+                                <?php if ($ordenar !== 5) { ?>
                                 <a href="<?php echo $url ?>&ordenar=5">
-                                    Salario <?php echo $ordenar === 5 ?
-                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
+                                    Salario <?php echo $ordenar == 6 ?
+                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
                                 </a>
                                 <?php } else { ?>
                                 <a href="<?php echo $url ?>&ordenar=6">
-                                    Salario
+                                    Salario <?php echo $ordenar == 5 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
                                 </a>
                                 <?php } ?>
                             </th>
                             <th>
-                                <?php if (!in_array('7', $_GET ?? [])) { ?>
+                                <?php if ($ordenar !== 7) { ?>
                                 <a href="<?php echo $url ?>&ordenar=7">
-                                    Cotización <?php echo $ordenar === 7 ?
-                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
+                                    Cotización <?php echo $ordenar === 8 ?
+                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
                                 </a>
                                 <?php } else { ?>
                                 <a href="<?php echo $url ?>&ordenar=8">
-                                    Cotización
+                                    Cotización <?php echo $ordenar == 7 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
                                 </a>
                                 <?php } ?>
                             </th>
                             <th>
-                                <?php if (!in_array('9', $_GET ?? [])) { ?>
-                                <a href="<?php echo $url ?>?<?php echo http_build_query($_GET)  ?>&ordenar=9">
-                                    País
+                                <?php if ($ordenar !== 9) { ?>
+                                <a href="<?php echo $url ?>&ordenar=9">
+                                    País <?php echo $ordenar === 10 ?
+                                            '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
                                 </a>
                                 <?php } else { ?>
-                                <a href="<?php echo $url ?>?<?php echo http_build_query($_GET)  ?>&ordenar=10">
-                                    Pais
+                                <a href="<?php echo $url ?>&ordenar=10">
+                                    Pais <?php echo $ordenar === 9 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
                                 </a>
                                 <?php } ?>
                             </th>
