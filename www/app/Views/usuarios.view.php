@@ -20,7 +20,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="input_nombre">Nombre de usuario:</label>
                                 <input type="text" class="form-control" name="input_nombre"
-                                       id="input_nombre" value="<?php echo $input['nombre'] ?? ''  ?>" />
+                                       id="input_nombre" value="<?php echo $input['input_nombre'] ?? ''  ?>" />
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -110,35 +110,35 @@ declare(strict_types=1);
                         <thead>
                         <tr>
                             <th>
-                                <a href="<?php echo $url; echo $ordenar === 1 ? '&ordenar=2' : '&ordenar=1'?>">
+                                <a href="<?php echo $url ?? ''; echo $ordenar === 1 ? '&ordenar=2' : '&ordenar=1'?>">
                                     Nombre de usuario <?php echo $ordenar === 1 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 2 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url; echo $ordenar === 3 ? '&ordenar=4' : '&ordenar=3'?>">
+                                <a href="<?php echo $url ?? ''; echo $ordenar === 3 ? '&ordenar=4' : '&ordenar=3'?>">
                                     Tipo de usuario <?php echo $ordenar === 3 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 4 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url; echo $ordenar === 5 ? '&ordenar=6 ' : '&ordenar=5'?>">
+                                <a href="<?php echo $url ?? ''; echo $ordenar === 5 ? '&ordenar=6 ' : '&ordenar=5'?>">
                                     Salario <?php echo $ordenar === 5 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 6 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url; echo $ordenar === 7 ? '&ordenar=8' : '&ordenar=7'?>">
+                                <a href="<?php echo $url ?? ''; echo $ordenar === 7 ? '&ordenar=8' : '&ordenar=7'?>">
                                     Cotización <?php echo $ordenar === 7 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 8 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url; echo $ordenar === 9 ? '&ordenar=10' : '&ordenar=9'?>">
+                                <a href="<?php echo $url ?? ''; echo $ordenar === 9 ? '&ordenar=10' : '&ordenar=9'?>">
                                     País <?php echo $ordenar === 9 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
