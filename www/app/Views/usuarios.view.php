@@ -8,6 +8,7 @@ declare(strict_types=1);
     <div class="col-12">
         <div class="card shadow mb-4">
             <form method="get" action="/usuarios">
+                <input type="hidden" name="ordenar" value="<?php echo $ordenar ?? 1 ?>">
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>
@@ -109,22 +110,23 @@ declare(strict_types=1);
                         <thead>
                         <tr>
                             <th>
-                                <?php if (!in_array('1', $_GET ?? [])) { ?>
+                                <?php if (!isset($_GET['ordenar']) || $_GET['ordenar'] != 1) { ?>
                                 <a href="<?php echo $url ?>&ordenar=1">
-                                    Nombre de Usuario
-                                </a> <?php if ($order === 1) { ?>
-                                        <i class="fas fa-sort-amount-down-alt"></i>
-                                     <?php } ?>
+                                    Nombre de Usuario <?php echo $ordenar == 1 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
+                                </a>
                                 <?php } else { ?>
                                     <a href="<?php echo $url ?>&ordenar=2">
-                                        Nombre de Usuario
+                                        Nombre de Usuario <?php echo $ordenar == 2 ?
+                                                '<i class="fas fa-sort-amount-up-alt"></i>' : '' ?>
                                     </a>
                                 <?php } ?>
                             </th>
                             <th>
                                 <?php if (!in_array('3', $_GET ?? [])) { ?>
                                 <a href="<?php echo $url ?>&ordenar=3">
-                                    Tipo de usuario
+                                    Tipo de usuario <?php echo $ordenar == 3 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
                                 </a>
                                 <?php } else { ?>
                                     <a href="<?php echo $url ?>&ordenar=4">
@@ -135,7 +137,8 @@ declare(strict_types=1);
                             <th>
                                 <?php if (!in_array('5', $_GET ?? [])) { ?>
                                 <a href="<?php echo $url ?>&ordenar=5">
-                                    Salario
+                                    Salario <?php echo $ordenar === 5 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
                                 </a>
                                 <?php } else { ?>
                                 <a href="<?php echo $url ?>&ordenar=6">
@@ -146,7 +149,8 @@ declare(strict_types=1);
                             <th>
                                 <?php if (!in_array('7', $_GET ?? [])) { ?>
                                 <a href="<?php echo $url ?>&ordenar=7">
-                                    Cotización
+                                    Cotización <?php echo $ordenar === 7 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' : '' ?>
                                 </a>
                                 <?php } else { ?>
                                 <a href="<?php echo $url ?>&ordenar=8">

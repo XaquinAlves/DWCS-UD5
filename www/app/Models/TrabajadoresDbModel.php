@@ -153,7 +153,7 @@ class TrabajadoresDbModel extends BaseDbModel
                 $sql .= " WHERE " . $stringConditions;
             }
 
-            $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters)];
+            $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1];
 
             $statement = $this->pdo->prepare($sql);
             $statement->execute($params);
@@ -168,11 +168,11 @@ class TrabajadoresDbModel extends BaseDbModel
     {
         if (
             empty($filters['ordenar']) || filter_var($filters['ordenar'], FILTER_VALIDATE_INT) === false ||
-            $filters['ordenar'] < 1 || $filters['ordenar'] > 10
+            $filters['ordenar'] < 1 || $filters['ordenar'] > count(self::ORDER_BY)
         ) {
             return 1;
         } else {
-            return (int)($filters['ordenar'] - 1);
+            return (int)$filters['ordenar'];
         }
     }
 }
