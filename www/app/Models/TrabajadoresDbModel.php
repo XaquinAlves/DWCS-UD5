@@ -181,4 +181,11 @@ class TrabajadoresDbModel extends BaseDbModel
             return (int)$filters['ordenar'];
         }
     }
+
+    public function getAllUsersCount(): int
+    {
+        $sql = "SELECT COUNT(*) FROM trabajadores";
+        $stmt = $this->pdo->query($sql);
+        return intval($stmt->fetchColumn());
+    }
 }

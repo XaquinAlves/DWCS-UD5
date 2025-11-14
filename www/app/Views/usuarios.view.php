@@ -178,8 +178,8 @@ declare(strict_types=1);
             <!-- Card footer -->
             <div class="card-footer">
                 <div class="col-12">
-                    <?php if (intval($page) !== 1) { ?>
-                        <a href="<?php echo $url . "&page=" . (intval($page) - 1) ?>" class="breadcrumb float-left">
+                    <?php if ($page !== 1) { ?>
+                        <a href="<?php echo $url . "&page=" . ($page - 1) ?>" class="breadcrumb float-left">
                             &lt; &lt; Anterior
                         </a>
                         <a href="<?php echo $url . "&page=1" ?>" class="breadcrumb float-left"
@@ -188,7 +188,7 @@ declare(strict_types=1);
                         </a>
                     <?php } ?>
                     <?php if ($page !== $lastPage) { ?>
-                        <a href="<?php echo $url . "&page=" . (intval($page) + 1)?>" class="breadcrumb float-right">
+                        <a href="<?php echo $url . "&page=" . ($page + 1)?>" class="breadcrumb float-right">
                             Siguiente &gt; &gt;
                         </a>
                         <a href="<?php echo $url . "&page=$lastPage" ?>" class="breadcrumb float-right"

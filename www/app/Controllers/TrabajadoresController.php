@@ -150,7 +150,7 @@ class TrabajadoresController extends BaseController
         unset($copiaGet['page']);
         $queryParams = http_build_query($copiaGet);
         $listaUsuarios = $model->getByFilters($_GET);
-        $lastPage = count($listaUsuarios);
+
 
         $data = array(
             'titulo' => 'Usuarios',
@@ -163,8 +163,8 @@ class TrabajadoresController extends BaseController
             'listaPaises' => $modelAuxPais->getAll(),
             'input' => filter_input_array(INPUT_GET),
             'ordenar' => $model->getOrderInt($_GET),
-            'page' => $_GET['page'] ?? 1,
-            'lastPage' => $lastPage
+            'page' => intval($_GET['page'] ?? 1),
+            'lastPage' => intval(ceil($model->getAllUsersCount() / 25))
         );
 
         $this->view->showViews(array('templates/header.view.php', 'usuarios.view.php',
