@@ -179,20 +179,22 @@ declare(strict_types=1);
             <div class="card-footer">
                 <div class="col-12">
                     <?php if ($page !== 1) { ?>
-                        <a href="<?php echo $url . "&page=" . ($page - 1) ?>" class="breadcrumb float-left">
+                        <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page - 1) ?>"
+                           class="breadcrumb float-left">
                             &lt; &lt; Anterior
                         </a>
-                        <a href="<?php echo $url . "&page=1" ?>" class="breadcrumb float-left"
+                        <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=1" ?>" class="breadcrumb float-left"
                            style="margin-left: 2%">
                             Primero
                         </a>
                     <?php } ?>
                     <?php if ($page !== $lastPage) { ?>
-                        <a href="<?php echo $url . "&page=" . ($page + 1)?>" class="breadcrumb float-right">
+                        <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page + 1)?>"
+                           class="breadcrumb float-right">
                             Siguiente &gt; &gt;
                         </a>
-                        <a href="<?php echo $url . "&page=$lastPage" ?>" class="breadcrumb float-right"
-                           style="margin-right: 2%">
+                        <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=$lastPage" ?>"
+                           class="breadcrumb float-right"style="margin-right: 2%">
                             Ultimo
                         </a>
                     <?php } ?>
