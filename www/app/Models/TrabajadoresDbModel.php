@@ -107,66 +107,17 @@ class TrabajadoresDbModel extends BaseDbModel
 
 
         $params = [];
-        $conditions = [];
-
-        if (!empty($filters['input_nombre'])) {
-            $conditions[] = " u.username LIKE :username";
-            $params['username'] = '%' . $filters['input_nombre'] . '%';
-        }
-
-        if (!empty($filters['input_rol'])) {
-            $conditions[] = " u.id_rol = :id_rol";
-            $params['id_rol'] = $filters['input_rol'];
-        }
-
-        if (!empty($filters['min_salario']) || !empty($filters['max_salario'])) {
-            if (!empty($filters['min_salario'])) {
-                $conditions[] = " u.salarioBruto >= :min";
-                $params['min'] = $filters['min_salario'];
-            }
-            if (!empty($filters['max_salario'])) {
-                $conditions[] = " u.salarioBruto <= :max";
-                $params['max'] = $filters['max_salario'];
-            }
-        }
-
-        if (!empty($filters['min_irpf']) || !empty($filters['max_irpf'])) {
-            if (!empty($filters['min_irpf'])) {
-                $conditions[] = " u.retencionIRPF >= :minirpf";
-                $params['minirpf'] = $filters['min_irpf'];
-            }
-            if (!empty($filters['max_irpf'][1])) {
-                $conditions[] = " u.retencionIRPF <= :maxirpf";
-                $params['maxirpf'] = $filters['max_irpf'];
-            }
-        }
-
-        if (!empty($filters['input_pais'])) {
-            $sentence = "( ";
-            for ($i = 0; $i < count($filters['input_pais']); $i++) {
-                $sentence .= " u.id_country = :pais" . $i . " OR";
-                $params['pais' . $i] = $filters['input_pais'][$i];
-            }
-            $conditions[] = rtrim($sentence, "OR") . ") ";
-        }
-
-        if (!empty($conditions)) {
-            $stringConditions = implode(' AND ', $conditions);
-            $sql .= " WHERE " . $stringConditions;
-        }
+        $sql .= $this->buildUsuariosQueryString($filters, $params);
 
         $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1] . " LIMIT :offset,25";
 
         $statement = $this->pdo->prepare($sql);
         foreach ($params as $key => $value) {
-            $statement->bindParam(':' . $key, $value, PDO::PARAM_STR);
+            $statement->bindValue($key, $value, PDO::PARAM_STR);
         }
-
         $statement->bindValue(':offset', ((intval($filters['page'] ?? 1) - 1) * 25), PDO::PARAM_INT);
 
         $statement->execute();
-
-
         return $statement->fetchAll();
     }
 
@@ -187,7 +138,19 @@ class TrabajadoresDbModel extends BaseDbModel
         $sql = "SELECT COUNT(u.username) FROM trabajadores u";
 
         $params = [];
+        $sql .= $this->buildUsuariosQueryString($filters, $params);
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($params);
+
+        $numUsuarios = intval($statement->fetchColumn());
+        return intval(ceil($numUsuarios / 25));
+    }
+
+    private function buildUsuariosQueryString(array $filters, array &$params): string
+    {
         $conditions = [];
+        $sql = "";
 
         if (!empty($filters['input_nombre'])) {
             $conditions[] = " u.username LIKE :username";
@@ -235,15 +198,6 @@ class TrabajadoresDbModel extends BaseDbModel
             $sql .= " WHERE " . $stringConditions;
         }
 
-        $statement = $this->pdo->prepare($sql);
-        $statement->execute($params);
-        $numUsuarios = intval($statement->fetchColumn());
-        return intval(ceil($numUsuarios / 25));
-    }
-
-    public function getPage(array $filters): array
-    {
-        $totalPages = $this->getNumberOfPages($filters);
-
+        return $sql;
     }
 }
