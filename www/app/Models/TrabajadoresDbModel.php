@@ -10,6 +10,7 @@ class TrabajadoresDbModel extends BaseDbModel
 {
     private const ORDER_BY = ['username', 'username DESC', 'nombre_rol', 'nombre_rol DESC', 'salarioBruto',
         'salarioBruto DESC', 'retencionIRPF', 'retencionIRPF DESC', 'country_name', 'country_name DESC'];
+
     private const SELECT_FROM_JOIN = "SELECT tr.username as nombre, tr.salarioBruto as salario, 
                 tr.retencionIRPF as retencion, tr.activo, rol.nombre_rol as rol, co.country_name as pais 
                 FROM trabajadores as tr 
@@ -103,63 +104,67 @@ class TrabajadoresDbModel extends BaseDbModel
     {
         $sql = self::SELECT_FROM_USR;
 
-        if (!empty($filters)) {
-            $params = [];
-            $conditions = [];
 
-            if (!empty($filters['input_nombre'])) {
-                $conditions[] = " u.username LIKE :username";
-                $params['username'] = '%' . $filters['input_nombre'] . '%';
+        $params = [];
+        $conditions = [];
+
+        if (!empty($filters['input_nombre'])) {
+            $conditions[] = " u.username LIKE :username";
+            $params['username'] = '%' . $filters['input_nombre'] . '%';
+        }
+
+        if (!empty($filters['input_rol'])) {
+            $conditions[] = " u.id_rol = :id_rol";
+            $params['id_rol'] = $filters['input_rol'];
+        }
+
+        if (!empty($filters['min_salario']) || !empty($filters['max_salario'])) {
+            if (!empty($filters['min_salario'])) {
+                $conditions[] = " u.salarioBruto >= :min";
+                $params['min'] = $filters['min_salario'];
             }
-
-            if (!empty($filters['input_rol'])) {
-                $conditions[] = " u.id_rol = :id_rol";
-                $params['id_rol'] = $filters['input_rol'];
+            if (!empty($filters['max_salario'])) {
+                $conditions[] = " u.salarioBruto <= :max";
+                $params['max'] = $filters['max_salario'];
             }
+        }
 
-            if (!empty($filters['min_salario'] || $filters['max_salario'])) {
-                if (!empty($filters['min_salario'])) {
-                    $conditions[] = " u.salarioBruto >= :min";
-                    $params['min'] = $filters['min_salario'];
-                }
-                if (!empty($filters['max_salario'])) {
-                    $conditions[] = " u.salarioBruto <= :max";
-                    $params['max'] = $filters['max_salario'];
-                }
+        if (!empty($filters['min_irpf']) || !empty($filters['max_irpf'])) {
+            if (!empty($filters['min_irpf'])) {
+                $conditions[] = " u.retencionIRPF >= :minirpf";
+                $params['minirpf'] = $filters['min_irpf'];
             }
-
-            if (!empty($filters['min_irpf']) || !empty($filters['max_irpf'])) {
-                if (!empty($filters['min_irpf'])) {
-                    $conditions[] = " u.retencionIRPF >= :minirpf";
-                    $params['minirpf'] = $filters['min_irpf'];
-                }
-                if (!empty($filters['max_irpf'][1])) {
-                    $conditions[] = " u.retencionIRPF <= :maxirpf";
-                    $params['maxirpf'] = $filters['max_irpf'];
-                }
+            if (!empty($filters['max_irpf'][1])) {
+                $conditions[] = " u.retencionIRPF <= :maxirpf";
+                $params['maxirpf'] = $filters['max_irpf'];
             }
+        }
 
-            if (!empty($filters['input_pais'])) {
-                $sentence = "( ";
-                for ($i = 0; $i < count($filters['input_pais']); $i++) {
-                    $sentence .= " u.id_country = :pais" . $i . " OR";
-                    $params['pais' . $i] = $filters['input_pais'][$i];
-                }
-                $conditions[] = rtrim($sentence, "OR") . ") ";
+        if (!empty($filters['input_pais'])) {
+            $sentence = "( ";
+            for ($i = 0; $i < count($filters['input_pais']); $i++) {
+                $sentence .= " u.id_country = :pais" . $i . " OR";
+                $params['pais' . $i] = $filters['input_pais'][$i];
             }
+            $conditions[] = rtrim($sentence, "OR") . ") ";
+        }
 
-            if (!empty($conditions)) {
-                $stringConditions = implode(' AND ', $conditions);
-                $sql .= " WHERE " . $stringConditions;
-            }
+        if (!empty($conditions)) {
+            $stringConditions = implode(' AND ', $conditions);
+            $sql .= " WHERE " . $stringConditions;
+        }
 
-            $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1];
+            $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1] . " LIMIT 0,25";
 
             $statement = $this->pdo->prepare($sql);
-            $statement->execute($params);
+        if (!empty($filters['page'])) {
+            $statement->bindValue(':offset', ($filters['page'] - 1) * 25, \PDO::PARAM_INT);
         } else {
-            $statement = $this->pdo->query($sql);
+            $statement->bindValue(':offset', 0, \PDO::PARAM_INT);
         }
+
+            $statement->execute($params);
+
 
         return $statement->fetchAll();
     }
@@ -173,6 +178,26 @@ class TrabajadoresDbModel extends BaseDbModel
             return 1;
         } else {
             return (int)$filters['ordenar'];
+        }
+    }
+
+    public function getNumberOfPages(): int
+    {
+        $sql = "SELECT COUNT(*) FROM trabajadores";
+        $stmt = $this->pdo->query($sql);
+        return intval(ceil($stmt->fetchColumn() / 25));
+    }
+
+    public function getPage(array $filters): int
+    {
+        $total = $this->getNumberOfPages();
+
+        if (empty($filters['page'])) {
+            return 1;
+        } elseif ($filters['page'] > $total) {
+            return $total;
+        } else {
+            return (int)$filters['page'];
         }
     }
 }

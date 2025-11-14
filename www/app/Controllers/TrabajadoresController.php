@@ -147,6 +147,7 @@ class TrabajadoresController extends BaseController
 
         $copiaGet = $_GET;
         unset($copiaGet['ordenar']);
+        unset($copiaGet['page']);
         $queryParams = http_build_query($copiaGet);
 
         $data = array(
@@ -159,7 +160,9 @@ class TrabajadoresController extends BaseController
             'listaRoles' => $modelAuxRol->getAll(),
             'listaPaises' => $modelAuxPais->getAll(),
             'input' => filter_input_array(INPUT_GET),
-            'ordenar' => $model->getOrderInt($_GET)
+            'ordenar' => $model->getOrderInt($_GET),
+            'page' => $model->getPage($_GET),
+            'lastPage' => $model->getNumberOfPages()
         );
 
         $this->view->showViews(array('templates/header.view.php', 'usuarios.view.php',
