@@ -164,7 +164,7 @@ class TrabajadoresController extends BaseController
             'input' => filter_input_array(INPUT_GET),
             'ordenar' => $model->getOrderInt($_GET),
             'page' => intval($_GET['page'] ?? 1),
-            'lastPage' => intval(ceil($model->getAllUsersCount() / 25))
+            'lastPage' => $model->getNumberOfPages($_GET)
         );
 
         $this->view->showViews(array('templates/header.view.php', 'usuarios.view.php',
