@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Models;
 
 use Com\Daw2\Core\BaseDbModel;
+use PDO;
 
 class TrabajadoresDbModel extends BaseDbModel
 {
@@ -154,16 +155,16 @@ class TrabajadoresDbModel extends BaseDbModel
             $sql .= " WHERE " . $stringConditions;
         }
 
-            $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1] . " LIMIT 0,25";
+        $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1] . " LIMIT :offset,25";
 
-            $statement = $this->pdo->prepare($sql);
-        if (!empty($filters['page'])) {
-            $statement->bindValue(':offset', ($filters['page'] - 1) * 25, \PDO::PARAM_INT);
-        } else {
-            $statement->bindValue(':offset', 0, \PDO::PARAM_INT);
+        $statement = $this->pdo->prepare($sql);
+        foreach ($params as $key => $value) {
+            $statement->bindParam(':' . $key, $value, PDO::PARAM_STR);
         }
 
-            $statement->execute($params);
+        $statement->bindValue(':offset', (($filters['page'] ?? 1 - 1) * 25), PDO::PARAM_INT);
+
+        $statement->execute();
 
 
         return $statement->fetchAll();
@@ -178,26 +179,6 @@ class TrabajadoresDbModel extends BaseDbModel
             return 1;
         } else {
             return (int)$filters['ordenar'];
-        }
-    }
-
-    public function getNumberOfPages(): int
-    {
-        $sql = "SELECT COUNT(*) FROM trabajadores";
-        $stmt = $this->pdo->query($sql);
-        return intval(ceil($stmt->fetchColumn() / 25));
-    }
-
-    public function getPage(array $filters): int
-    {
-        $total = $this->getNumberOfPages();
-
-        if (empty($filters['page'])) {
-            return 1;
-        } elseif ($filters['page'] > $total) {
-            return $total;
-        } else {
-            return (int)$filters['page'];
         }
     }
 }
