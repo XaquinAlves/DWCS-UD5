@@ -149,8 +149,6 @@ class TrabajadoresController extends BaseController
         unset($copiaGet['ordenar']);
         unset($copiaGet['page']);
         $queryParams = http_build_query($copiaGet);
-        $listaUsuarios = $model->getByFilters($_GET);
-
 
         $data = array(
             'titulo' => 'Usuarios',
@@ -158,7 +156,7 @@ class TrabajadoresController extends BaseController
             'seccion' => '/usuarios',
             'tituloEjercicio' => 'Lista de usuarios',
             'url' => '/usuarios?' . $queryParams,
-            'listaUsuarios' => $listaUsuarios,
+            'listaUsuarios' => $model->getByFilters($_GET),
             'listaRoles' => $modelAuxRol->getAll(),
             'listaPaises' => $modelAuxPais->getAll(),
             'input' => filter_input_array(INPUT_GET),
