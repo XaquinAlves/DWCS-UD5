@@ -9,6 +9,7 @@ declare(strict_types=1);
         <div class="card shadow mb-4">
             <form method="get" action="/usuarios">
                 <input type="hidden" name="ordenar" value="<?php echo $ordenar ?? 1 ?>">
+                <input type="hidden" name="page" value="<?php echo $page ?? 1 ?>">
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>
@@ -110,35 +111,45 @@ declare(strict_types=1);
                         <thead>
                         <tr>
                             <th>
-                                <a href="<?php echo $url ?? ''; echo $ordenar === 1 ? '&ordenar=2' : '&ordenar=1'?>">
+                                <a href="<?php echo $url ?? '';
+                                    echo $ordenar === 1 ? '&ordenar=2' : '&ordenar=1';
+                                    echo "&page=$page"?>">
                                     Nombre de usuario <?php echo $ordenar === 1 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 2 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url ?? ''; echo $ordenar === 3 ? '&ordenar=4' : '&ordenar=3'?>">
+                                <a href="<?php echo $url ?? '';
+                                    echo $ordenar === 3 ? '&ordenar=4' : '&ordenar=3';
+                                    echo "&page=$page"?>?>">
                                     Tipo de usuario <?php echo $ordenar === 3 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 4 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url ?? ''; echo $ordenar === 5 ? '&ordenar=6 ' : '&ordenar=5'?>">
+                                <a href="<?php echo $url ?? '';
+                                    echo $ordenar === 5 ? '&ordenar=6 ' : '&ordenar=5';
+                                    echo "&page=$page"?>?>">
                                     Salario <?php echo $ordenar === 5 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 6 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url ?? ''; echo $ordenar === 7 ? '&ordenar=8' : '&ordenar=7'?>">
+                                <a href="<?php echo $url ?? '';
+                                    echo $ordenar === 7 ? '&ordenar=8' : '&ordenar=7';
+                                    echo "&page=$page"?>?>">
                                     Cotización <?php echo $ordenar === 7 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 8 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url ?? ''; echo $ordenar === 9 ? '&ordenar=10' : '&ordenar=9'?>">
+                                <a href="<?php echo $url ?? '';
+                                    echo $ordenar === 9 ? '&ordenar=10' : '&ordenar=9';
+                                    echo "&page=$page"?>?>">
                                     País <?php echo $ordenar === 9 ?
                                             '<i class="fas fa-sort-amount-down-alt"></i>' :
                                             ($ordenar === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
@@ -167,8 +178,8 @@ declare(strict_types=1);
             <!-- Card footer -->
             <div class="card-footer">
                 <div class="col-12">
-                    <?php if ($page !== 1) { ?>
-                        <a href="<?php echo $url . "&page=" . ($page - 1) ?>" class="breadcrumb float-left">
+                    <?php if (intval($page) !== 1) { ?>
+                        <a href="<?php echo $url . "&page=" . (intval($page) - 1) ?>" class="breadcrumb float-left">
                             &lt; &lt; Anterior
                         </a>
                         <a href="<?php echo $url . "&page=1" ?>" class="breadcrumb float-left"
@@ -177,7 +188,7 @@ declare(strict_types=1);
                         </a>
                     <?php } ?>
                     <?php if ($page !== $lastPage) { ?>
-                        <a href="<?php echo $url . "&page=" . ($page + 1)?>" class="breadcrumb float-right">
+                        <a href="<?php echo $url . "&page=" . (intval($page) + 1)?>" class="breadcrumb float-right">
                             Siguiente &gt; &gt;
                         </a>
                         <a href="<?php echo $url . "&page=$lastPage" ?>" class="breadcrumb float-right"

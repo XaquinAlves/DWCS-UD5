@@ -151,7 +151,6 @@ class TrabajadoresController extends BaseController
         $queryParams = http_build_query($copiaGet);
         $listaUsuarios = $model->getByFilters($_GET);
         $lastPage = count($listaUsuarios);
-        var_dump($lastPage);
 
         $data = array(
             'titulo' => 'Usuarios',

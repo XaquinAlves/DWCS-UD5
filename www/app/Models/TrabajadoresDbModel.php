@@ -162,7 +162,7 @@ class TrabajadoresDbModel extends BaseDbModel
             $statement->bindParam(':' . $key, $value, PDO::PARAM_STR);
         }
 
-        $statement->bindValue(':offset', (($filters['page'] ?? 1 - 1) * 25), PDO::PARAM_INT);
+        $statement->bindValue(':offset', ((intval($filters['page'] ?? 1) - 1) * 25), PDO::PARAM_INT);
 
         $statement->execute();
 
