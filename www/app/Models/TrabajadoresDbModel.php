@@ -104,7 +104,7 @@ class TrabajadoresDbModel extends BaseDbModel
     public function getByFilters(array $filters): array
     {
         $sql = self::SELECT_FROM_USR;
-        $queryItems = $this->buildUsuariosQueryString($filters);
+        $queryItems = $this->buildUsuariosQuery($filters);
         $params = $queryItems['params'];
         $sql .=  $queryItems['sql'];
 
@@ -123,12 +123,11 @@ class TrabajadoresDbModel extends BaseDbModel
     public function getNumberOfPages(array $filters): int
     {
         $sql = "SELECT COUNT(u.username) FROM trabajadores u";
-        $queryItems = $this->buildUsuariosQueryString($filters);
-        $params = $queryItems['params'];
+        $queryItems = $this->buildUsuariosQuery($filters);
         $sql .=  $queryItems['sql'];
 
         $statement = $this->pdo->prepare($sql);
-        $statement->execute($params);
+        $statement->execute($queryItems['params']);
 
         $numUsuarios = intval($statement->fetchColumn());
         return intval(ceil($numUsuarios / 25));
@@ -158,7 +157,7 @@ class TrabajadoresDbModel extends BaseDbModel
         }
     }
 
-    private function buildUsuariosQueryString(array $filters): array
+    private function buildUsuariosQuery(array $filters): array
     {
         $results = [];
         $params = [];
