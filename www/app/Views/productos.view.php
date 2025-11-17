@@ -6,7 +6,7 @@ declare(strict_types=1);
 <div class="row">
     <div class="col-12">
         <div class="card shadow mb-4">
-            <form method="get" action="/usuarios">
+            <form method="get" action="/productos">
                 <input type="hidden" name="ordenar" value="<?php echo $ordenar ?? 1 ?>">
                 <div
                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -17,7 +17,7 @@ declare(strict_types=1);
                     <div class="row">
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_nombre">Código de artículo:</label>
+                                <label for="input_codigo">Código de artículo:</label>
                                 <input type="text" class="form-control" name="input_codigo"
                                        id="input_codigo" value="<?php echo $input['input_codigo'] ?? ''  ?>" />
                             </div>
@@ -96,7 +96,7 @@ declare(strict_types=1);
                 </div>
                 <div class="card-footer">
                     <div class="col-12 text-right">
-                        <a href="/usuarios" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
+                        <a href="/productos" class="btn btn-danger">Reiniciar filtros</a>
                         <input type="submit" value="Aplicar filtros" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
                 </div>

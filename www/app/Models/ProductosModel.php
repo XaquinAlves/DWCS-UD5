@@ -18,8 +18,76 @@ class ProductosModel extends BaseDbModel
     public function getProductosByFilter(array $filters): array
     {
         $sql = self::SELECT_FROM;
-        $stmt = $this->pdo->query($sql);
+        $queryItems = $this->buildProductosQuery($filters);
+        $sql .= $queryItems['sql'];
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($queryItems['params']);
+
         return $stmt->fetchAll();
+    }
+
+    private function buildProductosQuery(array $filters): array
+    {
+        $sql = '';
+        $query = [];
+        $params = [];
+        $conditions = [];
+
+        if (!empty($filters['input_codigo'])) {
+            $conditions[] = 'pro.codigo LIKE :codigo';
+            $params['codigo'] = '%' . $filters['input_codigo'] . '%';
+        }
+
+        if (!empty($filters['input_nombre'])) {
+            $conditions[] = 'pro.nombre LIKE :nombre';
+            $params['nombre'] = '%' . $filters['input_nombre'] . '%';
+        }
+
+        if (!empty($filters['input_cat'])) {
+            $sentence = ' (';
+            for ($i = 0; $i < count($filters['input_cat']); $i++) {
+                $sentence .= "cat.nombre_categoria = :cat" . $i . " OR";
+                $params['cat' . $i] = $filters['input_cat'][$i];
+            }
+            $conditions[] = rtrim($sentence, 'OR') . ')';
+        }
+
+        if (!empty($filters['input_prov'])) {
+            $conditions[] = 'prv.nombre = :prov';
+            $params['prov'] = $filters['input_prov'];
+        }
+
+        if (!empty($filters['min_stock']) || !empty($filters['max_stock'])) {
+            if (!empty($filters['min_stock'])) {
+                $conditions[] = 'pro.stock >= :min_stock';
+                $params['min_stock'] = $filters['min_stock'];
+            }
+            if (!empty($filters['max_stock'])) {
+                $conditions[] = 'pro.stock <= :max_stock';
+                $params['max_stock'] = $filters['max_stock'];
+            }
+        }
+
+        if (!empty($filters['min_pvp']) || !empty($filters['max_pvp'])) {
+            if (!empty($filters['min_pvp'])) {
+                $conditions[] = 'pro.pvp >= :min_pvp';
+                $params['min_pvp'] = $filters['min_pvp'];
+            }
+            if (!empty($filters['max_pvp'])) {
+                $conditions[] = 'pro.pvp <= :max_pvp';
+                $params['max_pvp'] = $filters['max_pvp'];
+            }
+        }
+
+        if (!empty($conditions)) {
+            $stringConditions = implode(' AND ', $conditions);
+            $sql = ' WHERE ' . $stringConditions;
+        }
+
+        $query['sql'] = $sql;
+        $query['params'] = $params;
+        return $query;
     }
 
 }
