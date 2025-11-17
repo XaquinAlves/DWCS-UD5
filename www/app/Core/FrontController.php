@@ -5,6 +5,7 @@ namespace Com\Daw2\Core;
 use Com\Daw2\Controllers\CsvController;
 use Com\Daw2\Controllers\ErroresController;
 use Com\Daw2\Controllers\InicioController;
+use Com\Daw2\Controllers\ProductosController;
 use Com\Daw2\Controllers\TrabajadoresController;
 use Com\Daw2\Controllers\UsuariosController;
 use Steampixel\Route;
@@ -126,6 +127,15 @@ class FrontController
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->getUsuarios();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/productos',
+            function () {
+                $controlador = new ProductosController();
+                $controlador->getProductos();
             },
             'get'
         );

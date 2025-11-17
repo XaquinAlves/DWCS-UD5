@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Com\Daw2\Models;
+
+use Com\Daw2\Core\BaseDbModel;
+
+class ProductosModel extends BaseDbModel
+{
+    private const SELECT_FROM = 'SELECT pro.codigo, pro.nombre, cat.nombre_categoria, prv.nombre, pro.stock, pro.coste,
+                            pro.margen, (pro.coste * pro.margen * ((100 + pro.iva) / 100)) AS pvp
+                            FROM producto pro
+                            LEFT JOIN categoria cat ON cat.id_categoria = p.id_categoria
+                            LEFT JOIN proveedor prv ON prv.cif = p.proveedor';
+
+    public function getProductosByFilter(array $filters): array
+    {
+        $sql = self::SELECT_FROM;
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll();
+    }
+
+}
