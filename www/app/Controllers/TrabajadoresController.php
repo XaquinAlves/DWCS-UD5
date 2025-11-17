@@ -161,7 +161,7 @@ class TrabajadoresController extends BaseController
             'listaPaises' => $modelAuxPais->getAll(),
             'input' => filter_input_array(INPUT_GET),
             'ordenar' => $model->getOrderInt($_GET),
-            'page' => intval($_GET['page'] ?? 1),
+            'page' => $model->getPage($_GET),
             'lastPage' => $model->getNumberOfPages($_GET)
         );
 

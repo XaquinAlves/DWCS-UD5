@@ -104,7 +104,6 @@ class TrabajadoresDbModel extends BaseDbModel
     public function getByFilters(array $filters): array
     {
         $sql = self::SELECT_FROM_USR;
-
         $queryItems = $this->buildUsuariosQueryString($filters);
         $params = $queryItems['params'];
         $sql .=  $queryItems['sql'];
@@ -121,6 +120,20 @@ class TrabajadoresDbModel extends BaseDbModel
         return $statement->fetchAll();
     }
 
+    public function getNumberOfPages(array $filters): int
+    {
+        $sql = "SELECT COUNT(u.username) FROM trabajadores u";
+        $queryItems = $this->buildUsuariosQueryString($filters);
+        $params = $queryItems['params'];
+        $sql .=  $queryItems['sql'];
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($params);
+
+        $numUsuarios = intval($statement->fetchColumn());
+        return intval(ceil($numUsuarios / 25));
+    }
+
     public function getOrderInt(array $filters): int
     {
         if (
@@ -133,19 +146,16 @@ class TrabajadoresDbModel extends BaseDbModel
         }
     }
 
-    public function getNumberOfPages(array $filters): int
+    public function getPage(array $filters): int
     {
-        $sql = "SELECT COUNT(u.username) FROM trabajadores u";
-
-        $queryItems = $this->buildUsuariosQueryString($filters);
-        $params = $queryItems['params'];
-        $sql .=  $queryItems['sql'];
-
-        $statement = $this->pdo->prepare($sql);
-        $statement->execute($params);
-
-        $numUsuarios = intval($statement->fetchColumn());
-        return intval(ceil($numUsuarios / 25));
+        if (
+            empty($filters['page']) || filter_var($filters['page'], FILTER_VALIDATE_INT) === false ||
+            $filters['page'] < 1
+        ) {
+            return 1;
+        } else {
+            return (int)$filters['page'];
+        }
     }
 
     private function buildUsuariosQueryString(array $filters): array
