@@ -127,8 +127,12 @@ class TrabajadoresDbModel extends BaseDbModel
         $queryItems = $this->buildUsuariosQuery($filters);
         $sql .=  $queryItems['sql'];
 
-        $statement = $this->pdo->prepare($sql);
-        $statement->execute($queryItems['params']);
+        if ($queryItems['params'] === []) {
+            $statement = $this->pdo->query($sql);
+        } else {
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute($queryItems['params']);
+        }
 
         $numUsuarios = intval($statement->fetchColumn());
         return intval(ceil($numUsuarios / 25));
