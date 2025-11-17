@@ -127,6 +127,18 @@ declare(strict_types=1);
                         </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($listaProductos ?? [] as $producto) { ?>
+                                <tr class="<?php echo $producto['stock'] === 0 ? 'bg-danger' :
+                                        ($producto['stock'] < 10 ? 'bg-warning' : '') ?>">
+                                    <td><?php echo $producto['codigo'] ?></td>
+                                    <td><?php echo $producto['pro_name'] ?></td>
+                                    <td><?php echo $producto['cat'] ?></td>
+                                    <td><?php echo $producto['prv_name'] ?></td>
+                                    <td class="d-none d-sm-table-cell"><?php echo $producto['coste'] ?></td>
+                                    <td class="d-none d-sm-table-cell"><?php echo $producto['margen'] ?></td>
+                                    <td class="d-none d-sm-table-cell"><?php echo $producto['pvp'] ?></td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
