@@ -105,9 +105,9 @@ class TrabajadoresDbModel extends BaseDbModel
     {
         $sql = self::SELECT_FROM_USR;
 
-
-        $params = [];
-        $sql .= $this->buildUsuariosQueryString($filters, $params);
+        $queryItems = $this->buildUsuariosQueryString($filters);
+        $params = $queryItems['params'];
+        $sql .=  $queryItems['sql'];
 
         $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1] . " LIMIT :offset,25";
 
@@ -137,8 +137,9 @@ class TrabajadoresDbModel extends BaseDbModel
     {
         $sql = "SELECT COUNT(u.username) FROM trabajadores u";
 
-        $params = [];
-        $sql .= $this->buildUsuariosQueryString($filters, $params);
+        $queryItems = $this->buildUsuariosQueryString($filters);
+        $params = $queryItems['params'];
+        $sql .=  $queryItems['sql'];
 
         $statement = $this->pdo->prepare($sql);
         $statement->execute($params);
@@ -147,8 +148,10 @@ class TrabajadoresDbModel extends BaseDbModel
         return intval(ceil($numUsuarios / 25));
     }
 
-    private function buildUsuariosQueryString(array $filters, array &$params): string
+    private function buildUsuariosQueryString(array $filters): array
     {
+        $results = [];
+        $params = [];
         $conditions = [];
         $sql = "";
 
@@ -198,6 +201,8 @@ class TrabajadoresDbModel extends BaseDbModel
             $sql .= " WHERE " . $stringConditions;
         }
 
-        return $sql;
+        $results['params'] = $params;
+        $results['sql'] = $sql;
+        return $results;
     }
 }
