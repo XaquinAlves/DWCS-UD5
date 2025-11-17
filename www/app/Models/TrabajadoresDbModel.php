@@ -17,10 +17,11 @@ class TrabajadoresDbModel extends BaseDbModel
                 FROM trabajadores as tr 
                 LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
                 LEFT JOIN aux_countries as co ON co.id = tr.id_country";
-
     private const SELECT_FROM_USR = "SELECT u.username, rol.nombre_rol, u.salarioBruto, u.retencionIRPF, co.country_name
         FROM trabajadores AS u LEFT JOIN aux_rol_trabajador as rol ON u.id_rol = rol.id_rol
         LEFT JOIN aux_countries as co ON co.id = u.id_country";
+    private const SELECT_COUNT = "SELECT COUNT(u.username) FROM trabajadores u";
+
     public function getTrabajadores(): array
     {
         $sql = self::SELECT_FROM_JOIN;
@@ -122,7 +123,7 @@ class TrabajadoresDbModel extends BaseDbModel
 
     public function getNumberOfPages(array $filters): int
     {
-        $sql = "SELECT COUNT(u.username) FROM trabajadores u";
+        $sql = self::SELECT_COUNT;
         $queryItems = $this->buildUsuariosQuery($filters);
         $sql .=  $queryItems['sql'];
 
