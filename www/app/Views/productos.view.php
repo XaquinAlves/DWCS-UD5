@@ -31,14 +31,16 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_categoria">Nacionalidad:</label>
-                                <select name="input_categoria[]" id="input_categoria" class="form-control select2"
+                                <label for="input_cat">Categoría:</label>
+                                <select name="input_cat[]" id="input_cat" class="form-control select2"
                                         data-placeholder="Categoría" multiple>
                                     <option value="">-</option>
-                                    <?php foreach ($listaPaises ?? [] as $pais) { ?>
-                                        <option value="<?php echo $pais['id'] ?>" <?php echo isset($_GET['input_pais'])
-                                        && in_array($pais['id'], $_GET['input_pais']) ? 'selected' : '' ?>>
-                                            <?php echo ucfirst($pais['country_name']) ?>
+                                    <?php foreach ($listaCategorias ?? [] as $categoria) { ?>
+                                        <option value="<?php echo $categoria['id_cat'] ?>"
+                                                <?php echo isset($_GET['input_cat'])
+                                                && in_array($categoria['id_cat'], $_GET['input_cat']) ?
+                                                        'selected' : '' ?>>
+                                            <?php echo ucfirst($categoria['cat_name']) ?>
                                         </option>
                                     <?php } ?>
                                 </select>
@@ -46,15 +48,15 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_rol">Tipo de usuario:</label>
-                                <select name="input_rol" id="input_rol" class="form-control"
+                                <label for="input_prov">Proveedor:</label>
+                                <select name="input_prov" id="input_prov" class="form-control"
                                         data-placeholder="Rol">
                                     <option value="">-</option>
-                                    <?php foreach ($listaRoles ?? [] as $rol) { ?>
-                                        <option value="<?php echo $rol['id_rol'] ?>" <?php echo
-                                        isset($_GET['input_rol']) && $_GET['input_rol'] == $rol['id_rol'] ?
+                                    <?php foreach ($listaProveedores ?? [] as $prov) { ?>
+                                        <option value="<?php echo $prov['cif'] ?>" <?php echo
+                                        isset($_GET['input_prov']) && $_GET['input_prov'] == $prov['cif'] ?
                                                 'selected' : '' ?>>
-                                            <?php echo ucfirst($rol['nombre_rol']) ?>
+                                            <?php echo ucfirst($prov['nombre']) ?>
                                         </option>
                                     <?php } ?>
                                 </select>
@@ -62,15 +64,30 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="rango_salario">Rango salarial:</label>
+                                <label for="rango_salario">Stock:</label>
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="number" class="form-control" name="min_salario" id="min_salario"
-                                               value="<?php echo $input['min_salario'] ?? '' ?>" placeholder="Mínimo" />
+                                        <input type="number" class="form-control" name="min_stock" id="min_stock"
+                                               value="<?php echo $input['min_stock'] ?? '' ?>" placeholder="Mínimo" />
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control" name="max_salario" id="max_salario"
-                                               value="<?php echo $input['max_salario'] ?? '' ?>" placeholder="Máximo" />
+                                        <input type="number" class="form-control" name="max_stock" id="max_stock"
+                                               value="<?php echo $input['max_stock'] ?? '' ?>" placeholder="Máximo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="rango_salario">PVP:</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" name="min_pvp" id="min_pvp"
+                                               value="<?php echo $input['min_pvp'] ?? '' ?>" placeholder="Mínimo" />
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" name="max_pvp" id="max_pvp"
+                                               value="<?php echo $input['max_pvp'] ?? '' ?>" placeholder="Máximo" />
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +109,7 @@ declare(strict_types=1);
             <!-- Card Header -->
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary"><?php echo $tituloEjercicio ?></h6>
+                <h6 class="m-0 font-weight-bold text-primary"><?php echo $tituloEjercicio ?? '' ?></h6>
             </div>
             <!-- Card Body -->
             <div class="card-body">

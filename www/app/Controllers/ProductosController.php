@@ -21,7 +21,8 @@ class ProductosController extends BaseController
             'tituloEjercicio' => 'Listado de productos',
             'listaProveedores' => $modelProv->getProveedores(),
             'listaCategorias' => $modelCats->getCategorias(),
-            'listaProductos' => $model->getProductosByFilter($_GET)
+            'listaProductos' => $model->getProductosByFilter($_GET),
+            'input' => filter_input_array(INPUT_GET)
         );
 
         $this->view->showViews(array('templates/header.view.php', 'productos.view.php',
