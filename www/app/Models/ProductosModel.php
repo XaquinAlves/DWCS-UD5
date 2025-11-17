@@ -47,14 +47,14 @@ class ProductosModel extends BaseDbModel
         if (!empty($filters['input_cat'])) {
             $sentence = ' (';
             for ($i = 0; $i < count($filters['input_cat']); $i++) {
-                $sentence .= "cat.nombre_categoria = :cat" . $i . " OR";
+                $sentence .= "cat.id_categoria = :cat" . $i . " OR";
                 $params['cat' . $i] = $filters['input_cat'][$i];
             }
             $conditions[] = rtrim($sentence, 'OR') . ')';
         }
 
         if (!empty($filters['input_prov'])) {
-            $conditions[] = 'prv.nombre = :prov';
+            $conditions[] = 'prv.cif = :prov';
             $params['prov'] = $filters['input_prov'];
         }
 
@@ -89,5 +89,4 @@ class ProductosModel extends BaseDbModel
         $query['params'] = $params;
         return $query;
     }
-
 }
