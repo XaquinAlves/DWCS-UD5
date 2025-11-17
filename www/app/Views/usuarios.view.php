@@ -172,26 +172,43 @@ declare(strict_types=1);
             <!-- Card footer -->
             <div class="card-footer">
                 <div class="col-12">
-                    <?php if ($page !== 1) { ?>
-                        <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page - 1) ?>"
-                           class="breadcrumb float-left">
-                            &lt; &lt; Anterior
-                        </a>
-                        <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=1" ?>" class="breadcrumb float-left"
-                           style="margin-left: 2%">
-                            Primero
-                        </a>
-                    <?php } ?>
-                    <?php if ($page !== $lastPage) { ?>
-                        <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page + 1)?>"
-                           class="breadcrumb float-right">
-                            Siguiente &gt; &gt;
-                        </a>
-                        <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=$lastPage" ?>"
-                           class="breadcrumb float-right"style="margin-right: 2%">
-                            Ultimo
-                        </a>
-                    <?php } ?>
+                    <nav aria-label="Navegacion por paginas">
+                        <ul class="pagination justify-content-center">
+                            <?php if ($page !== 1) { ?>
+                                <li class="page-item">
+                                    <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page - 1) ?>"
+                                       class="page-link" aria-label="Previous">
+                                        <span aria-hidden="true">&lt;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=1" ?>"
+                                       class="page-link" aria-label="First">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">First</span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                            <li class="page-item active"><a href="#" class="page-link"><?php echo $page ?></a></li>
+                            <?php if ($page !== $lastPage) { ?>
+                                <li class="page-item">
+                                    <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page + 1)?>"
+                                       class="page-link" aria-label="Next">
+                                        <span aria-hidden="true">&gt;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=$lastPage" ?>"
+                                       aria-label="Last" class="page-link">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Last</span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
