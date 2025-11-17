@@ -128,7 +128,7 @@ declare(strict_types=1);
                         </thead>
                         <tbody>
                             <?php foreach ($listaProductos ?? [] as $producto) { ?>
-                                <tr class="<?php echo $producto['stock'] === 0 ? 'bg-danger' :
+                                <tr class="<?php echo $producto['stock'] == 0 ? 'bg-danger' :
                                         ($producto['stock'] < 10 ? 'bg-warning' : '') ?>">
                                     <td><?php echo $producto['codigo'] ?></td>
                                     <td><?php echo $producto['pro_name'] ?></td>
