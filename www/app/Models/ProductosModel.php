@@ -40,7 +40,7 @@ class ProductosModel extends BaseDbModel
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($queryItems['params']);
 
-        return (int)$stmt->fetchColumn();
+        return intval(ceil($stmt->fetchColumn() / $this->getPageSize($filters)));
     }
 
     public function getPageSize(array $filters): int

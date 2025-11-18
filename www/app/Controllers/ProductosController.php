@@ -29,7 +29,8 @@ class ProductosController extends BaseController
             'input' => filter_input_array(INPUT_GET),
             'page' => $model->getPage($_GET),
             'lastPage' => $model->getNumberOfPages($_GET),
-            'page_size' => $model->getPageSize($_GET)
+            'page_size' => $model->getPageSize($_GET),
+            'ordenar' => 1
         );
 
         $this->view->showViews(array('templates/header.view.php', 'productos.view.php',
