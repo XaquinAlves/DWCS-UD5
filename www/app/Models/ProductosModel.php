@@ -14,6 +14,7 @@ class ProductosModel extends BaseDbModel
                             FROM producto pro
                             LEFT JOIN categoria cat ON cat.id_categoria = pro.id_categoria
                             LEFT JOIN proveedor prv ON prv.cif = pro.proveedor';
+    private const SELECT_COUNT = 'SELECT COUNT(codigo) FROM producto';
 
     public function getProductosByFilter(array $filters): array
     {
@@ -25,6 +26,18 @@ class ProductosModel extends BaseDbModel
         $stmt->execute($queryItems['params']);
 
         return $stmt->fetchAll();
+    }
+
+    public function getNumberOfPages(array $filters): int
+    {
+        $sql = self::SELECT_COUNT;
+        $queryItems = $this->buildProductosQuery($filters);
+        $sql .= $queryItems['sql'];
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($queryItems['params']);
+
+        return (int)$stmt->fetchColumn();
     }
 
     private function buildProductosQuery(array $filters): array

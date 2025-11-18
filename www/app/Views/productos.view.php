@@ -92,6 +92,17 @@ declare(strict_types=1);
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="page_size">Tamaño de página:</label>
+                                <select name="page_size" id="page_size" class="form-control select1">
+                                    <option value="25">25 registros</option>
+                                    <option value="50">50 registros</option>
+                                    <option value="75">75 registros</option>
+                                    <option value="100">100 registros</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">
