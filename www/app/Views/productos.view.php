@@ -7,7 +7,7 @@ declare(strict_types=1);
     <div class="col-12">
         <div class="card shadow mb-4">
             <form method="get" action="/productos">
-                <input type="hidden" name="ordenar" value="<?php echo $ordenar ?? 1 ?>">
+                <input type="hidden" name="order" value="<?php echo $order ?? 1 ?>">
                 <div
                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>
@@ -128,13 +128,62 @@ declare(strict_types=1);
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
-                            <th>Proveedor</th>
-                            <th class="d-none d-sm-table-cell">Coste</th>
-                            <th class="d-none d-sm-table-cell">Margen</th>
-                            <th class="d-none d-sm-table-cell">PVP</th>
+                            <th>
+                                <a href="<?php echo $url ?? '';
+                                echo $order === 1 ? '&order=2' : '&order=1'; ?>">
+                                    Código <?php echo $order === 1 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($order === 2 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
+                                </a>
+                            </th>
+                            <th>
+                                <a href="<?php echo $url ?? '';
+                                echo $order === 3 ? '&order=4' : '&order=3'; ?>">
+                                    Nombre <?php echo $order === 3 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($order === 4 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
+                                </a>
+                            </th>
+                            <th>
+                                <a href="<?php echo $url ?? '';
+                                echo $order === 5 ? '&order=6' : '&order=5'; ?>">
+                                    Categoría <?php echo $order === 5 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($order === 6 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
+                                </a>
+                            </th>
+                            <th>
+                                <a href="<?php echo $url ?? '';
+                                echo $order === 7 ? '&order=8' : '&order=7'; ?>">
+                                    Proveedor <?php echo $order === 7 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($order === 8 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
+                                </a>
+                            </th>
+                            <th class="d-none d-sm-table-cell">
+                                <a href="<?php echo $url ?? '';
+                                echo $order === 9 ? '&order=10' : '&order=9'; ?>">
+                                    Coste <?php echo $order === 9 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($order === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
+                                </a>
+                            </th>
+                            <th class="d-none d-sm-table-cell">
+                                <a href="<?php echo $url ?? '';
+                                echo $order === 11 ? '&order=12' : '&order=11'; ?>">
+                                    Margen <?php echo $order === 11 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($order === 12 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
+                                </a>
+                            </th>
+                            <th class="d-none d-sm-table-cell">
+                                <a href="<?php echo $url ?? '';
+                                echo $order === 13 ? '&order=14' : '&order=13'; ?>">
+                                    PVP <?php echo $order === 13 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($order === 14 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
+                                </a>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -161,14 +210,14 @@ declare(strict_types=1);
                         <ul class="pagination justify-content-center">
                             <?php if ($page !== 1) { ?>
                                 <li class="page-item">
-                                    <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page - 1) ?>"
+                                    <a href="<?php echo $url . "&ordenar=$order" . "&page=" . ($page - 1) ?>"
                                        class="page-link" aria-label="Previous">
                                         <span aria-hidden="true">&lt;</span>
                                         <span class="sr-only">Previous</span>
                                     </a>
                                 </li>
                                 <li class="page-item">
-                                    <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=1" ?>"
+                                    <a href="<?php echo $url . "&ordenar=$order" . "&page=1" ?>"
                                        class="page-link" aria-label="First">
                                         <span aria-hidden="true">&laquo;</span>
                                         <span class="sr-only">First</span>
@@ -178,14 +227,14 @@ declare(strict_types=1);
                             <li class="page-item active"><a href="#" class="page-link"><?php echo $page ?></a></li>
                             <?php if ($page < $lastPage) { ?>
                                 <li class="page-item">
-                                    <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page + 1)?>"
+                                    <a href="<?php echo $url . "&ordenar=$order" . "&page=" . ($page + 1)?>"
                                        class="page-link" aria-label="Next">
                                         <span aria-hidden="true">&gt;</span>
                                         <span class="sr-only">Next</span>
                                     </a>
                                 </li>
                                 <li class="page-item">
-                                    <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=$lastPage" ?>"
+                                    <a href="<?php echo $url . "&ordenar=$order" . "&page=$lastPage" ?>"
                                        aria-label="Last" class="page-link">
                                         <span aria-hidden="true">&raquo;</span>
                                         <span class="sr-only">Last</span>

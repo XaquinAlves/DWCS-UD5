@@ -16,6 +16,7 @@ class ProductosController extends BaseController
 
         $copiaGet = $_GET;
         unset($copiaGet['page']);
+        unset($copiaGet['order']);
 
         $data = array(
             'titulo' => 'Productos',
@@ -30,7 +31,7 @@ class ProductosController extends BaseController
             'page' => $model->getPage($_GET),
             'lastPage' => $model->getNumberOfPages($_GET),
             'page_size' => $model->getPageSize($_GET),
-            'ordenar' => 1
+            'order' => $model->getOrderInt($_GET)
         );
 
         $this->view->showViews(array('templates/header.view.php', 'productos.view.php',

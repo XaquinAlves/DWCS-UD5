@@ -16,6 +16,8 @@ class ProductosModel extends BaseDbModel
                             LEFT JOIN categoria cat ON cat.id_categoria = pro.id_categoria
                             LEFT JOIN proveedor prv ON prv.cif = pro.proveedor';
     private const SELECT_COUNT = 'SELECT COUNT(codigo) FROM producto';
+    private const ORDER_BY = ['pro.codigo', 'codigo DESC', 'pro_name', 'pro_name DESC', 'cat', 'cat DESC','prv_name',
+        'prv_name DESC','coste','coste DESC','margen','margen DESC', 'pvp', 'pvp DESC'];
 
     public function getProductosByFilter(array $filters): array
     {
@@ -23,7 +25,8 @@ class ProductosModel extends BaseDbModel
         $queryItems = $this->buildProductosQuery($filters);
         $pageSize = $this->getPageSize($filters);
         $offset = ($this->getPage($filters) - 1) * $pageSize;
-        $sql .= $queryItems['sql'] . " LIMIT $offset, $pageSize";
+        $sql .= $queryItems['sql'] . " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1] .
+            " LIMIT $offset, $pageSize";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($queryItems['params']);
@@ -64,6 +67,18 @@ class ProductosModel extends BaseDbModel
             return 1;
         } else {
             return (int)$filters['page'];
+        }
+    }
+
+    public function getOrderInt(array $filters): int
+    {
+        if (
+            empty($filters['order']) || filter_var($filters['order'], FILTER_VALIDATE_INT) === false ||
+            $filters['order'] < 1 || $filters['order'] > count(self::ORDER_BY)
+        ) {
+            return 1;
+        } else {
+            return (int)$filters['order'];
         }
     }
 
