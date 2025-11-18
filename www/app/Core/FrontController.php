@@ -140,6 +140,15 @@ class FrontController
             'get'
         );
 
+        Route::add(
+            '/usuario-alta',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->altaUsuario();
+            },
+            'get'
+        );
+
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();

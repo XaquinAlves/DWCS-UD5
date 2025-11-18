@@ -168,4 +168,24 @@ class TrabajadoresController extends BaseController
         $this->view->showViews(array('templates/header.view.php', 'usuarios.view.php',
             'templates/footer.view.php'), $data);
     }
+
+    public function altaUsuario(): void
+    {
+        $model = new TrabajadoresDbModel();
+        $modelAuxRol = new AuxRolTrabajadorModel();
+        $modelAuxPais = new AuxPaisModel();
+
+        $data = array(
+            'titulo' => 'Alta de usuario',
+            'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
+            'seccion' => '/usuarios-alta',
+            'tituloEjercicio' => 'Datos del usuario',
+            'listaUsuarios' => $model->getByFilters($_GET),
+            'listaRoles' => $modelAuxRol->getAll(),
+            'listaPaises' => $modelAuxPais->getAll()
+        );
+
+        $this->view->showViews(array('templates/header.view.php', 'usuario-alta.view.php',
+            'templates/footer.view.php'), $data);
+    }
 }
