@@ -14,15 +14,22 @@ class ProductosController extends BaseController
         $modelProv = new \Com\Daw2\Models\ProveedoresModel();
         $model = new \Com\Daw2\Models\ProductosModel();
 
+        $copiaGet = $_GET;
+        unset($copiaGet['page']);
+
         $data = array(
             'titulo' => 'Productos',
             'breadcrumb' => ['productos'],
             'seccion' => '/productos',
             'tituloEjercicio' => 'Listado de productos',
+            'url' => '/productos?' . http_build_query($copiaGet),
             'listaProveedores' => $modelProv->getProveedores(),
             'listaCategorias' => $modelCats->getCategorias(),
             'listaProductos' => $model->getProductosByFilter($_GET),
-            'input' => filter_input_array(INPUT_GET)
+            'input' => filter_input_array(INPUT_GET),
+            'page' => $model->getPage($_GET),
+            'lastPage' => $model->getNumberOfPages($_GET),
+            'page_size' => $model->getPageSize($_GET)
         );
 
         $this->view->showViews(array('templates/header.view.php', 'productos.view.php',

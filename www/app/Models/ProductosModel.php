@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Models;
 
 use Com\Daw2\Core\BaseDbModel;
+use PDO;
 
 class ProductosModel extends BaseDbModel
 {
@@ -20,7 +21,9 @@ class ProductosModel extends BaseDbModel
     {
         $sql = self::SELECT_FROM;
         $queryItems = $this->buildProductosQuery($filters);
-        $sql .= $queryItems['sql'];
+        $pageSize = $this->getPageSize($filters);
+        $offset = ($this->getPage($filters) - 1) * $pageSize;
+        $sql .= $queryItems['sql'] . " LIMIT $offset, $pageSize";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($queryItems['params']);
@@ -38,6 +41,30 @@ class ProductosModel extends BaseDbModel
         $stmt->execute($queryItems['params']);
 
         return (int)$stmt->fetchColumn();
+    }
+
+    public function getPageSize(array $filters): int
+    {
+        if (
+            empty($filters['page_size']) || filter_var($filters['page_size'], FILTER_VALIDATE_INT) === false ||
+            $filters['page_size'] < 1
+        ) {
+            return 25;
+        } else {
+            return (int)$filters['page_size'];
+        }
+    }
+
+    public function getPage(array $filters): int
+    {
+        if (
+            empty($filters['page']) || filter_var($filters['page'], FILTER_VALIDATE_INT) === false ||
+            $filters['page'] < 1
+        ) {
+            return 1;
+        } else {
+            return (int)$filters['page'];
+        }
     }
 
     private function buildProductosQuery(array $filters): array
