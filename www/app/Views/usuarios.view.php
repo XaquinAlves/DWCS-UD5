@@ -191,7 +191,7 @@ declare(strict_types=1);
                                 </li>
                             <?php } ?>
                             <li class="page-item active"><a href="#" class="page-link"><?php echo $page ?></a></li>
-                            <?php if ($page !== $lastPage) { ?>
+                            <?php if ($page < $lastPage) { ?>
                                 <li class="page-item">
                                     <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page + 1)?>"
                                        class="page-link" aria-label="Next">
