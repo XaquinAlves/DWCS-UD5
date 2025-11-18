@@ -194,9 +194,33 @@ declare(strict_types=1);
                                     <td><?php echo $producto['pro_name'] ?></td>
                                     <td><?php echo $producto['cat'] ?></td>
                                     <td><?php echo $producto['prv_name'] ?></td>
-                                    <td class="d-none d-sm-table-cell"><?php echo $producto['coste'] ?></td>
-                                    <td class="d-none d-sm-table-cell"><?php echo $producto['margen'] ?></td>
-                                    <td class="d-none d-sm-table-cell"><?php echo $producto['pvp'] ?></td>
+                                    <td class="d-none d-sm-table-cell">
+                                        <?php echo number_format(
+                                            floatval($producto['coste']),
+                                            2,
+                                            ',',
+                                            '.'
+                                        )
+                                        ?>
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">
+                                        <?php echo number_format(
+                                            floatval($producto['margen']),
+                                            2,
+                                            ',',
+                                            '.'
+                                        )
+                                        ?>
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">
+                                        <?php echo number_format(
+                                            floatval($producto['pvp']),
+                                            2,
+                                            ',',
+                                            '.'
+                                        )
+                                        ?>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
