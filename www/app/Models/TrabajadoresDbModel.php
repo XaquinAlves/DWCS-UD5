@@ -264,4 +264,11 @@ class TrabajadoresDbModel extends BaseDbModel
         $statement = $this->pdo->prepare($sql);
         return $statement->execute($params);
     }
+
+    public function deleteUsuario(string $username): bool
+    {
+        $sql = "DELETE FROM trabajadores WHERE username = :username";
+        $statement = $this->pdo->prepare($sql);
+        return $statement->execute(['username' => $username]);
+    }
 }

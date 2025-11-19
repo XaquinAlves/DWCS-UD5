@@ -249,6 +249,13 @@ class TrabajadoresController extends BaseController
         }
     }
 
+    public function deleteUsuario(): void
+    {
+        $model = new TrabajadoresDbModel();
+        $model->deleteUsuario($_POST['input_nombre']);
+        $this->getUsuarios();
+    }
+
     private function checkInputUsuario(array $input, bool $editMode = false): array
     {
         $errors = [];

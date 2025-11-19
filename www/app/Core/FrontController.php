@@ -176,6 +176,15 @@ class FrontController
             'post'
         );
 
+        Route::add(
+            '/usuario-borrar',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->deleteUsuario();
+            },
+            'post'
+        );
+
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();
