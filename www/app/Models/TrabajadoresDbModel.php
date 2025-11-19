@@ -17,7 +17,8 @@ class TrabajadoresDbModel extends BaseDbModel
                 FROM trabajadores as tr 
                 LEFT JOIN aux_rol_trabajador as rol ON rol.id_rol = tr.id_rol 
                 LEFT JOIN aux_countries as co ON co.id = tr.id_country";
-    private const SELECT_FROM_USR = "SELECT u.username, rol.nombre_rol, u.salarioBruto, u.retencionIRPF, co.country_name
+    private const SELECT_FROM_USR = "SELECT u.username, rol.nombre_rol, u.salarioBruto, u.retencionIRPF,
+       co.country_name, u.activo
         FROM trabajadores AS u LEFT JOIN aux_rol_trabajador as rol ON u.id_rol = rol.id_rol
         LEFT JOIN aux_countries as co ON co.id = u.id_country";
     private const SELECT_COUNT = "SELECT COUNT(u.username) FROM trabajadores u";
@@ -218,5 +219,31 @@ class TrabajadoresDbModel extends BaseDbModel
         $results['params'] = $params;
         $results['sql'] = $sql;
         return $results;
+    }
+
+    public function insertUsuario(array $input): bool
+    {
+        $sql = "INSERT INTO trabajadores (username, salarioBruto, retencionIRPF, activo, id_rol, id_country) 
+            VALUES (:username, :salario, :retencion, :activo; :rol, :pais)";
+
+        $params = [
+            'username' => $input['input_nombre'],
+            'salario' => str_replace(',', '.', $input['input_salario']),
+            'retencion' => $input['input_irpf'],
+            'activo' => $input['input_activo'],
+            'rol' => $input['input_rol'],
+            'pais' => $input['input_pais']
+        ];
+
+        $statement = $this->pdo->prepare($sql);
+        return $statement->execute($params);
+    }
+
+    public function find(string $username): array|false
+    {
+        $sql = "SELECT * FROM trabajadores WHERE username = :username";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['username' => $username]);
+        return $statement->fetch();
     }
 }

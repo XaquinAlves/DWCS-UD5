@@ -158,7 +158,7 @@ declare(strict_types=1);
                         </thead>
                         <tbody>
                         <?php foreach ($listaUsuarios ?? [] as $usuario) { ?>
-                            <tr>
+                            <tr class="<?php echo !$usuario['activo'] ? 'bg-danger' : '' ?>">
                                 <td><?php echo $usuario['username'] ?></td>
                                 <td><?php echo $usuario['nombre_rol'] ?></td>
                                 <td><?php echo

@@ -13,4 +13,12 @@ class AuxPaisModel extends BaseDbModel
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
     }
+
+    public function find(int $id): array|false
+    {
+        $sql = "SELECT * FROM aux_countries WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch();
+    }
 }

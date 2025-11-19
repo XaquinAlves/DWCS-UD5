@@ -144,9 +144,18 @@ class FrontController
             '/usuario-alta',
             function () {
                 $controlador = new TrabajadoresController();
-                $controlador->altaUsuario();
+                $controlador->showAltaUsuario();
             },
             'get'
+        );
+
+        Route::add(
+            '/usuario-alta',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->doAltaUsuario();
+            },
+            'post'
         );
 
         Route::pathNotFound(

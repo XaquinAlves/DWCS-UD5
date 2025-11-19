@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 ?>
 <div class="row">
+    <?php if (isset($errors['error'])) { ?>
+    <div class="col-12 bg-gradient-danger">
+        <?php echo $errors['error'] ?>
+    </div>
+    <?php } ?>
     <div class="col-12">
         <!-- Card con textarea -->
         <div class="card shadow mb-4">
-            <form method="post" action="/alta-usuario">
+            <form method="post" action="/usuario-alta">
                 <!-- Card Header -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -22,6 +27,9 @@ declare(strict_types=1);
                                 <input type="text" class="form-control" name="input_nombre"
                                        id="input_nombre" value="<?php echo $input['input_nombre'] ?? ''  ?>" />
                             </div>
+                            <?php if (isset($errors['username'])) { ?>
+                                    <span class="text-danger"><?php echo $errors['username'] ?? '' ?></span>
+                            <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
@@ -31,20 +39,27 @@ declare(strict_types=1);
                                     <option value="">-</option>
                                     <?php foreach ($listaRoles ?? [] as $rol) { ?>
                                         <option value="<?php echo $rol['id_rol'] ?>" <?php echo
-                                        isset($_GET['input_rol']) && $_GET['input_rol'] == $rol['id_rol'] ?
+                                        isset($_POST['input_rol']) && $_POST['input_rol'] == $rol['id_rol'] ?
                                                 'selected' : '' ?>>
                                             <?php echo ucfirst($rol['nombre_rol']) ?>
                                         </option>
                                     <?php } ?>
                                 </select>
                             </div>
+                            <?php if (isset($errors['rol'])) { ?>
+                                    <span class="text-danger"><?php echo $errors['rol'] ?? '' ?></span>
+                            <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="rango_salario">Salario:</label>
+                                <label for="input_salario">Salario:</label>
                                 <input type="number" class="form-control" name="input_salario" id="input_salario"
-                                       value="<?php echo $input['input_salario'] ?? '' ?>" placeholder="Salario" />
+                                       value="<?php echo $input['input_salario'] ?? '' ?>" placeholder="Salario"
+                                       step="0.01"/>
                             </div>
+                            <?php if (isset($errors['salario'])) { ?>
+                                <span class="text-danger"><?php echo $errors['salario'] ?? '' ?></span>
+                            <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
@@ -52,6 +67,9 @@ declare(strict_types=1);
                                 <input type="number" class="form-control" name="input_irpf" id="input_irpf"
                                        value="<?php echo $input['input_irpf'] ?? '' ?>" placeholder="IRPF" />
                             </div>
+                            <?php if (isset($errors['irpf'])) { ?>
+                                <span class="text-danger"><?php echo $errors['irpf'] ?? '' ?></span>
+                            <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
@@ -60,13 +78,28 @@ declare(strict_types=1);
                                         data-placeholder="Pais">
                                     <option value="">-</option>
                                     <?php foreach ($listaPaises ?? [] as $pais) { ?>
-                                        <option value="<?php echo $pais['id'] ?>" <?php echo isset($_GET['input_pais'])
-                                        && in_array($pais['id'], $_GET['input_pais']) ? 'selected' : '' ?>>
+                                        <option value="<?php echo $pais['id'] ?>" <?php echo isset($_POST['input_pais'])
+                                        && $pais['id'] == $_POST['input_pais'] ? 'selected' : '' ?>>
                                             <?php echo ucfirst($pais['country_name']) ?>
                                         </option>
                                     <?php } ?>
                                 </select>
                             </div>
+                            <?php if (isset($errors['pais'])) { ?>
+                                <span class="text-danger"><?php echo $errors['pais'] ?? '' ?></span>
+                            <?php } ?>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3 row">
+                                <label for="input_activo">Activo:</label>
+                                <select class="form-control" name="input_activo" id="input_activo">
+                                    <option value="1">Si</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <?php if (isset($errors['activo'])) { ?>
+                                <span class="text-danger"><?php echo $errors['activo'] ?? '' ?></span>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -74,6 +107,7 @@ declare(strict_types=1);
                 <div class="card-footer">
                     <div class="col-12 text-right">
                         <input type="submit" value="Enviar" name="enviar" class="btn btn-primary ml-2"/>
+                        <a href="/usuarios" class="btn btn-danger">Cancelar</a>
                     </div>
                 </div>
             </form>

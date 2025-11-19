@@ -169,9 +169,8 @@ class TrabajadoresController extends BaseController
             'templates/footer.view.php'), $data);
     }
 
-    public function altaUsuario(): void
+    public function showAltaUsuario(array $errors = [], array $input = []): void
     {
-        $model = new TrabajadoresDbModel();
         $modelAuxRol = new AuxRolTrabajadorModel();
         $modelAuxPais = new AuxPaisModel();
 
@@ -180,12 +179,100 @@ class TrabajadoresController extends BaseController
             'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
             'seccion' => '/usuarios-alta',
             'tituloEjercicio' => 'Datos del usuario',
-            'listaUsuarios' => $model->getByFilters($_GET),
             'listaRoles' => $modelAuxRol->getAll(),
-            'listaPaises' => $modelAuxPais->getAll()
+            'listaPaises' => $modelAuxPais->getAll(),
+            'input' => $input
         );
+
+        if ($errors !== []) {
+            $data['errors'] = $errors;
+        }
 
         $this->view->showViews(array('templates/header.view.php', 'usuario-alta.view.php',
             'templates/footer.view.php'), $data);
+    }
+
+    public function doAltaUsuario(): void
+    {
+        $errors = $this->checkInputUsuario($_POST);
+
+        if ($errors === []) {
+            $model = new TrabajadoresDbModel();
+            if ($model->insertUsuario($_POST)) {
+                $this->getUsuarios();
+            } else {
+                $this->showAltaUsuario(['error' => 'Error al insertar el usuario'], $_POST);
+            }
+        } else {
+            $this->showAltaUsuario($errors, $_POST);
+        }
+    }
+
+    private function checkInputUsuario(array $input): array
+    {
+        $errors = [];
+
+        if (empty($input['input_nombre'])) {
+            $errors['username'] = "El nombre de usuario es obligatorio";
+        } elseif (!preg_match('/^\w{4,50}$/iu', $input['input_nombre'])) {
+            $errors['username'] = "El nombre debe estar formado por letras, números o _ y tener entre 4 y
+            50 caracteres";
+        } else {
+            $model = new TrabajadoresDbModel();
+            if ($model->find($input['input_nombre']) !== false) {
+                $errors['username'] = "El nombre de usuario ya existe";
+            }
+        }
+
+        if (empty($input['input_salario'])) {
+            $errors['salario'] = "El salario es obligatorio";
+        } elseif (!preg_match('/^\d+(,\d{1,2})?/iu', $input['input_salario'])) {
+            $errors['salario'] = "El salario debe ser un número con dos decimales como máximo, separados por coma";
+        } else {
+            $salario = (str_replace(',', '.', $input['input_salario']));
+            if ($salario < 500) {
+                $errors['salario'] = "El salario debe ser mayor a 500";
+            }
+        }
+
+        if (empty($input['input_irpf'])) {
+            $errors['irpf'] = "El IRPF es obligatorio";
+        } elseif (filter_var($input['input_irpf'], FILTER_VALIDATE_INT) === false) {
+            $errors['irpf'] = "El IRPF debe ser un numero entero entre 0 y 100";
+        } else {
+            if ($input['input_irpf'] < 0 || $input['input_irpf'] > 100) {
+                $errors['irpf'] = "El IRPF debe ser un numero entero entre 0 y 100";
+            }
+        }
+
+        if (!isset($input['input_activo'])) {
+            $errors['activo'] = "Seleccione si el trabajador está activo";
+        } elseif (filter_var($input['input_activo'], FILTER_VALIDATE_BOOL, [FILTER_NULL_ON_FAILURE]) === null) {
+            $errors['activo'] = "El formato de activo es incorrecto";
+        }
+
+        if (empty($input['input_rol'])) {
+            $errors['rol'] = "El rol es obligatorio";
+        } elseif (filter_var($input['input_rol'], FILTER_VALIDATE_INT) === false) {
+            $errors['rol'] = "El rol introducido no es válido";
+        } else {
+            $modelAuxRol = new AuxRolTrabajadorModel();
+            if ($modelAuxRol->find(intval($input['input_rol'])) === false) {
+                $errors['rol'] = "El rol no existe";
+            }
+        }
+
+        if (empty($input['input_pais'])) {
+            $errors['pais'] = "El pais es obligatorio";
+        } elseif (filter_var($input['input_pais'], FILTER_VALIDATE_INT) === false) {
+            $errors['pais'] = "El pais introducido no es válido";
+        } else {
+            $modelAuxPais = new AuxPaisModel();
+            if ($modelAuxPais->find(intval($input['input_pais'])) === false) {
+                $errors['pais'] = "El pais no existe";
+            }
+        }
+
+        return $errors;
     }
 }
