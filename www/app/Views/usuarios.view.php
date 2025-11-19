@@ -159,7 +159,11 @@ declare(strict_types=1);
                         <tbody>
                         <?php foreach ($listaUsuarios ?? [] as $usuario) { ?>
                             <tr class="<?php echo !$usuario['activo'] ? 'bg-danger' : '' ?>">
-                                <td><?php echo $usuario['username'] ?></td>
+                                <td>
+                                    <a href="/usuario-editar?input_nombre=<?php echo $usuario['username'] ?>">
+                                        <?php echo $usuario['username'] ?>
+                                    </a>
+                                </td>
                                 <td><?php echo $usuario['nombre_rol'] ?></td>
                                 <td><?php echo
                                     number_format(floatval($usuario['salarioBruto']), 2, ',', '.')

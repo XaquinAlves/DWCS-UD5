@@ -208,6 +208,31 @@ class TrabajadoresController extends BaseController
         }
     }
 
+    public function showEditUsuario(array $errors = [], array $input = []): void
+    {
+        $modelAuxRol = new AuxRolTrabajadorModel();
+        $modelAuxPais = new AuxPaisModel();
+        $model = new TrabajadoresDbModel();
+        $user = $model->find($_GET['input_nombre']);
+        $data = array(
+            'titulo' => 'Edición de usuario',
+            'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
+            'seccion' => '/usuarios-alta',
+            'listaRoles' => $modelAuxRol->getAll(),
+            'listaPaises' => $modelAuxPais->getAll(),
+            'input' => $input,
+            'usuario' => $user,
+            'tituloEjercicio' => 'Datos del usuario ' . $user['username']
+        );
+
+        if ($errors !== []) {
+            $data['errors'] = $errors;
+        }
+
+        $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
     private function checkInputUsuario(array $input): array
     {
         $errors = [];

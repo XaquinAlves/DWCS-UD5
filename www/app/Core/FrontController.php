@@ -158,6 +158,24 @@ class FrontController
             'post'
         );
 
+        Route::add(
+            '/usuario-editar',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->showEditUsuario();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/usuario-editar',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->doEditUsuario();
+            },
+            'post'
+        );
+
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();
