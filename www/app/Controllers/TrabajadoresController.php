@@ -233,7 +233,23 @@ class TrabajadoresController extends BaseController
             'templates/footer.view.php'), $data);
     }
 
-    private function checkInputUsuario(array $input): array
+    public function doEditUsuario(): void
+    {
+        $errors = $this->checkInputUsuario($_POST, true);
+
+        if ($errors === []) {
+            $model = new TrabajadoresDbModel();
+            if ($model->updateUsuario($_POST)) {
+                $this->getUsuarios();
+            } else {
+                $this->showEditUsuario(['error' => 'Error al insertar el usuario'], $_POST);
+            }
+        } else {
+            $this->showEditUsuario($errors, $_POST);
+        }
+    }
+
+    private function checkInputUsuario(array $input, bool $editMode = false): array
     {
         $errors = [];
 
@@ -242,7 +258,7 @@ class TrabajadoresController extends BaseController
         } elseif (!preg_match('/^\w{4,50}$/iu', $input['input_nombre'])) {
             $errors['username'] = "El nombre debe estar formado por letras, números o _ y tener entre 4 y
             50 caracteres";
-        } else {
+        } elseif (!$editMode) {
             $model = new TrabajadoresDbModel();
             if ($model->find($input['input_nombre']) !== false) {
                 $errors['username'] = "El nombre de usuario ya existe";

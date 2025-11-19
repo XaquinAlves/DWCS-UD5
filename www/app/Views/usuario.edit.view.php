@@ -26,7 +26,12 @@ declare(strict_types=1);
                                 <label for="input_nombre">Nombre de usuario:</label>
                                 <input type="text" class="form-control" name="input_nombre"
                                        id="input_nombre" value="<?php echo $input['input_nombre'] ??
-                                        $usuario['username'] ?? '' ?>" />
+                                        $usuario['username'] ?? '' ?>" <?php echo isset($usuario) ? 'hidden' : '' ?>/>
+                                <?php if (isset($usuario)) { ?>
+                                    <input type="text" class="form-control" name="input_nombre"
+                                           id="input_nombre" value="<?php echo $usuario['username'] ?? '' ?>"
+                                           disabled />
+                                <?php } ?>
                             </div>
                             <?php if (isset($errors['username'])) { ?>
                                     <span class="text-danger"><?php echo $errors['username'] ?? '' ?></span>
@@ -68,7 +73,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="input_irpf">Porcentaje de retención:</label>
                                 <input type="number" class="form-control" name="input_irpf" id="input_irpf"
-                                       value="<?php echo $input['input_irpf'] ??  $usuario['retencionIRPF'] ??
+                                       value="<?php echo $input['input_irpf'] ??  intval($usuario['retencionIRPF']) ??
                                                '' ?>" placeholder="IRPF" />
                             </div>
                             <?php if (isset($errors['irpf'])) { ?>
@@ -101,12 +106,14 @@ declare(strict_types=1);
                                 <select class="form-control" name="input_activo" id="input_activo">
                                     <option value="1"
                                             <?php echo ((isset($_POST['input_activo']) && $_POST['input_activo'] == 1)
-                                                    || (isset($usuario['activo']) && $usuario['activo'] == 1))?>>
+                                                    || (isset($usuario['activo']) && $usuario['activo'] == 1)) ?
+                                                    'selected' : ''?>>
                                         Si
                                     </option>
                                     <option value="0"
                                             <?php echo ((isset($_POST['input_activo']) && $_POST['input_activo'] == 0)
-                                            || (isset($usuario['activo']) && $usuario['activo'] == 0))?>>
+                                            || (isset($usuario['activo']) && $usuario['activo'] == 0)) ?
+                                                    'selected' : '' ?>>
                                         No
                                     </option>
                                 </select>
