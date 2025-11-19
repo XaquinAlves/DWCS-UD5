@@ -224,7 +224,7 @@ class TrabajadoresDbModel extends BaseDbModel
     public function insertUsuario(array $input): bool
     {
         $sql = "INSERT INTO trabajadores (username, salarioBruto, retencionIRPF, activo, id_rol, id_country) 
-            VALUES (:username, :salario, :retencion, :activo; :rol, :pais)";
+            VALUES (:username, :salario, :retencion, :activo, :rol, :pais)";
 
         $params = [
             'username' => $input['input_nombre'],
