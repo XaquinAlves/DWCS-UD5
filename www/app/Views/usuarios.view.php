@@ -160,7 +160,8 @@ declare(strict_types=1);
                         <?php foreach ($listaUsuarios ?? [] as $usuario) { ?>
                             <tr class="<?php echo !$usuario['activo'] ? 'bg-danger' : '' ?>">
                                 <td>
-                                    <a href="/usuario-editar?input_nombre=<?php echo $usuario['username'] ?>">
+                                    <a href="/usuario-editar?input_nombre=<?php echo $usuario['username'] ?>"
+                                       style="text-decoration: grey underline; color: black" >
                                         <?php echo $usuario['username'] ?>
                                     </a>
                                 </td>
