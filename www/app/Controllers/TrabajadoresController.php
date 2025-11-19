@@ -188,7 +188,7 @@ class TrabajadoresController extends BaseController
             $data['errors'] = $errors;
         }
 
-        $this->view->showViews(array('templates/header.view.php', 'usuario-alta.view.php',
+        $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
             'templates/footer.view.php'), $data);
     }
 
