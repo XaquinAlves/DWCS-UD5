@@ -256,6 +256,28 @@ class TrabajadoresController extends BaseController
         $this->getUsuarios();
     }
 
+    public function activarUsuario(): void
+    {
+        $model = new TrabajadoresDbModel();
+        $user = $model->find($_GET['nombre']);
+        $params = [
+            'input_salario' => $user['salarioBruto'],
+            'input_irpf' => $user['retencionIRPF'],
+            'input_rol' => $user['id_rol'],
+            'input_pais' => $user['id_country'],
+            'input_nombre' => $user['username'],
+        ];
+
+        if ($user['activo'] == 1) {
+            $params['input_activo'] = 0;
+        } else {
+            $params['input_activo'] = 1;
+        }
+
+        $model->updateUsuario($params);
+        $this->getUsuarios();
+    }
+
     private function checkInputUsuario(array $input, bool $editMode = false): array
     {
         $errors = [];

@@ -185,6 +185,15 @@ class FrontController
             'get'
         );
 
+        Route::add(
+            '/usuario-activar',
+            function () {
+                $controlador = new TrabajadoresController();
+                $controlador->activarUsuario();
+            },
+            'get'
+        );
+
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();

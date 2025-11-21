@@ -176,6 +176,11 @@ declare(strict_types=1);
                                         class="btn btn-success">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                    <a href="/usuario-activar?nombre=<?php echo $usuario['username'] ?>"
+                                       class="btn <?php echo $usuario['activo'] ? 'btn-danger' : 'btn-success' ?>">
+                                        <i class="fas <?php echo
+                                        $usuario['activo'] ? 'fa-times' : 'fa-check' ?>"></i>
+                                    </a>
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn <?php echo
                                         $usuario['activo'] ? 'btn-danger' : 'btn-warning' ?>"
