@@ -74,7 +74,7 @@ declare(strict_types=1);
                                 <label for="input_irpf">Porcentaje de retención:</label>
                                 <input type="number" class="form-control" name="input_irpf" id="input_irpf"
                                        value="<?php echo $input['input_irpf'] ??
-                                              ($usuario['retencionIRPF'] ?? '')
+                                              (intval($usuario['retencionIRPF']) ?? '')
                                         ?>" placeholder="IRPF" />
                             </div>
                             <?php if (isset($errors['irpf'])) { ?>
@@ -127,6 +127,10 @@ declare(strict_types=1);
                 </div>
                 <!-- Card footer -->
                 <div class="card-footer">
+                    <div class="col-12 text-right">
+                        <input type="submit" value="Guardar" name="enviar" class="btn btn-primary ml-2"/>
+                        <a href="/usuarios" class="btn btn-danger">Cancelar</a>
+                    </div>
                 </div>
             </form>
         </div>
