@@ -154,6 +154,7 @@ declare(strict_types=1);
                                             ($ordenar === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -173,6 +174,43 @@ declare(strict_types=1);
                                         number_format(floatval($usuario['retencionIRPF']), 0, ',', '.') . '%'
                                 ?></td>
                                 <td><?php echo $usuario['country_name'] ?></td>
+                                <td>
+                                    <a href="/usuario-editar?input_nombre=<?php echo $usuario['username'] ?>"
+                                        class="btn btn-success">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="col-12">
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                            ¿Estás seguro de borrar el usuario <?php echo $usuario['username'] ?>?
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                            Cancelar
+                                                        </button>
+                                                        <a href="/usuario-borrar?nombre=<?php echo $usuario['username'] ?>" class="btn btn-danger">
+                                                            Confirmar
+                                                        <a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         <?php } ?>
                         </tbody>

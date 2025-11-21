@@ -252,7 +252,7 @@ class TrabajadoresController extends BaseController
     public function deleteUsuario(): void
     {
         $model = new TrabajadoresDbModel();
-        $model->deleteUsuario($_POST['input_nombre']);
+        $model->deleteUsuario($_GET['nombre']);
         $this->getUsuarios();
     }
 

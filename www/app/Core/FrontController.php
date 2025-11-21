@@ -182,7 +182,7 @@ class FrontController
                 $controlador = new TrabajadoresController();
                 $controlador->deleteUsuario();
             },
-            'post'
+            'get'
         );
 
         Route::pathNotFound(
