@@ -74,7 +74,7 @@ declare(strict_types=1);
                                 <label for="input_irpf">Porcentaje de retención:</label>
                                 <input type="number" class="form-control" name="input_irpf" id="input_irpf"
                                        value="<?php echo $input['input_irpf'] ??
-                                               isset($usuario['retencionIRPF']) ? intval($usuario['retencionIRPF']) : ''
+                                              ($usuario['retencionIRPF'] ?? '')
                                         ?>" placeholder="IRPF" />
                             </div>
                             <?php if (isset($errors['irpf'])) { ?>
@@ -127,42 +127,6 @@ declare(strict_types=1);
                 </div>
                 <!-- Card footer -->
                 <div class="card-footer">
-                    <div class="col-12 text-right">
-                        <?php if (isset($usuario)) { ?>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-warning float-left" data-toggle="modal"
-                                    data-target="#exampleModal">
-                                Borrar usuario
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">
-                                                ¿Estás seguro de borrar el usuario <?php echo $usuario['username'] ?>?
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                Cancelar
-                                            </button>
-                                            <button type="submit" formaction="/usuario-borrar"
-                                                    class="btn btn-warning float-left">
-                                                Confirmar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                        <input type="submit" value="Guardar" name="enviar" class="btn btn-primary ml-2"/>
-                        <a href="/usuarios" class="btn btn-danger">Cancelar</a>
-                    </div>
                 </div>
             </form>
         </div>
