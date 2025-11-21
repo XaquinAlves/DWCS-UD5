@@ -156,7 +156,11 @@ declare(strict_types=1);
                             </th>
                             <th colspan="3">Acciones</th>
                         </tr>
-                        <tr></tr>
+                        <tr>
+                            <th>Editar</th>
+                            <th>Activar/Desactivar</th>
+                            <th>Borrar</th>
+                        </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($listaUsuarios ?? [] as $usuario) { ?>
@@ -177,11 +181,15 @@ declare(strict_types=1);
                                         class="btn btn-success">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                </td>
+                                <td>
                                     <a href="/usuario-activar?nombre=<?php echo $usuario['username'] ?>"
                                        class="btn <?php echo $usuario['activo'] ? 'btn-danger' : 'btn-success' ?>">
                                         <i class="fas <?php echo
                                         $usuario['activo'] ? 'fa-times' : 'fa-check' ?>"></i>
                                     </a>
+                                </td>
+                                <td>
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn <?php echo
                                         $usuario['activo'] ? 'btn-danger' : 'btn-warning' ?>"
