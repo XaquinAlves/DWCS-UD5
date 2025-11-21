@@ -161,10 +161,7 @@ declare(strict_types=1);
                         <?php foreach ($listaUsuarios ?? [] as $usuario) { ?>
                             <tr class="<?php echo !$usuario['activo'] ? 'bg-danger' : '' ?>">
                                 <td>
-                                    <a href="/usuario-editar?input_nombre=<?php echo $usuario['username'] ?>"
-                                       style="text-decoration: grey underline; color: black" >
-                                        <?php echo $usuario['username'] ?>
-                                    </a>
+                                    <?php echo $usuario['username'] ?>
                                 </td>
                                 <td><?php echo $usuario['nombre_rol'] ?></td>
                                 <td><?php echo
@@ -180,8 +177,9 @@ declare(strict_types=1);
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#exampleModal">
+                                    <button type="button" class="btn <?php echo
+                                        $usuario['activo'] ? 'btn-danger' : 'btn-warning' ?>"
+                                            data-toggle="modal" data-target="#exampleModal">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     <!-- Modal -->
