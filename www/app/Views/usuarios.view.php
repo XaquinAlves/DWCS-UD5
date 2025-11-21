@@ -192,17 +192,21 @@ declare(strict_types=1);
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="exampleModalLabel">
-                                                            ¿Estás seguro de borrar el usuario <?php echo $usuario['username'] ?>?
+                                                            ¿Estás seguro de borrar el usuario <?php echo
+                                                            $usuario['username'] ?>?
                                                         </h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">
                                                             Cancelar
                                                         </button>
-                                                        <a href="/usuario-borrar?nombre=<?php echo $usuario['username'] ?>" class="btn btn-danger">
+                                                        <a href="/usuario-borrar?nombre=<?php echo
+                                                        $usuario['username'] ?>" class="btn btn-danger">
                                                             Confirmar
                                                         <a>
                                                     </div>
