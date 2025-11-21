@@ -199,7 +199,7 @@ class TrabajadoresController extends BaseController
         if ($errors === []) {
             $model = new TrabajadoresDbModel();
             if ($model->insertUsuario($_POST)) {
-                $this->getUsuarios();
+                header('location: /usuarios');
             } else {
                 $this->showAltaUsuario(['error' => 'Error al insertar el usuario'], $_POST);
             }
@@ -240,7 +240,7 @@ class TrabajadoresController extends BaseController
         if ($errors === []) {
             $model = new TrabajadoresDbModel();
             if ($model->updateUsuario($_POST)) {
-                $this->getUsuarios();
+                header('location: /usuarios');
             } else {
                 $this->showEditUsuario(['error' => 'Error al insertar el usuario'], $_POST);
             }
@@ -253,7 +253,7 @@ class TrabajadoresController extends BaseController
     {
         $model = new TrabajadoresDbModel();
         $model->deleteUsuario($_GET['nombre']);
-        $this->getUsuarios();
+        header('location: /usuarios');
     }
 
     public function activarUsuario(): void
@@ -275,7 +275,7 @@ class TrabajadoresController extends BaseController
         }
 
         $model->updateUsuario($params);
-        $this->getUsuarios();
+        header('location: /usuarios');
     }
 
     private function checkInputUsuario(array $input, bool $editMode = false): array

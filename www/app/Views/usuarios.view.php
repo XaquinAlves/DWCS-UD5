@@ -114,7 +114,7 @@ declare(strict_types=1);
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th>
+                            <th rowspan="2">
                                 <a href="<?php echo $url ?? '';
                                     echo $ordenar === 1 ? '&ordenar=2' : '&ordenar=1'; ?>">
                                     Nombre de usuario <?php echo $ordenar === 1 ?
@@ -122,7 +122,7 @@ declare(strict_types=1);
                                             ($ordenar === 2 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
-                            <th>
+                            <th rowspan="2">
                                 <a href="<?php echo $url ?? '';
                                     echo $ordenar === 3 ? '&ordenar=4' : '&ordenar=3'; ?>?>">
                                     Tipo de usuario <?php echo $ordenar === 3 ?
@@ -130,7 +130,7 @@ declare(strict_types=1);
                                             ($ordenar === 4 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
-                            <th>
+                            <th rowspan="2">
                                 <a href="<?php echo $url ?? '';
                                     echo $ordenar === 5 ? '&ordenar=6 ' : '&ordenar=5'; ?>?>">
                                     Salario <?php echo $ordenar === 5 ?
@@ -138,7 +138,7 @@ declare(strict_types=1);
                                             ($ordenar === 6 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
-                            <th>
+                            <th rowspan="2">
                                 <a href="<?php echo $url ?? '';
                                     echo $ordenar === 7 ? '&ordenar=8' : '&ordenar=7'; ?>?>">
                                     Cotización <?php echo $ordenar === 7 ?
@@ -146,7 +146,7 @@ declare(strict_types=1);
                                             ($ordenar === 8 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
-                            <th>
+                            <th rowspan="2">
                                 <a href="<?php echo $url ?? '';
                                     echo $ordenar === 9 ? '&ordenar=10' : '&ordenar=9'; ?>?>">
                                     País <?php echo $ordenar === 9 ?
@@ -154,8 +154,9 @@ declare(strict_types=1);
                                             ($ordenar === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
-                            <th>Acciones</th>
+                            <th colspan="3">Acciones</th>
                         </tr>
+                        <tr></tr>
                         </thead>
                         <tbody>
                         <?php foreach ($listaUsuarios ?? [] as $usuario) { ?>
