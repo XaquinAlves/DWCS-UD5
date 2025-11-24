@@ -28,7 +28,7 @@ declare(strict_types=1);
                                        id="username" value="<?php echo $input['username'] ?? '' ?>"/>
                             </div>
                             <?php if (isset($errors['username'])) { ?>
-                                    <span class="text-danger"><?php echo $errors['username'] ?? '' ?></span>
+                                    <span class="text-danger"><?php echo $errors['username'] ?></span>
                             <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -47,7 +47,7 @@ declare(strict_types=1);
                                 </select>
                             </div>
                             <?php if (isset($errors['rol'])) { ?>
-                                    <span class="text-danger"><?php echo $errors['rol'] ?? '' ?></span>
+                                    <span class="text-danger"><?php echo $errors['rol'] ?></span>
                             <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -58,7 +58,7 @@ declare(strict_types=1);
                                        step="0.01"/>
                             </div>
                             <?php if (isset($errors['salario'])) { ?>
-                                <span class="text-danger"><?php echo $errors['salario'] ?? '' ?></span>
+                                <span class="text-danger"><?php echo $errors['salario']?></span>
                             <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -69,7 +69,7 @@ declare(strict_types=1);
                                                intval($input['retencionIRPF']) : ''  ?>" placeholder="IRPF" />
                             </div>
                             <?php if (isset($errors['irpf'])) { ?>
-                                <span class="text-danger"><?php echo $errors['irpf'] ?? '' ?></span>
+                                <span class="text-danger"><?php echo $errors['irpf'] ?></span>
                             <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -89,7 +89,7 @@ declare(strict_types=1);
                                 </select>
                             </div>
                             <?php if (isset($errors['pais'])) { ?>
-                                <span class="text-danger"><?php echo $errors['pais'] ?? '' ?></span>
+                                <span class="text-danger"><?php echo $errors['pais'] ?></span>
                             <?php } ?>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -109,7 +109,7 @@ declare(strict_types=1);
                                 </select>
                             </div>
                             <?php if (isset($errors['activo'])) { ?>
-                                <span class="text-danger"><?php echo $errors['activo'] ?? '' ?></span>
+                                <span class="text-danger"><?php echo $errors['activo'] ?></span>
                             <?php } ?>
                         </div>
                     </div>
