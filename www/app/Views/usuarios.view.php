@@ -197,37 +197,37 @@ declare(strict_types=1);
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="<?php echo $usuario['username'] ?>Modal"
-                                         tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                         aria-hidden="true">
-                                         <div class="modal-dialog" role="document">
-                                             <div class="modal-content">
-                                                 <div class="modal-header">
-                                                     <h5 class="modal-title"
-                                                         id="<?php echo $usuario['username'] ?>ModalLabel">
-                                                         ¿Estás seguro de borrar el usuario <?php echo
-                                                         $usuario['username'] ?>?
-                                                     </h5>
-                                                     <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                     </button>
-                                                 </div>
-                                                 <div class="modal-footer">
-                                                     <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">
-                                                         Cancelar
-                                                     </button>
-                                                     <a href="/usuarios/borrar/<?php echo $usuario['username'] ?>"
-                                                           class="btn btn-danger">
-                                                         Confirmar
-                                                     <a>
-                                                 </div>
-                                                </div>
-                                         </div>
-                                    </div>
                                 </td>
                             </tr>
+                            <div class="modal fade" id="<?php echo $usuario['username'] ?>Modal"
+                                 tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"
+                                                id="<?php echo $usuario['username'] ?>ModalLabel">
+                                                ¿Estás seguro de borrar el usuario <?php echo
+                                                $usuario['username'] ?>?
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">
+                                                Cancelar
+                                            </button>
+                                            <a href="/usuarios/borrar/<?php echo $usuario['username'] ?>"
+                                               class="btn btn-danger">
+                                                Confirmar
+                                                <a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php } ?>
                         </tbody>
                     </table>

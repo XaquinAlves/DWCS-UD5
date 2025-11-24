@@ -274,12 +274,12 @@ class TrabajadoresController extends BaseController
         $user = $model->find($username);
 
         if ($user['activo'] == 1) {
-            $params['activo'] = 0;
+            $user['activo'] = 0;
         } else {
-            $params['activo'] = 1;
+            $user['activo'] = 1;
         }
 
-        $model->updateUsuario($params);
+        $model->updateUsuario($user);
         header('location: /usuarios');
     }
 
