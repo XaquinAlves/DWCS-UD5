@@ -269,6 +269,10 @@ class TrabajadoresDbModel extends BaseDbModel
     {
         $sql = "DELETE FROM trabajadores WHERE username = :username";
         $statement = $this->pdo->prepare($sql);
-        return $statement->execute(['username' => $username]);
+        if ($statement->execute(['username' => $username])) {
+            return $this->pdo->rowCount() === 1;
+        } else {
+            return false;
+        }
     }
 }

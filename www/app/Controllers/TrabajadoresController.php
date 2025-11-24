@@ -264,8 +264,11 @@ class TrabajadoresController extends BaseController
     public function deleteUsuario(string $username): void
     {
         $model = new TrabajadoresDbModel();
-        $model->deleteUsuario($username);
-        header('location: /usuarios');
+        if ($model->deleteUsuario($username)) {
+            header('location: /usuarios');
+        } else {
+            header('location: /usuarios');
+        }
     }
 
     public function activarUsuario(string $username): void
