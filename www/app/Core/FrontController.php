@@ -212,6 +212,23 @@ class FrontController
             'post'
         );
 
+        Route::add(
+            '/temas/(\/?[\w-]{0,50})',
+            function ($url) {
+                $controlador = new InicioController();
+                $controlador->doSeleccionarTemaModal($url);
+            },
+            'post'
+        );
+
+        Route::add(
+            '/temas/(\/?[\w-]{0,50})',
+            function ($url) {
+                $controlador = new InicioController();
+                $controlador->doSeleccionarTemaModal($url);
+            },
+            'get'
+        );
 
         Route::pathNotFound(
             function () {

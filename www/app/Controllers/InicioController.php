@@ -52,4 +52,12 @@ class InicioController extends \Com\Daw2\Core\BaseController
 
         header('location: /');
     }
+
+    public function doSeleccionarTemaModal(string $url): void
+    {
+        if (isset($_POST['tema'])) {
+            setcookie('tema', $_POST['tema'], time() + 3600 * 24, '/');
+        }
+        header('location: /' . $url);
+    }
 }

@@ -128,7 +128,7 @@
 <section class="content">
       <div class="container-fluid">
           <!-- Modal -->
-          <form method="post" action="/panel/temas">
+          <form method="post" action="/temas<?php echo $_SERVER['REQUEST_URI'] ?>">
               <div class="modal fade" id="temaModal" tabindex="-1" role="dialog" aria-labelledby="temaModalLabel"
                    aria-hidden="true">
                   <div class="modal-dialog" role="document">
