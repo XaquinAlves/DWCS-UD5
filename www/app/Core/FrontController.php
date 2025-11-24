@@ -141,7 +141,7 @@ class FrontController
         );
 
         Route::add(
-            '/usuario-alta',
+            '/usuarios/alta',
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->showAltaUsuario();
@@ -150,7 +150,7 @@ class FrontController
         );
 
         Route::add(
-            '/usuario-alta',
+            '/usuarios/alta',
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->doAltaUsuario();
@@ -159,16 +159,16 @@ class FrontController
         );
 
         Route::add(
-            '/usuario-editar',
-            function () {
+            '/usuarios/editar/(\w{3,50})',
+            function ($username) {
                 $controlador = new TrabajadoresController();
-                $controlador->showEditUsuario();
+                $controlador->showEditUsuario($username);
             },
             'get'
         );
 
         Route::add(
-            '/usuario-editar',
+            '/usuarios/editar/(\w{3,50})',
             function () {
                 $controlador = new TrabajadoresController();
                 $controlador->doEditUsuario();
@@ -177,19 +177,19 @@ class FrontController
         );
 
         Route::add(
-            '/usuario-borrar',
-            function () {
+            '/usuarios/borrar/(\w{3,50})',
+            function ($username) {
                 $controlador = new TrabajadoresController();
-                $controlador->deleteUsuario();
+                $controlador->deleteUsuario($username);
             },
             'get'
         );
 
         Route::add(
-            '/usuario-activar',
-            function () {
+            '/usuarios/activar/(\w{3,50})',
+            function ($username) {
                 $controlador = new TrabajadoresController();
-                $controlador->activarUsuario();
+                $controlador->activarUsuario($username);
             },
             'get'
         );

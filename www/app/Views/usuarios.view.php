@@ -89,7 +89,7 @@ declare(strict_types=1);
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-6 text-left">
-                            <a href="/usuario-alta" class="btn btn-primary">Añadir usuario</a>
+                            <a href="/usuarios/alta" class="btn btn-primary">Añadir usuario</a>
                         </div>
                         <div class="col-6 text-right">
                             <a href="/usuarios" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
@@ -177,13 +177,13 @@ declare(strict_types=1);
                                 ?></td>
                                 <td><?php echo $usuario['country_name'] ?></td>
                                 <td>
-                                    <a href="/usuario-editar?input_nombre=<?php echo $usuario['username'] ?>"
+                                    <a href="/usuarios/editar/<?php echo $usuario['username'] ?>"
                                         class="btn btn-success">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="/usuario-activar?nombre=<?php echo $usuario['username'] ?>"
+                                    <a href="/usuarios/activar/<?php echo $usuario['username'] ?>"
                                        class="btn <?php echo $usuario['activo'] ? 'btn-danger' : 'btn-success' ?>">
                                         <i class="fas <?php echo
                                         $usuario['activo'] ? 'fa-times' : 'fa-check' ?>"></i>
@@ -193,38 +193,38 @@ declare(strict_types=1);
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn <?php echo
                                         $usuario['activo'] ? 'btn-danger' : 'btn-warning' ?>"
-                                            data-toggle="modal" data-target="#exampleModal">
+                                            data-toggle="modal" data-target="#<?php echo $usuario['username'] ?>Modal">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     <!-- Modal -->
-                                    <div class="col-12">
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">
-                                                            ¿Estás seguro de borrar el usuario <?php echo
-                                                            $usuario['username'] ?>?
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
+                                    <div class="modal fade" id="<?php echo $usuario['username'] ?>Modal"
+                                         tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true">
+                                         <div class="modal-dialog" role="document">
+                                             <div class="modal-content">
+                                                 <div class="modal-header">
+                                                     <h5 class="modal-title"
+                                                         id="<?php echo $usuario['username'] ?>ModalLabel">
+                                                         ¿Estás seguro de borrar el usuario <?php echo
+                                                         $usuario['username'] ?>?
+                                                     </h5>
+                                                     <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
+                                                     </button>
+                                                 </div>
+                                                 <div class="modal-footer">
+                                                     <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">
-                                                            Cancelar
-                                                        </button>
-                                                        <a href="/usuario-borrar?nombre=<?php echo
-                                                        $usuario['username'] ?>" class="btn btn-danger">
-                                                            Confirmar
-                                                        <a>
-                                                    </div>
+                                                         Cancelar
+                                                     </button>
+                                                     <a href="/usuarios/borrar/<?php echo $usuario['username'] ?>"
+                                                           class="btn btn-danger">
+                                                         Confirmar
+                                                     <a>
+                                                 </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                         </div>
                                     </div>
                                 </td>
                             </tr>

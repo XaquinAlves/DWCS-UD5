@@ -208,29 +208,33 @@ class TrabajadoresController extends BaseController
         }
     }
 
-    public function showEditUsuario(array $errors = [], array $input = []): void
+    public function showEditUsuario(string $username, array $errors = [], array $input = []): void
     {
         $modelAuxRol = new AuxRolTrabajadorModel();
         $modelAuxPais = new AuxPaisModel();
         $model = new TrabajadoresDbModel();
-        $user = $model->find($_GET['input_nombre']);
-        $data = array(
-            'titulo' => 'Edición de usuario',
-            'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
-            'seccion' => '/usuarios-alta',
-            'listaRoles' => $modelAuxRol->getAll(),
-            'listaPaises' => $modelAuxPais->getAll(),
-            'input' => $input,
-            'usuario' => $user,
-            'tituloEjercicio' => 'Datos del usuario ' . $user['username']
-        );
+        $user = $model->find($username);
+        if ($user === false) {
+            header('location: /usuarios');
+        } else {
+            $data = array(
+                'titulo' => 'Edición de usuario',
+                'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
+                'seccion' => '/usuarios-alta',
+                'listaRoles' => $modelAuxRol->getAll(),
+                'listaPaises' => $modelAuxPais->getAll(),
+                'input' => filter_var_array($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+                'usuario' => $user,
+                'tituloEjercicio' => 'Datos del usuario ' . $user['username']
+            );
 
-        if ($errors !== []) {
-            $data['errors'] = $errors;
+            if ($errors !== []) {
+                $data['errors'] = $errors;
+            }
+
+            $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
+                'templates/footer.view.php'), $data);
         }
-
-        $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
-            'templates/footer.view.php'), $data);
     }
 
     public function doEditUsuario(): void
@@ -242,24 +246,24 @@ class TrabajadoresController extends BaseController
             if ($model->updateUsuario($_POST)) {
                 header('location: /usuarios');
             } else {
-                $this->showEditUsuario(['error' => 'Error al insertar el usuario'], $_POST);
+                $this->showEditUsuario($_POST['input_nombre'], ['error' => 'Error al insertar el usuario'], $_POST);
             }
         } else {
-            $this->showEditUsuario($errors, $_POST);
+            $this->showEditUsuario($_POST['input_nombre'], $errors, $_POST);
         }
     }
 
-    public function deleteUsuario(): void
+    public function deleteUsuario(string $username): void
     {
         $model = new TrabajadoresDbModel();
-        $model->deleteUsuario($_GET['nombre']);
+        $model->deleteUsuario($username);
         header('location: /usuarios');
     }
 
-    public function activarUsuario(): void
+    public function activarUsuario(string $username): void
     {
         $model = new TrabajadoresDbModel();
-        $user = $model->find($_GET['nombre']);
+        $user = $model->find($username);
         $params = [
             'input_salario' => $user['salarioBruto'],
             'input_irpf' => $user['retencionIRPF'],
