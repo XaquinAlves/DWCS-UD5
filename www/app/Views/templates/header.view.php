@@ -43,15 +43,14 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
         <li class="nav-item">
-            <a class="nav-link" data-widget="theme" href="/panel/temas"
-               role="button">
+            <!-- Button trigger modal -->
+            <button type="button" class="nav-link bg-transparent border-0" data-toggle="modal" data-target="#temaModal">
                 <i class="fas fa-palette"></i>
-            </a>
+            </button>
         </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
@@ -128,3 +127,29 @@
 
 <section class="content">
       <div class="container-fluid">
+          <!-- Modal -->
+          <form method="post" action="/panel/temas">
+              <div class="modal fade" id="temaModal" tabindex="-1" role="dialog" aria-labelledby="temaModalLabel"
+                   aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="temaModalLabel">Escoja el tema</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              <select name="tema" id="tema" class="form-control">
+                                  <option value="default">Perdeterminado</option>
+                                  <option value="dark-mode">Oscuro</option>
+                              </select>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                              <button type="submit" class="btn btn-primary">Guardar</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </form>
