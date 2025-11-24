@@ -227,12 +227,12 @@ class TrabajadoresDbModel extends BaseDbModel
             VALUES (:username, :salario, :retencion, :activo, :rol, :pais)";
 
         $params = [
-            'username' => $input['input_nombre'],
-            'salario' => str_replace(',', '.', $input['input_salario']),
-            'retencion' => $input['input_irpf'],
-            'activo' => $input['input_activo'],
-            'rol' => $input['input_rol'],
-            'pais' => $input['input_pais']
+            'username' => $input['username'],
+            'salario' => $input['salarioBruto'],
+            'retencion' => $input['retencionIRPF'],
+            'rol' => $input['id_rol'],
+            'pais' => $input['id_country'],
+            'activo' => $input['activo']
         ];
 
         $statement = $this->pdo->prepare($sql);
@@ -250,15 +250,15 @@ class TrabajadoresDbModel extends BaseDbModel
     public function updateUsuario(array $input): bool
     {
         $sql = "UPDATE trabajadores SET salarioBruto = :salario, retencionIRPF = :retencion, id_rol = :rol,
-                        id_country = :pais, activo = :activo WHERE username = :username";
+                        id_country = :pais, activo = :activo, username = :username WHERE username = :username";
 
         $params = [
-            'salario' => str_replace(',', '.', $input['input_salario']),
-            'retencion' => $input['input_irpf'],
-            'rol' => $input['input_rol'],
-            'pais' => $input['input_pais'],
-            'username' => $input['input_nombre'],
-            'activo' => $input['input_activo']
+            'username' => $input['username'],
+            'salario' => $input['salarioBruto'],
+            'retencion' => $input['retencionIRPF'],
+            'rol' => $input['id_rol'],
+            'pais' => $input['id_country'],
+            'activo' => $input['activo']
         ];
 
         $statement = $this->pdo->prepare($sql);

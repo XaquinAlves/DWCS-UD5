@@ -169,9 +169,9 @@ class FrontController
 
         Route::add(
             '/usuarios/editar/(\w{3,50})',
-            function () {
+            function ($username) {
                 $controlador = new TrabajadoresController();
-                $controlador->doEditUsuario();
+                $controlador->doEditUsuario($username);
             },
             'post'
         );

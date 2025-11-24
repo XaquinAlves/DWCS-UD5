@@ -23,15 +23,9 @@ declare(strict_types=1);
                     <div class="row">
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_nombre">Nombre de usuario:</label>
-                                <input type="text" class="form-control" name="input_nombre"
-                                       id="input_nombre" value="<?php echo $input['input_nombre'] ??
-                                        $usuario['username'] ?? '' ?>" <?php echo isset($usuario) ? 'hidden' : '' ?>/>
-                                <?php if (isset($usuario)) { ?>
-                                    <input type="text" class="form-control" name="input_nombre"
-                                           id="input_nombre" value="<?php echo $usuario['username'] ?? '' ?>"
-                                           disabled />
-                                <?php } ?>
+                                <label for="username">Nombre de usuario:</label>
+                                <input type="text" class="form-control" name="username"
+                                       id="username" value="<?php echo $input['username'] ?? '' ?>"/>
                             </div>
                             <?php if (isset($errors['username'])) { ?>
                                     <span class="text-danger"><?php echo $errors['username'] ?? '' ?></span>
@@ -39,14 +33,13 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_rol">Tipo de usuario:</label>
-                                <select name="input_rol" id="input_rol" class="form-control"
+                                <label for="id_rol">Tipo de usuario:</label>
+                                <select name="id_rol" id="id_rol" class="form-control"
                                         data-placeholder="Rol">
                                     <option value="">-</option>
                                     <?php foreach ($listaRoles ?? [] as $rol) { ?>
                                         <option value="<?php echo $rol['id_rol'] ?>" <?php echo
-                                        ((isset($_POST['input_rol']) && $_POST['input_rol'] == $rol['id_rol']) ||
-                                                (isset($usuario['id_rol']) && $rol['id_rol'] == $usuario['id_rol']))
+                                        ((isset($input['id_rol']) && $rol['id_rol'] == $input['id_rol']))
                                                         ? 'selected' : '' ?>>
                                             <?php echo ucfirst($rol['nombre_rol']) ?>
                                         </option>
@@ -59,10 +52,9 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_salario">Salario:</label>
-                                <input type="number" class="form-control" name="input_salario" id="input_salario"
-                                       value="<?php echo $input['input_salario'] ?? $usuario['salarioBruto'] ??
-                                               '' ?>" placeholder="Salario"
+                                <label for="salarioBruto">Salario:</label>
+                                <input type="number" class="form-control" name="salarioBruto" id="salarioBruto"
+                                       value="<?php echo $input['salarioBruto'] ?? '' ?>" placeholder="Salario"
                                        step="0.01"/>
                             </div>
                             <?php if (isset($errors['salario'])) { ?>
@@ -71,11 +63,9 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_irpf">Porcentaje de retención:</label>
-                                <input type="number" class="form-control" name="input_irpf" id="input_irpf"
-                                       value="<?php echo $input['input_irpf'] ??
-                                              (intval($usuario['retencionIRPF'] ?? 0) === 0 ?
-                                                      '' : intval($usuario['retencionIRPF'])) ?>" placeholder="IRPF" />
+                                <label for="retencionIRPF">Porcentaje de retención:</label>
+                                <input type="number" class="form-control" name="retencionIRPF" id="retencionIRPF"
+                                       value="<?php echo intval($input['retencionIRPF']) ?? 0 ?>" placeholder="IRPF" />
                             </div>
                             <?php if (isset($errors['irpf'])) { ?>
                                 <span class="text-danger"><?php echo $errors['irpf'] ?? '' ?></span>
@@ -83,14 +73,14 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_pais">Nacionalidad:</label>
-                                <select name="input_pais" id="input_pais" class="form-control select1"
+                                <label for="id_country">Nacionalidad:</label>
+                                <select name="id_country" id="id_country" class="form-control select1"
                                         data-placeholder="Pais">
                                     <option value="">-</option>
                                     <?php foreach ($listaPaises ?? [] as $pais) { ?>
                                         <option value="<?php echo $pais['id'] ?>"
-                                        <?php echo (isset($_POST['input_pais']) && $pais['id'] == $_POST['input_pais'])
-                                        || (isset($usuario['id_country']) && $pais['id'] == $usuario['id_country']) ?
+                                        <?php echo
+                                            (isset($input['id_country']) && $pais['id'] == $input['id_country']) ?
                                                 'selected' : '' ?>>
                                             <?php echo ucfirst($pais['country_name']) ?>
                                         </option>
@@ -103,18 +93,16 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3 row">
-                                <label for="input_activo">Activo:</label>
-                                <select class="form-control" name="input_activo" id="input_activo">
+                                <label for="activo">Activo:</label>
+                                <select class="form-control" name="activo" id="activo">
                                     <option value="1"
-                                            <?php echo ((isset($_POST['input_activo']) && $_POST['input_activo'] == 1)
-                                                    || (isset($usuario['activo']) && $usuario['activo'] == 1)) ?
+                                            <?php echo (isset($input['activo']) && $input['activo'] == 1) ?
                                                     'selected' : ''?>>
                                         Si
                                     </option>
                                     <option value="0"
-                                            <?php echo ((isset($_POST['input_activo']) && $_POST['input_activo'] == 0)
-                                            || (isset($usuario['activo']) && $usuario['activo'] == 0)) ?
-                                                    'selected' : '' ?>>
+                                            <?php echo (isset($input['activo']) && $input['activo'] == 0) ?
+                                                    'selected' : ''?>>
                                         No
                                     </option>
                                 </select>
