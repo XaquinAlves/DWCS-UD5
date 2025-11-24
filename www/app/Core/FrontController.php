@@ -213,7 +213,6 @@ class FrontController
         );
 
 
-
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();

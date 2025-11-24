@@ -47,8 +47,9 @@ class InicioController extends \Com\Daw2\Core\BaseController
     public function doSeleccionarTema(): void
     {
         if (isset($_POST['tema'])) {
-            setcookie('tema', $_POST['tema'], time() + 3600 * 24);
+            setcookie('tema', $_POST['tema'], time() + 3600 * 24, '/');
         }
-        $this->showSeleccionarTema();
+
+        header('location: /');
     }
 }

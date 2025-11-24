@@ -41,12 +41,18 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>      
+      </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
+        <li class="nav-item">
+            <a class="nav-link" data-widget="theme" href="/panel/temas"
+               role="button">
+                <i class="fas fa-palette"></i>
+            </a>
+        </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
           <i class="text-danger fas fa-sign-out-alt"></i>
@@ -80,9 +86,9 @@
           <a href="#" class="d-block">Usuario</a>
         </div>
       </div>
-     <?php 
-     include $_ENV['folder.views'].'/templates/left-menu.view.php';
-     ?>      
+     <?php
+        include $_ENV['folder.views'] . '/templates/left-menu.view.php';
+        ?>      
     </div>
     <!-- /.sidebar -->
   </aside>
@@ -94,27 +100,27 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"><?php             
+            <h1 class="m-0"><?php
             echo $titulo ?? '' ?></h1>
           </div><!-- /.col -->
-          <?php 
-          
-          if(isset($breadcrumb) && is_array($breadcrumb)){
-              ?>          
+          <?php
+
+            if (isset($breadcrumb) && is_array($breadcrumb)) {
+                ?>          
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <?php    
-                
-                foreach($breadcrumb as $b){
-                ?>
+                <?php
+
+                foreach ($breadcrumb as $b) {
+                    ?>
               <li class="breadcrumb-item"><?php echo $b; ?></li>             
-              <?php
+                    <?php
                 }?>
             </ol>
           </div><!-- /.col -->
-          <?php
-          }
-          ?>
+                <?php
+            }
+            ?>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
