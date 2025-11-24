@@ -29,7 +29,14 @@
                   <i class="fas fa-laptop-code nav-icon"></i>
                   <p>Demo Proveedores</p>
                 </a>
-              </li>              
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo $_ENV['host.folder'] ?>panel/temas" class="nav-link
+                <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'panel/temas' ? 'active' : ''; ?>">
+                    <i class="fas fa-paint-brush nav-icon"></i>
+                    <p>Temas</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">

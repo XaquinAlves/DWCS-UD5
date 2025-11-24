@@ -30,4 +30,25 @@ class InicioController extends \Com\Daw2\Core\BaseController
         $this->view->showViews(array('templates/header.view.php', 'proveedores.sample.php',
             'templates/footer.view.php'), $data);
     }
+
+    public function showSeleccionarTema(): void
+    {
+        $data = array(
+            'titulo' => 'Configuracion de estilos',
+            'breadcrumb' => ['Panel de control', 'Temas'],
+            'seccion' => '/panel/temas',
+            'tituloCard' => 'Temas'
+        );
+
+        $this->
+        view->showViews(array('templates/header.view.php', 'styles.view.php', 'templates/footer.view.php'), $data);
+    }
+
+    public function doSeleccionarTema(): void
+    {
+        if (isset($_POST['tema'])) {
+            setcookie('tema', $_POST['tema'], time() + 3600 * 24);
+        }
+        $this->showSeleccionarTema();
+    }
 }

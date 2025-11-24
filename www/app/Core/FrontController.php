@@ -194,6 +194,26 @@ class FrontController
             'get'
         );
 
+        Route::add(
+            '/panel/temas',
+            function () {
+                $controlador = new InicioController();
+                $controlador->showSeleccionarTema();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/panel/temas',
+            function () {
+                $controlador = new InicioController();
+                $controlador->doSeleccionarTema();
+            },
+            'post'
+        );
+
+
+
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();
