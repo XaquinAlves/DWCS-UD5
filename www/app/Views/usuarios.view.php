@@ -229,7 +229,7 @@ declare(strict_types=1);
                 <div class="col-12">
                     <nav aria-label="Navegacion por paginas">
                         <ul class="pagination justify-content-center">
-                            <?php if ($page !== 1) { ?>
+                            <?php if (($page ?? 1) !== 1) { ?>
                                 <li class="page-item">
                                     <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page - 1) ?>"
                                        class="page-link" aria-label="Previous">
@@ -246,7 +246,7 @@ declare(strict_types=1);
                                 </li>
                             <?php } ?>
                             <li class="page-item active"><a href="#" class="page-link"><?php echo $page ?></a></li>
-                            <?php if ($page < $lastPage) { ?>
+                            <?php if ($page < ($lastPage ?? 5000)) { ?>
                                 <li class="page-item">
                                     <a href="<?php echo $url . "&ordenar=$ordenar" . "&page=" . ($page + 1)?>"
                                        class="page-link" aria-label="Next">
