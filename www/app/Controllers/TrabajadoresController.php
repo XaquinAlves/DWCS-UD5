@@ -283,7 +283,7 @@ class TrabajadoresController extends BaseController
         header('location: /usuarios');
     }
 
-    private function checkInputUsuario(array $input, ?string $username): array
+    private function checkInputUsuario(array $input, ?string $username = ''): array
     {
         $errors = [];
 

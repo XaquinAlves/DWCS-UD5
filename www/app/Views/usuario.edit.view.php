@@ -65,7 +65,8 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="retencionIRPF">Porcentaje de retención:</label>
                                 <input type="number" class="form-control" name="retencionIRPF" id="retencionIRPF"
-                                       value="<?php echo intval($input['retencionIRPF']) ?? 0 ?>" placeholder="IRPF" />
+                                       value="<?php echo isset($input['retencionIRPF']) ?
+                                               intval($input['retencionIRPF']) : ''  ?>" placeholder="IRPF" />
                             </div>
                             <?php if (isset($errors['irpf'])) { ?>
                                 <span class="text-danger"><?php echo $errors['irpf'] ?? '' ?></span>
