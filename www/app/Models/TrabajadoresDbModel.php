@@ -114,7 +114,7 @@ class TrabajadoresDbModel extends BaseDbModel
 
         $statement = $this->pdo->prepare($sql);
         foreach ($params as $key => $value) {
-            $statement->bindValue($key, $value, PDO::PARAM_STR);
+            $statement->bindValue($key, $value);
         }
         $statement->bindValue(':offset', ((intval($filters['page'] ?? 1) - 1) * 25), PDO::PARAM_INT);
 
@@ -270,7 +270,7 @@ class TrabajadoresDbModel extends BaseDbModel
         $sql = "DELETE FROM trabajadores WHERE username = :username";
         $statement = $this->pdo->prepare($sql);
         if ($statement->execute(['username' => $username])) {
-            return $this->pdo->rowCount() === 1;
+            return $statement->rowCount() === 1;
         } else {
             return false;
         }
