@@ -11,13 +11,14 @@ declare(strict_types=1);
                 <!-- Card Header -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary"><label for="usuario">Introduzca su nombre de usuario: </label></h6>
+                    <h6 class="m-0 font-weight-bold text-primary"><?php echo $tituloCard ?></h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
+                                <label for="usuario">Nombre de usuario: </label>
                                 <input type="text" class="form-control" id="usuario" name="usuario">
                             </div>
                             <?php if (($errors !== [])) {
@@ -33,7 +34,8 @@ declare(strict_types=1);
                 <!-- Card footer -->
                 <div class="card-footer">
                     <div class="col-12 text-right">
-                        <input type="submit" value="Enviar" name="enviar" class="btn btn-primary ml-2"/>
+                        <input type="submit" value="<?php echo isset($_SESSION['usuario']) ?
+                                'Guardar cambios' : 'Registrarse' ?>" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
                 </div>
             </form>

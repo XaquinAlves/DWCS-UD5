@@ -45,7 +45,9 @@
                     <a href="<?php echo $_ENV['host.folder'] ?>login" class="nav-link
                 <?php echo $seccion === $_ENV['host.folder'] . 'login' ? 'active' : ''; ?>">
                         <i class="fas fa-user nav-icon"></i>
-                        <p>Iniciar Sesión</p>
+                        <p>
+                            <?php echo isset($_SESSION['usuario']) ? 'Cuenta' : 'Iniciar Sesión' ?>
+                        </p>
                     </a>
                 </li>
             </ul>

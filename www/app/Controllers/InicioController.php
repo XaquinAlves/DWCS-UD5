@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Com\Daw2\Controllers;
 
+use Com\Daw2\Core\BaseController;
 use Com\Daw2\Models\testModel;
 use http\Exception\InvalidArgumentException;
 
-class InicioController extends \Com\Daw2\Core\BaseController
+class InicioController extends BaseController
 {
     public function index(): void
     {
@@ -72,16 +73,18 @@ class InicioController extends \Com\Daw2\Core\BaseController
     public function showLogin(array $errors = []): void
     {
         $data = array(
-            'titulo' => 'Login',
+            'titulo' => isset($_SESSION['usuario']) ? 'Ajustes de la cuenta ' . $_SESSION['usuario'] : 'Login',
             'breadcrumb' => ['Inicio', 'Login'],
             'seccion' => '/login',
+            'tituloCard' => 'Campos básicos',
             'errors' => $errors
         );
 
-        $this->view->showViews(array('templates/header.view.php', 'login.view.php', 'templates/footer.view.php'), $data);
+        $this->
+        view->showViews(array('templates/header.view.php', 'cuenta.view.php', 'templates/footer.view.php'), $data);
     }
 
-    public function doLogin()
+    public function doLogin(): void
     {
         $errors = [];
 
@@ -95,11 +98,7 @@ class InicioController extends \Com\Daw2\Core\BaseController
             $errors[] = 'El nombre de usuario es obligatorio';
         }
 
-        if ($errors !== [] ) {
-            $this->showLogin($errors);
-        } else {
-            $this->index();
-        }
+        $this->showLogin($errors);
     }
 
     public function logOut(): void
