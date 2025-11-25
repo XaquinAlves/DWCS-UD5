@@ -53,7 +53,7 @@
             </button>
         </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+        <a class="nav-link" data-widget="navbar-search" href="/logout" role="button">
           <i class="text-danger fas fa-sign-out-alt"></i>
         </a>        
       </li>
@@ -83,7 +83,7 @@
           <img src="assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Usuario</a>
+          <a href="#" class="d-block"><?php echo $_SESSION['usuario'] ?? 'Sin usuario' ?></a>
         </div>
       </div>
      <?php

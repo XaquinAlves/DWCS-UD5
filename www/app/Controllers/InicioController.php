@@ -16,6 +16,7 @@ class InicioController extends \Com\Daw2\Core\BaseController
             'breadcrumb' => ['Inicio'],
             'seccion' => '/inicio'
         );
+
         $this->view->showViews(array('templates/header.view.php', 'inicio.view.php',
             'templates/footer.view.php'), $data);
     }
@@ -66,5 +67,44 @@ class InicioController extends \Com\Daw2\Core\BaseController
         } else {
             header('location: ' . $url);
         }
+    }
+
+    public function showLogin(array $errors = []): void
+    {
+        $data = array(
+            'titulo' => 'Login',
+            'breadcrumb' => ['Inicio', 'Login'],
+            'seccion' => '/login',
+            'errors' => $errors
+        );
+
+        $this->view->showViews(array('templates/header.view.php', 'login.view.php', 'templates/footer.view.php'), $data);
+    }
+
+    public function doLogin()
+    {
+        $errors = [];
+
+        if (isset($_POST['usuario']) && $_POST['usuario'] !== '') {
+            if (preg_match('/^[a-zA-Z0-9]{3,20}$/', $_POST['usuario']) === 0) {
+                $errors[] = 'El nombre de usuario debe contener solo letras y numeros, y tener entre 3 y 20 caracteres';
+            } else {
+                $_SESSION['usuario'] = $_POST['usuario'];
+            }
+        } else {
+            $errors[] = 'El nombre de usuario es obligatorio';
+        }
+
+        if ($errors !== []) {
+            $this->showLogin($errors);
+        } else {
+            $this->index();
+        }
+    }
+
+    public function logOut(): void
+    {
+        session_destroy();
+        $this->index();
     }
 }

@@ -221,6 +221,33 @@ class FrontController
             'post'
         );
 
+        Route::add(
+            '/login',
+            function () {
+                $controlador = new InicioController();
+                $controlador->showLogin();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/login',
+            function () {
+                $controlador = new InicioController();
+                $controlador->doLogin();
+            },
+            'post'
+        );
+
+        Route::add(
+            '/logout',
+            function () {
+                $controlador = new InicioController();
+                $controlador->logOut();
+            },
+            'get'
+        );
+
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();

@@ -55,6 +55,8 @@ class View
             }
         }
 
+        session_start();
+
         //Si hay variables para asignar, las pasamos una a una.
         if (is_array($vars)) {
             foreach ($vars as $key => $value) {
@@ -62,6 +64,7 @@ class View
             }
         }
         $seccion = strtok($_SERVER['REQUEST_URI'], '?');
+
         //Necesario para saber en la vista qué controlador hemos cargado y así por ejemplo marcar en la barra izquierda la sección en la que estamos
         $controller = $this->controller;
         foreach ($views as $v) {
