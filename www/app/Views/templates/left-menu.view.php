@@ -16,7 +16,7 @@
           <?php echo (in_array($seccion, [
               $_ENV['host.folder'] . 'demo-proveedores',
               $_ENV['host.folder'] . 'panel/temas',
-              $_ENV['host.folder'] . 'login'
+              $_ENV['host.folder'] . 'panel/usuario'
           ])) ? 'menu-open' :
                   '';?>">
             <a href="#" class="nav-link">
@@ -43,7 +43,7 @@
               </li>
                 <li class="nav-item">
                     <a href="<?php echo $_ENV['host.folder'] ?>panel/usuario" class="nav-link
-                <?php echo $seccion === $_ENV['host.folder'] . 'login' ? 'active' : ''; ?>">
+                <?php echo $seccion === $_ENV['host.folder'] . 'panel/usuario' ? 'active' : ''; ?>">
                         <i class="fas fa-user nav-icon"></i>
                         <p>
                             <?php echo isset($_SESSION['usuario']) ? 'Cuenta' : 'Iniciar Sesión' ?>
