@@ -51,7 +51,7 @@ class InicioController extends \Com\Daw2\Core\BaseController
             $_COOKIE['tema'] = $_POST['tema'];
         }
 
-        header('location: /');
+        $this->showSeleccionarTema();
     }
 
     public function doSeleccionarTemaModal(string $url = ''): void
