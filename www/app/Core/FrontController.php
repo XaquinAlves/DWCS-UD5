@@ -221,15 +221,6 @@ class FrontController
             'post'
         );
 
-        Route::add(
-            '/temas/',
-            function () {
-                $controlador = new InicioController();
-                $controlador->doSeleccionarTemaModal();
-            },
-            'post'
-        );
-
         Route::pathNotFound(
             function () {
                 $controller = new ErroresController();
@@ -243,6 +234,7 @@ class FrontController
                 $controller->error405();
             }
         );
+
         Route::run($_ENV['host.folder']);
     }
 }

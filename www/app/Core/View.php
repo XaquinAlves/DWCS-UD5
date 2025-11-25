@@ -61,6 +61,7 @@ class View
                 $$key = $value;
             }
         }
+        $seccion = strtok($_SERVER['REQUEST_URI'], '?');
         //Necesario para saber en la vista qué controlador hemos cargado y así por ejemplo marcar en la barra izquierda la sección en la que estamos
         $controller = $this->controller;
         foreach ($views as $v) {

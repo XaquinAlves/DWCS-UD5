@@ -3,7 +3,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <a href="<?php echo $_ENV['host.folder'] ?>" class="nav-link
-                <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'inicio' ? 'active' : ''; ?>">
+                <?php echo $seccion === $_ENV['host.folder'] . 'inicio' ? 'active' : ''; ?>">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Inicio
@@ -13,7 +13,10 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item
-          <?php echo (in_array($_SERVER['REQUEST_URI'], [$_ENV['host.folder'] . 'demo-proveedores'])) ? 'menu-open' :
+          <?php echo (in_array($seccion, [
+                  $_ENV['host.folder'] . 'demo-proveedores',
+                  $_ENV['host.folder'] . 'panel/temas'
+          ])) ? 'menu-open' :
                   '';?>">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -25,21 +28,32 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="<?php echo $_ENV['host.folder'] ?>demo-proveedores" class="nav-link
-                <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'demo-proveedores' ? 'active' : ''; ?>">
+                <?php echo $seccion === $_ENV['host.folder'] . 'demo-proveedores' ? 'active' : ''; ?>">
                   <i class="fas fa-laptop-code nav-icon"></i>
                   <p>Demo Proveedores</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="<?php echo $_ENV['host.folder'] ?>panel/temas" class="nav-link
-                <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'panel/temas' ? 'active' : ''; ?>">
+                <?php echo $seccion === $_ENV['host.folder'] . 'panel/temas' ? 'active' : ''; ?>">
                     <i class="fas fa-paint-brush nav-icon"></i>
                     <p>Temas</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item <?php echo (in_array($seccion, [
+              $_ENV['host.folder'] . 'trabajadores-all',
+              $_ENV['host.folder'] . 'usuarios',
+              $_ENV['host.folder'] . 'trabajadores-salario',
+              $_ENV['host.folder'] . 'trabajadores-standard',
+              $_ENV['host.folder'] . 'trabajadores-carlos',
+              $_ENV['host.folder'] . 'trabajadores-all-assoc',
+              $_ENV['host.folder'] . 'trabajadores-salario-assoc',
+              $_ENV['host.folder'] . 'trabajadores-standard-assoc',
+              $_ENV['host.folder'] . 'trabajadores-carlos-assoc'
+          ])) ? 'menu-open' :
+                  '';?>">
               <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-user-tie"></i>
                   <p>
@@ -50,7 +64,7 @@
               <ul class="nav nav-treeview">
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-all" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-all' ? 'active' :
+                        <?php echo $seccion === $_ENV['host.folder'] . 'trabajadores-all' ? 'active' :
                               ''; ?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Todos los trabajadores</p>
@@ -58,7 +72,7 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-salario" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-salario' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'trabajadores-salario' ?
                               'active' : ''; ?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Todos los trabajadores ordenados por salario</p>
@@ -66,7 +80,7 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-standard" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-standard' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'trabajadores-standard' ?
                               'active' : ''; ?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Trabajadores standard</p>
@@ -74,7 +88,7 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-carlos" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-carlos' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'trabajadores-carlos' ?
                               'active' : ''; ?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Trabajadores con nombre Carlos</p>
@@ -82,7 +96,7 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-all-assoc" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-all-assoc' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'trabajadores-all-assoc' ?
                               'active' : ''; ?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Todos los trabajadores(ASSOC)</p>
@@ -90,7 +104,7 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-salario-assoc" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-salario-assoc' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'trabajadores-salario-assoc' ?
                               'active' : ''; ?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Todos los trabajadores ordenados por salario(ASSOC)</p>
@@ -98,7 +112,7 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-standard-assoc" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-standard-assoc' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'trabajadores-standard-assoc' ?
                               'active' : ''; ?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Trabajadores standard(ASSOC)</p>
@@ -106,7 +120,7 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>trabajadores-carlos-assoc" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'trabajadores-carlos-assoc' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'trabajadores-carlos-assoc' ?
                               'active' : ''; ?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Trabajadores con nombre Carlos(ASSOC)</p>
@@ -116,7 +130,7 @@
                       <a href="<?php echo $_ENV['host.folder'] ?>usuarios" class="nav-link
                         <?php echo
                         substr_compare(
-                            $_SERVER['REQUEST_URI'],
+                            $seccion,
                             $_ENV['host.folder'] . 'usuarios',
                             0,
                             strlen($_ENV['host.folder'] . 'usuarios')
@@ -127,7 +141,11 @@
                   </li>
               </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item <?php echo (in_array($seccion, [
+              $_ENV['host.folder'] . 'poblacion-pontevedra',
+              $_ENV['host.folder'] . 'poblacion-grupos-edad'
+          ])) ? 'menu-open' :
+                        '';?>">
               <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-file-archive"></i>
                   <p>
@@ -138,7 +156,7 @@
               <ul class="nav nav-treeview">
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>poblacion-pontevedra" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'poblacion-pontevedra' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'poblacion-pontevedra' ?
                               'active' : ''; ?>">
                           <i class="nav-icon fas fa-file-alt"></i>
                           <p>Histórico población Pontevedra</p>
@@ -146,7 +164,7 @@
                   </li>
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>poblacion-grupos-edad" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'poblacion-grupos-edad' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'poblacion-grupos-edad' ?
                               'active' : ''; ?>">
                           <i class="nav-icon fas fa-file-alt"></i>
                           <p>Población España grupos edad</p>
@@ -154,7 +172,8 @@
                   </li>
              </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'productos'])) ? 'menu-open' :
+                  '';?>">
               <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-archive"></i>
                   <p>
@@ -165,7 +184,7 @@
               <ul class="nav nav-treeview">
                   <li class="nav-item">
                       <a href="<?php echo $_ENV['host.folder'] ?>productos" class="nav-link
-                        <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'] . 'productos' ?
+                        <?php echo $seccion === $_ENV['host.folder'] . 'productos' ?
                                 'active' : ''; ?>">
                             <i class="nav-icon fas fa-barcode"></i>
                             <p>Productos</p>

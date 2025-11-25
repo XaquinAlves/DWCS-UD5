@@ -46,8 +46,9 @@ class InicioController extends \Com\Daw2\Core\BaseController
 
     public function doSeleccionarTema(): void
     {
-        if (isset($_POST['tema'])) {
+        if (isset($_POST['tema']) && in_array($_POST['tema'], ['default', 'dark-mode'])) {
             setcookie('tema', $_POST['tema'], time() + 3600 * 24, '/');
+            $_COOKIE['tema'] = $_POST['tema'];
         }
 
         header('location: /');
@@ -55,9 +56,11 @@ class InicioController extends \Com\Daw2\Core\BaseController
 
     public function doSeleccionarTemaModal(string $url = ''): void
     {
-        if (isset($_POST['tema'])) {
+        if (isset($_POST['tema']) && in_array($_POST['tema'], ['default', 'dark-mode'])) {
             setcookie('tema', $_POST['tema'], time() + 3600 * 24, '/');
+            $_COOKIE['tema'] = $_POST['tema'];
         }
+
         if ($url === '') {
             header('location: /');
         } else {
