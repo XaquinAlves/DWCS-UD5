@@ -106,7 +106,11 @@ class InicioController extends BaseController
             $errors[] = 'El nombre de usuario es obligatorio';
         }
 
-        $this->showLogin($errors);
+        if ($errors !== []) {
+            $this->showLogin($errors);
+        } else {
+            header('location: /');
+        }
     }
 
     public function logOut(): void

@@ -34,6 +34,7 @@ declare(strict_types=1);
                 <!-- Card footer -->
                 <div class="card-footer">
                     <div class="col-12 text-right">
+                        <a href="/" class="btn btn-danger">Cancelar</a>
                         <input type="submit" value="<?php echo isset($_SESSION['usuario']) ?
                                 'Guardar cambios' : 'Registrarse' ?>" name="enviar" class="btn btn-primary ml-2"/>
                     </div>

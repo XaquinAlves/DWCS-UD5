@@ -263,10 +263,15 @@ class TrabajadoresController extends BaseController
 
     public function deleteUsuario(string $username): void
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
         $model = new TrabajadoresDbModel();
         if ($model->deleteUsuario($username)) {
             header('location: /usuarios');
         } else {
+            $_SESSION['errors'] = ['userDeleted' => 'Error al borrar el usuario'];
             header('location: /usuarios');
         }
     }

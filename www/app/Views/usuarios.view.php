@@ -6,6 +6,12 @@ declare(strict_types=1);
 
 <div class="row">
     <div class="col-12">
+        <?php if (isset($_SESSION['errors'])) {
+            foreach ($_SESSION['errors'] as $error) { ?>
+                <div class="alert alert-danger" role="alert"><?php echo $error ?></div>
+            <?php }
+        } ?>
+        <div class="alert alert-info" role="alert"></div>
         <div class="card shadow mb-4">
             <form method="get" action="/usuarios">
                 <input type="hidden" name="ordenar" value="<?php echo $ordenar ?? 1 ?>">
