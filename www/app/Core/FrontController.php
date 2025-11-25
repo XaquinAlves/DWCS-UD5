@@ -213,7 +213,7 @@ class FrontController
         );
 
         Route::add(
-            '/temas/(\/?[\w-]{0,50})',
+            '/temas(\/?[\w-]{0,50})',
             function ($url) {
                 $controlador = new InicioController();
                 $controlador->doSeleccionarTemaModal($url);
@@ -222,12 +222,12 @@ class FrontController
         );
 
         Route::add(
-            '/temas/(\/?[\w-]{0,50})',
-            function ($url) {
+            '/temas/',
+            function () {
                 $controlador = new InicioController();
-                $controlador->doSeleccionarTemaModal($url);
+                $controlador->doSeleccionarTemaModal();
             },
-            'get'
+            'post'
         );
 
         Route::pathNotFound(
