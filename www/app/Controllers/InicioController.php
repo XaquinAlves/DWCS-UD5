@@ -95,16 +95,12 @@ class InicioController extends \Com\Daw2\Core\BaseController
             $errors[] = 'El nombre de usuario es obligatorio';
         }
 
-        if ($errors !== []) {
-            $this->showLogin($errors);
-        } else {
-            $this->index();
-        }
+        $this->showLogin($errors);
     }
 
     public function logOut(): void
     {
         session_destroy();
-        $this->index();
+        header('location: /');
     }
 }

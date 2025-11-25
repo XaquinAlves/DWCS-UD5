@@ -14,8 +14,9 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item
           <?php echo (in_array($seccion, [
-                  $_ENV['host.folder'] . 'demo-proveedores',
-                  $_ENV['host.folder'] . 'panel/temas'
+              $_ENV['host.folder'] . 'demo-proveedores',
+              $_ENV['host.folder'] . 'panel/temas',
+              $_ENV['host.folder'] . 'login'
           ])) ? 'menu-open' :
                   '';?>">
             <a href="#" class="nav-link">

@@ -34,12 +34,16 @@ class View
         }
         //Necesario para saber en la vista qué controlador hemos cargado y así por ejemplo marcar en la barra izquierda la sección en la que estamos
         $controller = $this->controller;
+        $usuario = $_SESSION['usuario'];
         //Finalmente, incluimos la plantilla.
         include($path);
     }
 
     public function showViews(array $views, $vars = array()): void
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         //$name - nombre de nuestra plantilla, por ej, listar.php
         //$vars - contenedor de variables,
         //   es un array del tipo clave => valor (opcional).
@@ -54,8 +58,6 @@ class View
                 throw new \Exception('La plantilla ' . $path . ' no existe');
             }
         }
-
-        session_start();
 
         //Si hay variables para asignar, las pasamos una a una.
         if (is_array($vars)) {
