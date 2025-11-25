@@ -53,7 +53,7 @@
             </button>
         </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="/logout" role="button">
+        <a class="nav-link" href="/logout" role="button">
           <i class="text-danger fas fa-sign-out-alt"></i>
         </a>        
       </li>
