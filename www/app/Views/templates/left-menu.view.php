@@ -42,7 +42,7 @@
                 </a>
               </li>
                 <li class="nav-item">
-                    <a href="<?php echo $_ENV['host.folder'] ?>login" class="nav-link
+                    <a href="<?php echo $_ENV['host.folder'] ?>panel/usuario" class="nav-link
                 <?php echo $seccion === $_ENV['host.folder'] . 'login' ? 'active' : ''; ?>">
                         <i class="fas fa-user nav-icon"></i>
                         <p>

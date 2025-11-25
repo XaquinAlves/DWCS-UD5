@@ -72,6 +72,10 @@ class InicioController extends BaseController
 
     public function showLogin(array $errors = []): void
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
         $data = array(
             'titulo' => isset($_SESSION['usuario']) ? 'Ajustes de la cuenta ' . $_SESSION['usuario'] : 'Login',
             'breadcrumb' => ['Inicio', 'Login'],
@@ -88,6 +92,10 @@ class InicioController extends BaseController
     {
         $errors = [];
 
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
         if (isset($_POST['usuario']) && $_POST['usuario'] !== '') {
             if (preg_match('/^[a-zA-Z0-9]{3,20}$/', $_POST['usuario']) === 0) {
                 $errors[] = 'El nombre de usuario debe contener solo letras y numeros, y tener entre 3 y 20 caracteres';
@@ -103,10 +111,11 @@ class InicioController extends BaseController
 
     public function logOut(): void
     {
-
-        if (isset($_SESSION)) {
-            session_destroy();
+        if (!isset($_SESSION)) {
+            session_start();
         }
+
+        session_destroy();
         header('location: /');
     }
 }

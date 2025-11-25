@@ -222,7 +222,7 @@ class FrontController
         );
 
         Route::add(
-            '/login',
+            '/panel/usuario',
             function () {
                 $controlador = new InicioController();
                 $controlador->showLogin();
@@ -231,7 +231,7 @@ class FrontController
         );
 
         Route::add(
-            '/login',
+            '/panel/usuario',
             function () {
                 $controlador = new InicioController();
                 $controlador->doLogin();
