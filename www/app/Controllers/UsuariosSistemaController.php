@@ -51,7 +51,7 @@ class UsuariosSistemaController extends BaseController
         if ($errors !== []) {
             $this->showChangeUsername(filter_input_array(INPUT_POST), $errors);
         } else {
-            header('location: /');
+            header('location: ' . $_ENV['host.folder']);
         }
     }
 
@@ -86,13 +86,13 @@ class UsuariosSistemaController extends BaseController
         if ($errors !== []) {
             $this->showLogin($errors);
         } else {
-            header('location: /');
+            header('location: ' . $_ENV['host.folder']);
         }
     }
 
     public function logOut(): void
     {
         session_destroy();
-        header('location: /login');
+        header('location: ' . $_ENV['host.folder'] . 'login');
     }
 }

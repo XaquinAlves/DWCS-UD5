@@ -50,7 +50,7 @@ class InicioController extends BaseController
     public function doSeleccionarTema(): void
     {
         if (isset($_POST['tema']) && in_array($_POST['tema'], ['default', 'dark-mode'])) {
-            setcookie('tema', $_POST['tema'], time() + 3600 * 24, '/');
+            setcookie('tema', $_POST['tema'], time() + 3600 * 24, $_ENV['host.folder']);
             $_COOKIE['tema'] = $_POST['tema'];
         }
 
@@ -60,12 +60,12 @@ class InicioController extends BaseController
     public function doSeleccionarTemaModal(string $url = ''): void
     {
         if (isset($_POST['tema']) && in_array($_POST['tema'], ['default', 'dark-mode'])) {
-            setcookie('tema', $_POST['tema'], time() + 3600 * 24, '/');
+            setcookie('tema', $_POST['tema'], time() + 3600 * 24, $_ENV['host.folder']);
             $_COOKIE['tema'] = $_POST['tema'];
         }
 
         if ($url === '') {
-            header('location: /');
+            header('location: ' . $_ENV['host.folder']);
         } else {
             header('location: ' . $url);
         }
