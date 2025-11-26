@@ -16,4 +16,11 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt->execute(['email' => $username]);
         return $stmt->fetch();
     }
+
+    public function changeName(string $oldName, string $newName): bool
+    {
+        $sql = "UPDATE usuario_sistema SET nombre = :newName WHERE nombre = :oldName";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['oldName' => $oldName, 'newName' => $newName]);
+    }
 }

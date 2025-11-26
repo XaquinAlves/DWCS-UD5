@@ -100,7 +100,12 @@ class InicioController extends BaseController
                 $errors['usuario'] = 'El nombre de usuario debe contener solo letras y números, 
                                         y tener entre 3 y 20 caracteres';
             } else {
-                $_SESSION['usuario']['nombre'] = $_POST['usuario'];
+                $model = new UsuarioSistemaModel();
+                if ($model->changeName($_SESSION['usuario']['nombre'], $_POST['usuario'])) {
+                    $_SESSION['usuario']['nombre'] = $_POST['usuario'];
+                } else {
+                    $errors['usuario'] = 'Error con la base de datos';
+                }
             }
         } else {
             $errors['usuario'] = 'El nombre de usuario es obligatorio';
