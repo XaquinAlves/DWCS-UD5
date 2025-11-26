@@ -16,6 +16,18 @@ class FrontController
     {
         session_start();
         Route::add(
+            '([\/\w-]*)',
+            function () {
+                $controller = new InicioController();
+                if (!isset($_SESSION['usuario'])) {
+                    $controller->showLogin();
+                } else {
+                    $controller->index();
+                }
+            }
+        );
+
+        Route::add(
             '/',
             function () {
                 $controlador = new InicioController();
@@ -226,7 +238,7 @@ class FrontController
             '/panel/usuario',
             function () {
                 $controlador = new InicioController();
-                $controlador->showLogin();
+                $controlador->showChangeUsername();
             },
             'get'
         );
@@ -235,7 +247,7 @@ class FrontController
             '/panel/usuario',
             function () {
                 $controlador = new InicioController();
-                $controlador->doLogin();
+                $controlador->doChangeUsername();
             },
             'post'
         );
@@ -248,6 +260,16 @@ class FrontController
             },
             'get'
         );
+
+        Route::add(
+            '/login',
+            function () {
+                $controlador = new InicioController();
+                $controlador->showLogin();
+            }
+        );
+
+
 
         Route::pathNotFound(
             function () {

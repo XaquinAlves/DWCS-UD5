@@ -70,7 +70,7 @@ class InicioController extends BaseController
         }
     }
 
-    public function showLogin(array $input = [], array $errors = []): void
+    public function showChangeUsername(array $input = [], array $errors = []): void
     {
         if ($input === []) {
             $input['usuario'] = $_SESSION['usuario'] ?? '';
@@ -78,7 +78,7 @@ class InicioController extends BaseController
 
         $data = array(
             'titulo' => isset($_SESSION['usuario']) ? 'Ajustes de la cuenta ' . $_SESSION['usuario'] : 'Login',
-            'breadcrumb' => ['Panel', 'Login'],
+            'breadcrumb' => ['Panel', 'Username'],
             'seccion' => '/login',
             'tituloCard' => 'Campos básicos',
             'errors' => $errors,
@@ -89,7 +89,7 @@ class InicioController extends BaseController
         view->showViews(array('templates/header.view.php', 'cuenta.view.php', 'templates/footer.view.php'), $data);
     }
 
-    public function doLogin(): void
+    public function doChangeUsername(): void
     {
         $errors = [];
 
@@ -105,10 +105,21 @@ class InicioController extends BaseController
         }
 
         if ($errors !== []) {
-            $this->showLogin(filter_input_array(INPUT_POST), $errors);
+            $this->showChangeUsername(filter_input_array(INPUT_POST), $errors);
         } else {
             header('location: /');
         }
+    }
+
+    public function showLogin(): void
+    {
+        $data = [
+            'titulo' => 'Login',
+            'breadcrumb' => ['Login'],
+            'seccion' => '/login'
+        ];
+
+        $this->view->showViews(array('login.view.php'), $data);
     }
 
     public function logOut(): void
