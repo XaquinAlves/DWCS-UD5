@@ -14,6 +14,7 @@ class FrontController
 {
     public static function main(): void
     {
+        session_start();
         Route::add(
             '/',
             function () {

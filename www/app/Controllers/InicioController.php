@@ -8,8 +8,6 @@ use Com\Daw2\Core\BaseController;
 use Com\Daw2\Models\testModel;
 use http\Exception\InvalidArgumentException;
 
-session_start();
-
 class InicioController extends BaseController
 {
     public function index(): void
@@ -72,14 +70,19 @@ class InicioController extends BaseController
         }
     }
 
-    public function showLogin(array $errors = []): void
+    public function showLogin(array $input = [], array $errors = []): void
     {
+        if ($input === []) {
+            $input['usuario'] = $_SESSION['usuario'] ?? '';
+        }
+
         $data = array(
             'titulo' => isset($_SESSION['usuario']) ? 'Ajustes de la cuenta ' . $_SESSION['usuario'] : 'Login',
-            'breadcrumb' => ['Inicio', 'Login'],
+            'breadcrumb' => ['Panel', 'Login'],
             'seccion' => '/login',
             'tituloCard' => 'Campos básicos',
-            'errors' => $errors
+            'errors' => $errors,
+            'input' => $input
         );
 
         $this->
@@ -91,17 +94,18 @@ class InicioController extends BaseController
         $errors = [];
 
         if (isset($_POST['usuario']) && $_POST['usuario'] !== '') {
-            if (preg_match('/^[a-zA-Z0-9]{3,20}$/', $_POST['usuario']) === 0) {
-                $errors[] = 'El nombre de usuario debe contener solo letras y numeros, y tener entre 3 y 20 caracteres';
+            if (preg_match('/^[\p{L}0-9]{3,20}$/', $_POST['usuario']) === 0) {
+                $errors['usuario'] = 'El nombre de usuario debe contener solo letras y números, 
+                                        y tener entre 3 y 20 caracteres';
             } else {
                 $_SESSION['usuario'] = $_POST['usuario'];
             }
         } else {
-            $errors[] = 'El nombre de usuario es obligatorio';
+            $errors['usuario'] = 'El nombre de usuario es obligatorio';
         }
 
         if ($errors !== []) {
-            $this->showLogin($errors);
+            $this->showLogin(filter_input_array(INPUT_POST), $errors);
         } else {
             header('location: /');
         }

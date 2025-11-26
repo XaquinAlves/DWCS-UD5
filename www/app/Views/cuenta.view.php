@@ -19,15 +19,15 @@ declare(strict_types=1);
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="usuario">Nombre de usuario: </label>
-                                <input type="text" class="form-control" id="usuario" name="usuario">
+                                <input type="text" class="form-control" id="usuario" name="usuario"
+                                    value="<?php echo isset($input['usuario']) ? $input['usuario'] :
+                                            (isset($_SESSION['usuario']) ?? '') ?>">
                             </div>
-                            <?php if (($errors !== [])) {
-                                foreach ($errors as $error) { ?>
-                                        <div class="mb-3 alert alert-danger" >
-                                            <?php echo $error ?>
-                                        </div>
-                                <?php }
-                            } ?>
+                            <?php if (isset($errors['usuario'])) { ?>
+                                        <p class="text-danger small" >
+                                            <?php echo $errors['usuario'] ?>
+                                        </p>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
