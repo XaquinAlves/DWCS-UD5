@@ -46,6 +46,11 @@
                 <div class="row">
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary btn-block float-right">Acceder</button>
+                        <?php if (isset($errors['login'])) { ?>
+                            <p class="text-danger small" >
+                                <?php echo $errors['login'] ?>
+                            </p>
+                        <?php } ?>
                     </div>
                     <!-- /.col -->
                 </div>

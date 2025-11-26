@@ -16,7 +16,7 @@ class FrontController
     {
         session_start();
         Route::add(
-            '([\/\w-]*)',
+            '/login',
             function () {
                 $controller = new InicioController();
                 if (!isset($_SESSION['usuario'])) {
@@ -25,6 +25,15 @@ class FrontController
                     $controller->index();
                 }
             }
+        );
+
+        Route::add(
+            '/login',
+            function () {
+                $controlador = new InicioController();
+                $controlador->doLogin();
+            },
+            'post'
         );
 
         Route::add(
@@ -260,16 +269,6 @@ class FrontController
             },
             'get'
         );
-
-        Route::add(
-            '/login',
-            function () {
-                $controlador = new InicioController();
-                $controlador->showLogin();
-            }
-        );
-
-
 
         Route::pathNotFound(
             function () {

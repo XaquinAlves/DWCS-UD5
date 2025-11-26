@@ -21,7 +21,7 @@ declare(strict_types=1);
                                 <label for="usuario">Nombre de usuario: </label>
                                 <input type="text" class="form-control" id="usuario" name="usuario"
                                     value="<?php echo isset($input['usuario']) ? $input['usuario'] :
-                                            (isset($_SESSION['usuario']) ?? '') ?>">
+                                            (isset($_SESSION['usuario']['nombre']) ?? '') ?>">
                             </div>
                             <?php if (isset($errors['usuario'])) { ?>
                                         <p class="text-danger small" >

@@ -84,7 +84,7 @@
           <img src="assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="/panel/usuario" class="d-block"><?php echo $_SESSION['usuario'] ?? 'Sin usuario' ?></a>
+          <a href="/panel/usuario" class="d-block"><?php echo $_SESSION['usuario']['nombre'] ?? 'Sin usuario' ?></a>
         </div>
       </div>
      <?php

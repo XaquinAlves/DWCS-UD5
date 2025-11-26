@@ -6,6 +6,7 @@ namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
 use Com\Daw2\Models\testModel;
+use Com\Daw2\Models\UsuarioSistemaModel;
 use http\Exception\InvalidArgumentException;
 
 class InicioController extends BaseController
@@ -73,11 +74,12 @@ class InicioController extends BaseController
     public function showChangeUsername(array $input = [], array $errors = []): void
     {
         if ($input === []) {
-            $input['usuario'] = $_SESSION['usuario'] ?? '';
+            $input['usuario'] = $_SESSION['usuario']['nombre'] ?? '';
         }
 
         $data = array(
-            'titulo' => isset($_SESSION['usuario']) ? 'Ajustes de la cuenta ' . $_SESSION['usuario'] : 'Login',
+            'titulo' => isset($_SESSION['usuario']) ? 'Ajustes de la cuenta ' . $_SESSION['usuario']['nombre'] :
+                'Login',
             'breadcrumb' => ['Panel', 'Username'],
             'seccion' => '/login',
             'tituloCard' => 'Campos básicos',
@@ -98,7 +100,7 @@ class InicioController extends BaseController
                 $errors['usuario'] = 'El nombre de usuario debe contener solo letras y números, 
                                         y tener entre 3 y 20 caracteres';
             } else {
-                $_SESSION['usuario'] = $_POST['usuario'];
+                $_SESSION['usuario']['nombre'] = $_POST['usuario'];
             }
         } else {
             $errors['usuario'] = 'El nombre de usuario es obligatorio';
@@ -111,20 +113,44 @@ class InicioController extends BaseController
         }
     }
 
-    public function showLogin(): void
+    public function showLogin(array $errors = []): void
     {
         $data = [
             'titulo' => 'Login',
             'breadcrumb' => ['Login'],
-            'seccion' => '/login'
+            'seccion' => '/login',
+            'errors' => $errors
         ];
 
         $this->view->showViews(array('login.view.php'), $data);
     }
 
+    public function doLogin(): void
+    {
+        $errors = [];
+        $model = new UsuarioSistemaModel();
+
+        if (isset($_POST['email']) && isset($_POST['pass'])) {
+            $user = $model->findUsuario($_POST['email']);
+            if ($user !== []) {
+                $_SESSION['usuario'] = $user;
+            } else {
+                $errors['login'] = "Datos incorrectos";
+            }
+        } else {
+            $errors['login'] = 'Campo vacío';
+        }
+
+        if ($errors !== []) {
+            $this->showLogin($errors);
+        } else {
+            header('location: /');
+        }
+    }
+
     public function logOut(): void
     {
         session_destroy();
-        header('location: /');
+        header('location: /login');
     }
 }
