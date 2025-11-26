@@ -41,9 +41,6 @@ class View
 
     public function showViews(array $views, $vars = array()): void
     {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
         //$name - nombre de nuestra plantilla, por ej, listar.php
         //$vars - contenedor de variables,
         //   es un array del tipo clave => valor (opcional).

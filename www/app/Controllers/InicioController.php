@@ -8,6 +8,8 @@ use Com\Daw2\Core\BaseController;
 use Com\Daw2\Models\testModel;
 use http\Exception\InvalidArgumentException;
 
+session_start();
+
 class InicioController extends BaseController
 {
     public function index(): void
@@ -72,10 +74,6 @@ class InicioController extends BaseController
 
     public function showLogin(array $errors = []): void
     {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-
         $data = array(
             'titulo' => isset($_SESSION['usuario']) ? 'Ajustes de la cuenta ' . $_SESSION['usuario'] : 'Login',
             'breadcrumb' => ['Inicio', 'Login'],
@@ -91,10 +89,6 @@ class InicioController extends BaseController
     public function doLogin(): void
     {
         $errors = [];
-
-        if (!isset($_SESSION)) {
-            session_start();
-        }
 
         if (isset($_POST['usuario']) && $_POST['usuario'] !== '') {
             if (preg_match('/^[a-zA-Z0-9]{3,20}$/', $_POST['usuario']) === 0) {
@@ -115,10 +109,6 @@ class InicioController extends BaseController
 
     public function logOut(): void
     {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-
         session_destroy();
         header('location: /');
     }
