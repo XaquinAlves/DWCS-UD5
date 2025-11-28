@@ -39,33 +39,6 @@ class FrontController
                     header('Location: ' . $_ENV['host.folder'] . 'login');
                 }
             );
-        } elseif ($_SESSION['usuario']['id_rol'] == '4') {
-            Route::add(
-                '/',
-                function () {
-                    $controlador = new InicioController();
-                    $controlador->index();
-                },
-                'get'
-            );
-
-
-            Route::add(
-                '/productos',
-                function () {
-                    $controlador = new ProductosController();
-                    $controlador->getProductos();
-                },
-                'get'
-            );
-
-            Route::pathNotFound(
-                function () {
-                    $controller = new ErroresController();
-                    $controller->error404();
-                }
-            );
-
         } else {
             Route::add(
                 '/',
@@ -289,8 +262,13 @@ class FrontController
             Route::add(
                 '/usuarios/editar/(\w{3,50})',
                 function ($username) {
-                    $controlador = new TrabajadoresController();
-                    $controlador->showEditUsuario($username);
+                    if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->showEditUsuario($username);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -298,8 +276,13 @@ class FrontController
             Route::add(
                 '/usuarios/editar/(\w{3,50})',
                 function ($username) {
-                    $controlador = new TrabajadoresController();
-                    $controlador->doEditUsuario($username);
+                    if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->doEditUsuario($username);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'post'
             );
@@ -307,8 +290,13 @@ class FrontController
             Route::add(
                 '/usuarios/borrar/(\w{3,50})',
                 function ($username) {
-                    $controlador = new TrabajadoresController();
-                    $controlador->deleteUsuario($username);
+                    if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->deleteUsuario($username);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -316,8 +304,13 @@ class FrontController
             Route::add(
                 '/usuarios/activar/(\w{3,50})',
                 function ($username) {
-                    $controlador = new TrabajadoresController();
-                    $controlador->activarUsuario($username);
+                    if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->activarUsuario($username);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
