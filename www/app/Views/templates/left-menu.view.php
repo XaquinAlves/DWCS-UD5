@@ -27,13 +27,15 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3'])) { ?>
               <li class="nav-item">
                 <a href="<?php echo $_ENV['host.folder'] ?>demo-proveedores" class="nav-link
-                <?php echo $seccion === $_ENV['host.folder'] . 'demo-proveedores' ? 'active' : ''; ?>">
+                    <?php echo $seccion === $_ENV['host.folder'] . 'demo-proveedores' ? 'active' : ''; ?>">
                   <i class="fas fa-laptop-code nav-icon"></i>
                   <p>Demo Proveedores</p>
                 </a>
               </li>
+              <?php } ?>
               <li class="nav-item">
                 <a href="<?php echo $_ENV['host.folder'] ?>panel/temas" class="nav-link
                 <?php echo $seccion === $_ENV['host.folder'] . 'panel/temas' ? 'active' : ''; ?>">
@@ -52,6 +54,7 @@
                 </li>
             </ul>
           </li>
+          <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2'])) {?>
           <li class="nav-item <?php echo (in_array($seccion, [
               $_ENV['host.folder'] . 'trabajadores-all',
               $_ENV['host.folder'] . 'usuarios',
@@ -151,6 +154,8 @@
                   </li>
               </ul>
           </li>
+          <?php } ?>
+          <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2'])) { ?>
           <li class="nav-item <?php echo (in_array($seccion, [
               $_ENV['host.folder'] . 'poblacion-pontevedra',
               $_ENV['host.folder'] . 'poblacion-grupos-edad'
@@ -182,6 +187,8 @@
                   </li>
              </ul>
           </li>
+          <?php } ?>
+          <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2','3','4'])) {?>
           <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'productos'])) ? 'menu-open' :
                   '';?>">
               <a href="#" class="nav-link">
@@ -202,6 +209,7 @@
                   </li>
               </ul>
           </li>
+          <?php } ?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
