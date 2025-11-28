@@ -39,6 +39,33 @@ class FrontController
                     header('Location: ' . $_ENV['host.folder'] . 'login');
                 }
             );
+        } elseif ($_SESSION['usuario']['id_rol'] == '4') {
+            Route::add(
+                '/',
+                function () {
+                    $controlador = new InicioController();
+                    $controlador->index();
+                },
+                'get'
+            );
+
+
+            Route::add(
+                '/productos',
+                function () {
+                    $controlador = new ProductosController();
+                    $controlador->getProductos();
+                },
+                'get'
+            );
+
+            Route::pathNotFound(
+                function () {
+                    $controller = new ErroresController();
+                    $controller->error404();
+                }
+            );
+
         } else {
             Route::add(
                 '/',
@@ -52,8 +79,13 @@ class FrontController
             Route::add(
                 '/demo-proveedores',
                 function () {
-                    $controlador = new InicioController();
-                    $controlador->demo();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        $controlador = new InicioController();
+                        $controlador->demo();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -61,8 +93,13 @@ class FrontController
             Route::add(
                 '/trabajadores-all',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getAllTrabajadores();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getAllTrabajadores();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -70,8 +107,13 @@ class FrontController
             Route::add(
                 '/trabajadores-all-assoc',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getAllTrabajadoresAssoc();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getAllTrabajadoresAssoc();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -79,8 +121,13 @@ class FrontController
             Route::add(
                 '/trabajadores-salario',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getAllTrabajadoresBySalario();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getAllTrabajadoresBySalario();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -88,8 +135,13 @@ class FrontController
             Route::add(
                 '/trabajadores-salario-assoc',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getAllTrabajadoresBySalarioAssoc();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getAllTrabajadoresBySalarioAssoc();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -97,8 +149,13 @@ class FrontController
             Route::add(
                 '/trabajadores-standard',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getTrabajadoresStandard();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getTrabajadoresStandard();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -106,8 +163,13 @@ class FrontController
             Route::add(
                 '/trabajadores-standard-assoc',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getTrabajadoresStandardAssoc();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getTrabajadoresStandardAssoc();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -115,8 +177,13 @@ class FrontController
             Route::add(
                 '/trabajadores-carlos',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getTrabajadoresCarlos();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getTrabajadoresCarlos();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -124,8 +191,13 @@ class FrontController
             Route::add(
                 '/trabajadores-carlos-assoc',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getTrabajadoresCarlosAssoc();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getTrabajadoresCarlosAssoc();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -133,8 +205,13 @@ class FrontController
             Route::add(
                 '/poblacion-pontevedra',
                 function () {
-                    $controlador = new CsvController();
-                    $controlador->getPoblacionPontevedra();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new CsvController();
+                        $controlador->getPoblacionPontevedra();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -142,8 +219,13 @@ class FrontController
             Route::add(
                 '/poblacion-grupos-edad',
                 function () {
-                    $controlador = new CsvController();
-                    $controlador->getPoblacionGruposEdad();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new CsvController();
+                        $controlador->getPoblacionGruposEdad();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -151,8 +233,13 @@ class FrontController
             Route::add(
                 '/usuarios',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->getUsuarios();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->getUsuarios();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -160,8 +247,13 @@ class FrontController
             Route::add(
                 '/productos',
                 function () {
-                    $controlador = new ProductosController();
-                    $controlador->getProductos();
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3','4']))) {
+                        $controlador = new ProductosController();
+                        $controlador->getProductos();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -169,8 +261,13 @@ class FrontController
             Route::add(
                 '/usuarios/alta',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->showAltaUsuario();
+                    if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->showAltaUsuario();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'get'
             );
@@ -178,8 +275,13 @@ class FrontController
             Route::add(
                 '/usuarios/alta',
                 function () {
-                    $controlador = new TrabajadoresController();
-                    $controlador->doAltaUsuario();
+                    if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        $controlador = new TrabajadoresController();
+                        $controlador->doAltaUsuario();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
                 },
                 'post'
             );

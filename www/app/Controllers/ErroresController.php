@@ -14,6 +14,14 @@ class ErroresController extends \Com\Daw2\Core\BaseController
         $this->view->showViews(array('templates/header.view.php', 'error.php', 'templates/footer.view.php'), $data);
     }
 
+    public function error403(): void
+    {
+        http_response_code(403);
+        $data = ['titulo' => 'Error 403'];
+        $data['texto'] = '403. Forbidden';
+        $this->view->showViews(array('templates/header.view.php', 'error.php', 'templates/footer.view.php'), $data);
+    }
+
     public function error405(): void
     {
         http_response_code(405);

@@ -58,9 +58,6 @@ class UsuariosSistemaController extends BaseController
     public function showLogin(array $errors = []): void
     {
         $data = [
-            'titulo' => 'Login',
-            'breadcrumb' => ['Login'],
-            'seccion' => '/login',
             'errors' => $errors
         ];
 
@@ -74,7 +71,8 @@ class UsuariosSistemaController extends BaseController
 
         if (isset($_POST['email']) && isset($_POST['pass'])) {
             $user = $model->findUsuario($_POST['email']);
-            if ($user !== []) {
+            if ($user && password_verify($_POST['pass'], $user['pass'])) {
+                session_regenerate_id();
                 $_SESSION['usuario'] = $user;
             } else {
                 $errors['login'] = "Datos incorrectos";
