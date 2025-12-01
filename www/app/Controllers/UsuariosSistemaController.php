@@ -127,12 +127,10 @@ class UsuariosSistemaController extends BaseController
 
     public function googleLogin(): void
     {
-        // Initialize the session
-        session_start();
         // Update the following variables
         $google_oauth_client_id = $_ENV['google.client.id'];
-        $google_oauth_client_secret = $_ENV['google.clint.secret'];
-        $google_oauth_redirect_uri = 'http://localhost/google-login/google-oauth.php';
+        $google_oauth_client_secret = $_ENV['google.client.secret'];
+        $google_oauth_redirect_uri = 'http://localhost:8085/login/google-oauth.php';
         $google_oauth_version = 'v3';
         // If the captured code param exists and is valid
         if (isset($_GET['code']) && !empty($_GET['code'])) {
@@ -179,8 +177,8 @@ class UsuariosSistemaController extends BaseController
             // Make sure the profile data exists
             if (isset($profile['email'])) {
                 $google_name_parts = [];
-                $google_name_parts[] = isset($profile['given_name']) ? preg_replace('/[^a-zA-Z0-9]/s', '', $profile['given_name']) : '';
-                $google_name_parts[] = isset($profile['family_name']) ? preg_replace('/[^a-zA-Z0-9]/s', '', $profile['family_name']) : '';
+                $google_name_parts[] = isset($profile['given_name']) ? preg_replace('/[^\p{L}]/su', '', $profile['given_name']) : '';
+                $google_name_parts[] = isset($profile['family_name']) ? preg_replace('/[^\p{L}]/su', '', $profile['family_name']) : '';
                 // Code goes here...
             } else {
                 exit('Could not retrieve profile information! Please try again later!');
@@ -191,8 +189,10 @@ class UsuariosSistemaController extends BaseController
         // Authenticate the user
         session_regenerate_id();
         $_SESSION['google_loggedin'] = true;
-        $_SESSION['google_email'] = $profile['email'];
+        $_SESSION['usuario']['email'] = $profile['email'];
         $_SESSION['usuario']['nombre'] = implode(' ', $google_name_parts);
+        $_SESSION['usuario']['id_rol'] = 4;
         $_SESSION['google_picture'] = isset($profile['picture']) ? $profile['picture'] : '';
+        header('Location: ' . $_ENV['host.folder']);
     }
 }

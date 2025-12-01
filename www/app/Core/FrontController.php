@@ -50,6 +50,14 @@ class FrontController
                 }
             );
 
+            Route::add(
+                '/google-oauth.php',
+                function () {
+                    $controller = new UsuariosSistemaController();
+                    $controller->googleLogin();
+                }
+            );
+
             Route::pathNotFound(
                 function () {
                     header('Location: ' . $_ENV['host.folder'] . 'login');
@@ -63,14 +71,6 @@ class FrontController
                     $controlador->index();
                 },
                 'get'
-            );
-
-            Route::add(
-                '/login/google',
-                function () {
-                    $controller = new UsuariosSistemaController();
-                    $controller->showLoginGoogle();
-                }
             );
 
             Route::add(
