@@ -32,8 +32,8 @@ declare(strict_types=1);
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <label for="input_cat">Categoría:</label>
-                                <select name="input_cat[]" id="input_cat" class="form-control select2"
-                                        data-placeholder="Categoría" multiple>
+                                <select name="input_cat" id="input_cat" class="form-control select2"
+                                        data-placeholder="Categoría">
                                     <option value="">-</option>
                                     <?php foreach ($listaCategorias ?? [] as $categoria) { ?>
                                         <option value="<?php echo $categoria['id_cat'] ?>"
@@ -49,8 +49,8 @@ declare(strict_types=1);
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <label for="input_prov">Proveedor:</label>
-                                <select name="input_prov" id="input_prov" class="form-control"
-                                        data-placeholder="Rol">
+                                <select name="input_prov[]" id="input_prov" class="form-control"
+                                        multiple>
                                     <option value="">-</option>
                                     <?php foreach ($listaProveedores ?? [] as $prov) { ?>
                                         <option value="<?php echo $prov['cif'] ?>" <?php echo
