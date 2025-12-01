@@ -48,4 +48,11 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute(['email' => $username]);
     }
+
+    public function updatePassword(string $username, string $password): bool
+    {
+        $sql = "UPDATE usuario_sistema SET pass = :pass WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['email' => $username, 'pass' => $password]);
+    }
 }

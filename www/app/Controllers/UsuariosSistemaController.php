@@ -74,7 +74,7 @@ class UsuariosSistemaController extends BaseController
             if ($user && password_verify($_POST['pass'], $user['pass'])) {
                 if ($user['baja'] == 0) {
                     session_regenerate_id();
-                    $model->updateLastLogin($user['nombre']);
+                    $model->updateLastLogin($user['email']);
                     $_SESSION['usuario'] = $user;
                 } else {
                     $errors['login'] = "Usuario inactivo";
@@ -97,5 +97,20 @@ class UsuariosSistemaController extends BaseController
     {
         session_destroy();
         header('location: ' . $_ENV['host.folder'] . 'login');
+    }
+
+    public function doCambiarPass(): void
+    {
+        $errors = [];
+        $model = new UsuarioSistemaModel();
+
+        if (isset($_POST['pass']) && $_POST['pass'] !== '') {
+            $pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+            $model->updatePassword($_SESSION['usuario']['email'], $pass);
+        } else {
+            $errors['pass'] = 'Campo contraseña vacío';
+        }
+
+        $this->showChangeUsername([], $errors);
     }
 }

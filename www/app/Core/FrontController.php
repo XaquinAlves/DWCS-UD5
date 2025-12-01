@@ -361,6 +361,15 @@ class FrontController
             );
 
             Route::add(
+                '/panel/pass',
+                function () {
+                    $controlador = new UsuariosSistemaController();
+                    $controlador->doCambiarPass();
+                },
+                'post'
+            );
+
+            Route::add(
                 '/logout',
                 function () {
                     $controlador = new UsuariosSistemaController();
