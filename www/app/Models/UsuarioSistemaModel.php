@@ -41,4 +41,11 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
     }
+
+    public function updateLastLogin(string $username): bool
+    {
+        $sql = "UPDATE usuario_sistema SET last_date = NOW() WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['email' => $username]);
+    }
 }

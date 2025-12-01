@@ -13,7 +13,8 @@
         "vlucas/phpdotenv": "^5.5",
       "ext-mysqli": "*",
       "ext-pdo": "*",
-      "ext-http": "*"
+      "ext-http": "*",
+      "ext-curl": "*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "@stable"

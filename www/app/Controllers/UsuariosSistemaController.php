@@ -74,6 +74,7 @@ class UsuariosSistemaController extends BaseController
             if ($user && password_verify($_POST['pass'], $user['pass'])) {
                 if ($user['baja'] === 0) {
                     session_regenerate_id();
+                    $model->updateLastLogin($user['nombre']);
                     $_SESSION['usuario'] = $user;
                 } else {
                     $errors['login'] = "Usuario inactivo";
