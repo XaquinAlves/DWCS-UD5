@@ -72,8 +72,12 @@ class UsuariosSistemaController extends BaseController
         if (isset($_POST['email']) && isset($_POST['pass'])) {
             $user = $model->findUsuario($_POST['email']);
             if ($user && password_verify($_POST['pass'], $user['pass'])) {
-                session_regenerate_id();
-                $_SESSION['usuario'] = $user;
+                if ($user['baja'] === 0) {
+                    session_regenerate_id();
+                    $_SESSION['usuario'] = $user;
+                } else {
+                    $errors['login'] = "Usuario inactivo";
+                }
             } else {
                 $errors['login'] = "Datos incorrectos";
             }
