@@ -61,8 +61,18 @@ class UsuariosSistemaController extends BaseController
             'errors' => $errors
         ];
 
-        $this->view->showViews(array('login.view.php'), $data);
+        $this->view->show('login.view.php', $data);
     }
+
+    public function showLoginGoogle(array $errors = []): void
+    {
+        $data = [
+            'errors' => $errors
+        ];
+
+        $this->view->showGoogle('login.php', $data);
+    }
+
 
     public function doLogin(): void
     {

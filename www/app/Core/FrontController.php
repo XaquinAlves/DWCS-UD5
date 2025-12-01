@@ -34,6 +34,23 @@ class FrontController
                 'post'
             );
 
+            Route::add(
+                '/login/google',
+                function () {
+                    $controller = new UsuariosSistemaController();
+                    $controller->showLoginGoogle();
+                }
+            );
+
+            Route::add(
+                '/login/google',
+                function () {
+                    $controlador = new UsuariosSistemaController();
+                    $controlador->doLogin();
+                },
+                'post'
+            );
+
             Route::pathNotFound(
                 function () {
                     header('Location: ' . $_ENV['host.folder'] . 'login');

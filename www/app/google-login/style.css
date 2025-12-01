@@ -1,0 +1,151 @@
+* {
+    box-sizing: border-box;
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+}
+body {
+    background-color: #ca6454;
+    margin: 0;
+}
+.content {
+    max-width: 400px;
+    width: 100%;
+    margin: 50px auto 15px auto;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    padding: 25px;
+}
+.content h1 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 15px 0;
+    color: #3b4252;
+}
+.content h1 .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #9196a5;
+    margin-left: 5px;
+    font-size: 14px;
+}
+.content h1 .icon svg {
+    fill: #fff;
+}
+.content .login-txt {
+    margin: 0;
+    padding: 15px 0 25px 0;
+    color: #3b4252;
+}
+.content .google-login-btn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #d6523e;
+    cursor: pointer;
+}
+.content .google-login-btn .icon {
+    display: inline-flex;
+    height: 100%;
+    padding: 15px 20px;
+    align-items: center;
+    justify-content: center;
+    background-color: #cf412c;
+    margin-right: 15px;
+}
+.content .google-login-btn .icon svg {
+    fill: #fff;
+}
+.content .google-login-btn:hover {
+    background-color: #d44a36;
+}
+.content .google-login-btn:hover .icon {
+    background-color: #c63f2a;
+}
+.content .profile-picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0 25px 0;
+}
+.content .profile-picture img {
+    width: 100%;
+    max-width: 100px;
+    border-radius: 50%;
+}
+.content .profile-details {
+    display: flex;
+    flex-flow: column;
+    padding: 10px 0;
+}
+.content .profile-details > div {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f1f2f5;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+.content .profile-details > div .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #9196a5;
+    margin-right: 15px;
+    font-size: 14px;
+}
+.content .profile-details > div .icon svg {
+    fill: #fff;
+}
+.content .profile-details > div strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+}
+.content .profile-details > div:last-child {
+    border-bottom: none;
+}
+.content .logout-btn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #db5d36;
+    cursor: pointer;
+}
+.content .logout-btn .icon {
+    display: inline-flex;
+    height: 100%;
+    padding: 15px 20px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d24e26;
+    margin-right: 15px;
+}
+.content .logout-btn .icon svg {
+    fill: #fff;
+}
+.content .logout-btn:hover {
+    background-color: #d9562d;
+}
+.content .logout-btn:hover .icon {
+    background-color: #c94b24;
+}
