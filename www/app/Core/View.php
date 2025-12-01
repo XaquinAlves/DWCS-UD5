@@ -34,7 +34,6 @@ class View
         }
         //Necesario para saber en la vista qué controlador hemos cargado y así por ejemplo marcar en la barra izquierda la sección en la que estamos
         $controller = $this->controller;
-        $usuario = $_SESSION['usuario'];
         //Finalmente, incluimos la plantilla.
         include($path);
     }

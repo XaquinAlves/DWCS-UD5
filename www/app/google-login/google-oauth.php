@@ -6,7 +6,7 @@ declare(strict_types=1);
 session_start();
 // Update the following variables
 $google_oauth_client_id = $_ENV['google.client.id'];
-$google_oauth_client_secret = $_ENV['google.clint.secret'];
+$google_oauth_client_secret = $_ENV['google.client.secret'];
 $google_oauth_redirect_uri = 'http://localhost/google-login/google-oauth.php';
 $google_oauth_version = 'v3';
 // If the captured code param exists and is valid
