@@ -6,6 +6,7 @@ use Com\Daw2\Controllers\CsvController;
 use Com\Daw2\Controllers\ErroresController;
 use Com\Daw2\Controllers\InicioController;
 use Com\Daw2\Controllers\ProductosController;
+use Com\Daw2\Controllers\ProveedoresController;
 use Com\Daw2\Controllers\TrabajadoresController;
 use Com\Daw2\Controllers\UsuariosController;
 use Com\Daw2\Controllers\UsuariosSistemaController;
@@ -247,6 +248,20 @@ class FrontController
                     if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3','4']))) {
                         $controlador = new ProductosController();
                         $controlador->getProductos();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'get'
+            );
+
+            Route::add(
+                '/proveedores',
+                function () {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
+                        $controlador = new ProveedoresController();
+                        $controlador->showProveedores();
                     } else {
                         $controlador = new ErroresController();
                         $controlador->error403();

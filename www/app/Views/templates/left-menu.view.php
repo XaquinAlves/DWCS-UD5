@@ -210,6 +210,28 @@
               </ul>
           </li>
           <?php } ?>
+          <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2','3'])) {?>
+            <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'proveedores'])) ? 'menu-open' :
+            '';?>">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-user-tie"></i>
+                    <p>
+                        Proveedores
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="<?php echo $_ENV['host.folder'] ?>proveedores" class="nav-link
+                        <?php echo $seccion === $_ENV['host.folder'] . 'proveedores' ?
+                        'active' : ''; ?>">
+                            <i class="nav-icon fas fa-user-alt"></i>
+                            <p>Proveedores</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <?php } ?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
