@@ -123,4 +123,12 @@ class ProveedoresModel extends BaseDbModel
 
         return [ 'conditions' => $conditions, 'params' => $params];
     }
+
+    public function altaProveedor(array $input): bool
+    {
+        $sql = "INSERT INTO proveedor (cif, codigo, nombre, email, id_country, direccion, website)
+            VALUES (:cif, :codigo, :nombre, :email, :pais, :direccion, :website)";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($input);
+    }
 }

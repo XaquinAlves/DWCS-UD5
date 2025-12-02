@@ -63,6 +63,7 @@ declare(strict_types=1);
                 <!-- Card footer -->
                 <div class="card-footer">
                     <div class="col-12 text-right">
+                        <a href="/proveedores/alta" class="btn btn-success float-left">Nuevo proveedor</a>
                         <a href="/proveedores" class="btn btn-danger">Cancelar</a>
                         <input type="submit" value="Enviar" name="enviar" class="btn btn-primary ml-2"/>
                     </div>

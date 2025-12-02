@@ -35,4 +35,26 @@ class ProveedoresController extends BaseController
         $this->view->showViews(array('templates/header.view.php', 'proveedores.view.php',
             'templates/footer.view.php'), $data);
     }
+
+    public function showEditProveedor(): void
+    {
+        $model = new \Com\Daw2\Models\ProveedoresModel();
+        $modelCountrys = new \Com\Daw2\Models\AuxPaisModel();
+
+        $copiaGet = $_GET;
+
+        $queryParams = http_build_query($copiaGet);
+
+        $data = array(
+            'titulo' => 'Edición Proveedor',
+            'breadcrumb' => ['proveedores', 'editar'],
+            'seccion' => '/proveedores/editar',
+            'listaPaises' => $modelCountrys->getAll(),
+            'listaProveedores' => $model->getProveedoresByFilters($_GET),
+            'input' => filter_input_array(INPUT_GET)
+        );
+
+        $this->view->showViews(array('templates/header.view.php', 'proveedores.edit.view.php',
+            'templates/footer.view.php'), $data);
+    }
 }
