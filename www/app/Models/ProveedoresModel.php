@@ -124,9 +124,9 @@ class ProveedoresModel extends BaseDbModel
             $conditions[] = "email LIKE :email";
         }
 
-        if (!empty($filters['pais'])) {
-            $params['pais'] = $filters['pais'];
-            $conditions[] = "id_country = :pais";
+        if (!empty($filters['id_country'])) {
+            $params['id_country'] = $filters['id_country'];
+            $conditions[] = "id_country = :id_country";
         }
 
         return [ 'conditions' => $conditions, 'params' => $params];
