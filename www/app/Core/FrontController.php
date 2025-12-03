@@ -275,7 +275,7 @@ class FrontController
                 function () {
                     if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
                         $controlador = new ProveedoresController();
-                        $controlador->showEditProveedor();
+                        $controlador->showAltaProveedor();
                     } else {
                         $controlador = new ErroresController();
                         $controlador->error403();
@@ -289,13 +289,55 @@ class FrontController
                 function () {
                     if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
                         $controlador = new ProveedoresController();
-                        $controlador->showProveedores();
+                        $controlador->doAltaProveedor();
                     } else {
                         $controlador = new ErroresController();
                         $controlador->error403();
                     }
                 },
                 'post'
+            );
+
+            Route::add(
+                '/proveedores/editar/(\w{3,50})',
+                function ($cif) {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
+                        $controlador = new ProveedoresController();
+                        $controlador->showEditProveedor($cif);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'get'
+            );
+
+            Route::add(
+                '/proveedores/editar/(\w{3,50})',
+                function ($cif) {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
+                        $controlador = new ProveedoresController();
+                        $controlador->doEditProveedor($cif);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'post'
+            );
+
+            Route::add(
+                '/proveedores/borrar/(\w{3,50})',
+                function ($cif) {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
+                        $controlador = new ProveedoresController();
+                        $controlador->doDeleteProveedor($cif);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'get'
             );
 
             Route::add(

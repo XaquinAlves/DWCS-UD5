@@ -31,6 +31,14 @@ class ProveedoresModel extends BaseDbModel
         return $stmt->fetchAll();
     }
 
+    public function findProveedorCif(string $cif): array|false
+    {
+        $sql = "SELECT cif FROM proveedor WHERE cif = :cif";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['cif' => $cif]);
+        return $stmt->fetchColumn();
+    }
+
     public function getProveedoresByFilters(array $filters): array
     {
         $sql = self::SELECT_FROM;
@@ -126,9 +134,33 @@ class ProveedoresModel extends BaseDbModel
 
     public function altaProveedor(array $input): bool
     {
-        $sql = "INSERT INTO proveedor (cif, codigo, nombre, email, id_country, direccion, website)
-            VALUES (:cif, :codigo, :nombre, :email, :pais, :direccion, :website)";
+        $sql = "INSERT INTO proveedor (cif, codigo, nombre, email, id_country, direccion, website, telefono)
+            VALUES (:cif, :codigo, :nombre, :email, :id_country, :direccion, :website, :telefono)";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($input);
+    }
+
+    public function updateProveedor(array $input): bool
+    {
+        $sql = "UPDATE proveedor SET proveedor.codigo = :codigo, nombre = :nombre, email = :email,
+                 direccion = :direccion, id_country = :id_country, website = :website, telefono = :telefono 
+                 WHERE cif = :cif";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($input);
+    }
+
+    public function findProveedor(string $cif): array|false
+    {
+        $sql = "SELECT * FROM proveedor WHERE cif = :cif";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['cif' => $cif]);
+        return $stmt->fetch();
+    }
+
+    public function deleteProveedor(string $cif): bool
+    {
+        $sql = "DELETE FROM proveedor WHERE cif = :cif";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['cif' => $cif]);
     }
 }

@@ -51,7 +51,8 @@ declare(strict_types=1);
                                 <select name="id_country" id="id_country" class="form-control">
                                     <option value=""> - </option>
                                     <?php foreach ($listaPaises ?? [] as $pais) { ?>
-                                        <option value="<?php echo $pais['id'] ?>">
+                                        <option value="<?php echo $pais['id'] ?>" <?php echo isset($input['id_country'])
+                                        && $pais['id'] == $input['id_country'] ? 'selected' : '' ?>>
                                             <?php echo ucfirst($pais['country_name']) ?>
                                         </option>
                                     <?php } ?>
@@ -82,38 +83,43 @@ declare(strict_types=1);
                     <table class="table table-bordered table-striped">
                         <thead>
                             <th>
-                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo
-                                isset($_GET['ordenar']) && $_GET['ordenar'] == 1 ? 2 : 1; ?>">
+                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo $ordenar === 1 ? 2 : 1; ?>">
                                     CIF
-                                    <i class="fas fa-sort"></i>
+                                    <?php echo $ordenar === 1 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 2 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo
-                                isset($_GET['ordenar']) && $_GET['ordenar'] == 3 ? 4 : 3; ?>">
+                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo $ordenar === 3 ? 4 : 3; ?>">
                                     Código
-                                    <i class="fas fa-sort"></i>
+                                    <?php echo $ordenar === 3 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 4 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo
-                                isset($_GET['ordenar']) && $_GET['ordenar'] == 5 ? 6 : 5; ?>">
+                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo $ordenar === 5 ? 6 : 5; ?>">
                                     Nombre
-                                    <i class="fas fa-sort"></i>
+                                    <?php echo $ordenar === 5 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 6 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo
-                                isset($_GET['ordenar']) && $_GET['ordenar'] == 7 ? 8 : 7 ?>">
+                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo $ordenar === 7 ? 8 : 7 ?>">
                                     Email
-                                    <i class="fas fa-sort"></i>
+                                    <?php echo $ordenar === 7 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 8 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                             <th>
-                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo
-                                isset($_GET['ordenar']) && $_GET['ordenar'] == 9 ? 10 : 9 ?>">
+                                <a href="<?php echo $url ?? '' ?>&ordenar=<?php echo $ordenar === 9 ? 10 : 9 ?>">
                                     Pais
-                                    <i class="fas fa-sort"></i>
+                                    <?php echo $ordenar === 9 ?
+                                            '<i class="fas fa-sort-amount-down-alt"></i>' :
+                                            ($ordenar === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
                         </thead>
@@ -125,6 +131,16 @@ declare(strict_types=1);
                                     <td><?php echo $proveedor['nombre'] ?></td>
                                     <td><?php echo $proveedor['email'] ?></td>
                                     <td><?php echo $proveedor['country_name'] ?></td>
+                                    <td>
+                                        <a href="/proveedores/editar/<?php echo $proveedor['cif'] ?>"
+                                            class="btn btn-success">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="/proveedores/borrar/<?php echo $proveedor['cif'] ?>"
+                                            class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
