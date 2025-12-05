@@ -9,27 +9,38 @@ use PDO;
 
 class ProductosModel extends BaseDbModel
 {
-    private const SELECT_FROM = 'SELECT pro.codigo, pro.nombre as pro_name, cat.nombre_categoria as cat,
-                            prv.nombre as prv_name, pro.stock,pro.coste,
-                            pro.margen, (pro.coste * pro.margen * ((100 + pro.iva) / 100)) AS pvp
-                            FROM producto pro
-                            LEFT JOIN categoria cat ON cat.id_categoria = pro.id_categoria
-                            LEFT JOIN proveedor prv ON prv.cif = pro.proveedor';
+    private const SELECT_FROM = 'SELECT producto.codigo, producto.nombre as pro_name, cat.nombre_categoria as categoria,
+                            prv.nombre as prv_name, producto.stock, producto.coste, 
+                            producto.margen, (producto.coste * producto.margen * ((100 + producto.iva) / 100)) AS pvp
+                            FROM producto 
+                            LEFT JOIN categoria AS cat ON cat.id_categoria = producto.id_categoria
+                            LEFT JOIN proveedor AS prv ON prv.cif = producto.proveedor';
+    private const SELECT_FROM2 = 'SELECT pro.codigo, pro.nombre as pro_name, pro.stock, pro.coste, pro.margen,
+       (pro.coste * pro.margen * ((100 + pro.iva) / 100)) AS pvp, pro.id_categoria as categoria,
+       pro.proveedor as prv_name  FROM producto pro LEFT JOIN categoria cat ON cat.id_categoria = pro.id_categoria';
     private const SELECT_COUNT = 'SELECT COUNT(codigo) FROM producto';
-    private const ORDER_BY = ['pro.codigo', 'codigo DESC', 'pro_name', 'pro_name DESC', 'cat', 'cat DESC','prv_name',
-        'prv_name DESC','coste','coste DESC','margen','margen DESC', 'pvp', 'pvp DESC'];
+    private const ORDER_BY = ['producto.codigo', 'producto.codigo DESC', 'pro_name', 'pro_name DESC', 'categoria',
+        'categoria DESC','prv_name', 'prv_name DESC','producto.coste','producto.coste DESC','producto.margen',
+        'producto.margen DESC', 'pvp', 'pvp DESC'];
 
     public function getProductosByFilter(array $filters): array
     {
         $sql = self::SELECT_FROM;
         $queryItems = $this->buildProductosQuery($filters);
+
         $pageSize = $this->getPageSize($filters);
         $offset = ($this->getPage($filters) - 1) * $pageSize;
+
         $sql .= $queryItems['sql'] . " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1] .
-            " LIMIT $offset, $pageSize";
+            " LIMIT :offset, :pageSize";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($queryItems['params']);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':pageSize', $pageSize, PDO::PARAM_INT);
+        foreach ($queryItems['params'] as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        $stmt->execute();
 
         return $stmt->fetchAll();
     }
@@ -90,48 +101,48 @@ class ProductosModel extends BaseDbModel
         $conditions = [];
 
         if (!empty($filters['input_codigo'])) {
-            $conditions[] = 'pro.codigo LIKE :codigo';
-            $params['codigo'] = '%' . $filters['input_codigo'] . '%';
+            $conditions[] = ' producto.codigo = :codigo';
+            $params['codigo'] = $filters['input_codigo'];
         }
 
         if (!empty($filters['input_nombre'])) {
-            $conditions[] = 'pro.nombre LIKE :nombre';
+            $conditions[] = ' producto.nombre LIKE :nombre';
             $params['nombre'] = '%' . $filters['input_nombre'] . '%';
         }
 
         if (!empty($filters['input_cat'])) {
+            $conditions[] = ' producto.id_categoria = :cat';
+            $params['cat'] = $filters['input_cat'];
+        }
+
+        if (!empty($filters['input_prov'])) {
             $sentence = ' (';
-            for ($i = 0; $i < count($filters['input_cat']); $i++) {
-                $sentence .= "cat.id_categoria = :cat" . $i . " OR";
-                $params['cat' . $i] = $filters['input_cat'][$i];
+            for ($i = 0; $i < count($filters['input_prov']); $i++) {
+                $sentence .= " producto.proveedor = :prov" . $i . " OR";
+                $params['prov' . $i] = $filters['input_prov'][$i];
             }
             $conditions[] = rtrim($sentence, 'OR') . ')';
         }
 
-        if (!empty($filters['input_prov'])) {
-            $conditions[] = 'prv.cif = :prov';
-            $params['prov'] = $filters['input_prov'];
-        }
-
         if (!empty($filters['min_stock']) || !empty($filters['max_stock'])) {
             if (!empty($filters['min_stock'])) {
-                $conditions[] = 'pro.stock >= :min_stock';
+                $conditions[] = ' producto.stock >= :min_stock';
                 $params['min_stock'] = $filters['min_stock'];
             }
             if (!empty($filters['max_stock'])) {
-                $conditions[] = 'pro.stock <= :max_stock';
+                $conditions[] = ' producto.stock <= :max_stock';
                 $params['max_stock'] = $filters['max_stock'];
             }
         }
 
-        if (!empty($filters['min_pvp']) || !empty($filters['max_pvp'])) {
-            if (!empty($filters['min_pvp'])) {
-                $conditions[] = 'pro.pvp >= :min_pvp';
-                $params['min_pvp'] = $filters['min_pvp'];
+        if (!empty($filters['min_coste']) || !empty($filters['max_coste'])) {
+            if (!empty($filters['min_coste'])) {
+                $conditions[] = ' producto.coste >= :min_coste';
+                $params['min_coste'] = $filters['min_coste'];
             }
-            if (!empty($filters['max_pvp'])) {
-                $conditions[] = 'pro.pvp <= :max_pvp';
-                $params['max_pvp'] = $filters['max_pvp'];
+            if (!empty($filters['max_coste'])) {
+                $conditions[] = ' producto.coste <= :max_coste';
+                $params['max_coste'] = $filters['max_coste'];
             }
         }
 

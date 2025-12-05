@@ -32,14 +32,13 @@ declare(strict_types=1);
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <label for="input_cat">Categoría:</label>
-                                <select name="input_cat" id="input_cat" class="form-control select2"
+                                <select name="input_cat" id="input_cat" class="form-control"
                                         data-placeholder="Categoría">
                                     <option value="">-</option>
                                     <?php foreach ($listaCategorias ?? [] as $categoria) { ?>
-                                        <option value="<?php echo $categoria['id_cat'] ?>"
-                                                <?php echo isset($_GET['input_cat'])
-                                                && in_array($categoria['id_cat'], $_GET['input_cat']) ?
-                                                        'selected' : '' ?>>
+                                        <option value="<?php echo $categoria['id_cat'] ?>" <?php echo
+                                        isset($_GET['input_cat']) && $_GET['input_cat'] == $categoria['id_cat'] ?
+                                                'selected' : '' ?>>
                                             <?php echo ucfirst($categoria['cat_name']) ?>
                                         </option>
                                     <?php } ?>
@@ -49,12 +48,12 @@ declare(strict_types=1);
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <label for="input_prov">Proveedor:</label>
-                                <select name="input_prov[]" id="input_prov" class="form-control"
+                                <select name="input_prov[]" id="input_prov" class="form-control select2"
                                         multiple>
                                     <option value="">-</option>
                                     <?php foreach ($listaProveedores ?? [] as $prov) { ?>
                                         <option value="<?php echo $prov['cif'] ?>" <?php echo
-                                        isset($_GET['input_prov']) && $_GET['input_prov'] == $prov['cif'] ?
+                                        isset($_GET['input_prov']) && in_array($prov['cif'], $_GET['input_prov']) ?
                                                 'selected' : '' ?>>
                                             <?php echo ucfirst($prov['nombre']) ?>
                                         </option>
@@ -79,15 +78,15 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="rango_salario">PVP:</label>
+                                <label for="rango_salario">Coste:</label>
                                 <div class="row">
                                     <div class="col-6">
-                                        <input type="number" class="form-control" name="min_pvp" id="min_pvp"
-                                               value="<?php echo $input['min_pvp'] ?? '' ?>" placeholder="Mínimo" />
+                                        <input type="number" class="form-control" name="min_coste" id="min_coste"
+                                               value="<?php echo $input['min_coste'] ?? '' ?>" placeholder="Mínimo" />
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" class="form-control" name="max_pvp" id="max_pvp"
-                                               value="<?php echo $input['max_pvp'] ?? '' ?>" placeholder="Máximo" />
+                                        <input type="number" class="form-control" name="max_coste" id="max_coste"
+                                               value="<?php echo $input['max_coste'] ?? '' ?>" placeholder="Máximo" />
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +191,7 @@ declare(strict_types=1);
                                         ($producto['stock'] < 10 ? 'bg-warning' : '') ?>">
                                     <td><?php echo $producto['codigo'] ?></td>
                                     <td><?php echo $producto['pro_name'] ?></td>
-                                    <td><?php echo $producto['cat'] ?></td>
+                                    <td><?php echo $producto['categoria'] ?></td>
                                     <td><?php echo $producto['prv_name'] ?></td>
                                     <td class="d-none d-sm-table-cell">
                                         <?php echo number_format(
