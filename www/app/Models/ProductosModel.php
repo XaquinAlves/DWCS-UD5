@@ -155,4 +155,23 @@ class ProductosModel extends BaseDbModel
         $query['params'] = $params;
         return $query;
     }
+
+    public function altaProducto(array $input): bool
+    {
+        $sql = "INSERT INTO producto (codigo, nombre, descripcion, proveedor, coste, margen, stock, iva, id_categoria)
+            VALUES (:codigo, :nombre, :desc, :prov, :coste, :margen, :stock, :iva,  :cat)";
+        $params = [
+            'codigo' => $input['codigo'],
+            'nombre' => $input['nombre'],
+            'desc' => $input['descripcion'],
+            'prov' => $input['proveedor'],
+            'coste' => $input['coste'],
+            'margen' => $input['margen'],
+            'stock' => $input['stock'],
+            'iva' => $input['iva'],
+            'cat' => $input['categoria']
+        ];
+        $statement = $this->pdo->prepare($sql);
+        return $statement->execute($params);
+    }
 }

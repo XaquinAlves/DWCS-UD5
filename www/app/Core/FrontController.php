@@ -257,6 +257,33 @@ class FrontController
             );
 
             Route::add(
+                '/productos/alta',
+                function () {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3','4']))) {
+                        $controlador = new ProductosController();
+                        $controlador->showAltaProducto();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'get'
+            );
+            Route::add(
+                '/productos/alta',
+                function () {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3','4']))) {
+                        $controlador = new ProductosController();
+                        $controlador->doAltaProducto();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'post'
+            );
+
+            Route::add(
                 '/proveedores',
                 function () {
                     if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {

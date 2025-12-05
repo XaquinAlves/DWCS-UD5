@@ -106,6 +106,7 @@ declare(strict_types=1);
                 </div>
                 <div class="card-footer">
                     <div class="col-12 text-right">
+                        <a href="/productos/alta" class="btn btn-success float-left">Nuevo Producto</a>
                         <a href="/productos" class="btn btn-danger">Reiniciar filtros</a>
                         <input type="submit" value="Aplicar filtros" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
