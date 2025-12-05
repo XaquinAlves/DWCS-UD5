@@ -42,7 +42,6 @@ class ProductosController extends BaseController
     {
         $modelCats = new \Com\Daw2\Models\CategoriasModel();
         $modelProv = new \Com\Daw2\Models\ProveedoresModel();
-        $model = new \Com\Daw2\Models\ProductosModel();
 
         $data = array(
             'titulo' => 'Alta de Producto',
@@ -106,5 +105,34 @@ class ProductosController extends BaseController
         } else {
             $this->showAltaProducto($errors, filter_input_array(INPUT_POST));
         }
+    }
+
+    public function showEditarProducto(string $codigo, array $errors = [], array $input = []): void
+    {
+        $modelCats = new \Com\Daw2\Models\CategoriasModel();
+        $modelProv = new \Com\Daw2\Models\ProveedoresModel();
+        $model = new \Com\Daw2\Models\ProductosModel();
+
+        $data = array(
+            'titulo' => 'Edición de Producto',
+            'breadcrumb' => ['productos', 'editar'],
+            'seccion' => '/productos/editar',
+            'tituloCard' => 'Datos del producto',
+            'listaProveedores' => $modelProv->getProveedores(),
+            'listaCategorias' => $modelCats->getCategorias(),
+            'input' => $input,
+            'errors' => $errors,
+            'producto' => $model->findProductoCodigo($codigo)
+        );
+
+        $this->view->showViews(array('templates/header.view.php', 'productos.edit.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
+    public function doEditarProducto(string $codigo): void
+    {
+        $model = new \Com\Daw2\Models\ProductosModel();
+        $errors = [];
+        $producto = $model->findProductoCodigo($codigo);
     }
 }

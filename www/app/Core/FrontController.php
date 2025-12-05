@@ -284,6 +284,33 @@ class FrontController
             );
 
             Route::add(
+                '/productos/editar/(\w{3,50})',
+                function ($producto) {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3','4']))) {
+                        $controlador = new ProductosController();
+                        $controlador->showEditarProducto($producto);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'get'
+            );
+            Route::add(
+                '/productos/editar/(\w{3,50})',
+                function ($producto) {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3','4']))) {
+                        $controlador = new ProductosController();
+                        $controlador->doEditarProducto($producto);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'post'
+            );
+
+            Route::add(
                 '/proveedores',
                 function () {
                     if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {

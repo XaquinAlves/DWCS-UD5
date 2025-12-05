@@ -156,6 +156,14 @@ class ProductosModel extends BaseDbModel
         return $query;
     }
 
+    public function findProductoCodigo(string $codigo): array|false
+    {
+        $sql = "SELECT * FROM producto WHERE codigo = :codigo";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['codigo' => $codigo]);
+        return $statement->fetch();
+    }
+
     public function altaProducto(array $input): bool
     {
         $sql = "INSERT INTO producto (codigo, nombre, descripcion, proveedor, coste, margen, stock, iva, id_categoria)
@@ -170,6 +178,23 @@ class ProductosModel extends BaseDbModel
             'stock' => $input['stock'],
             'iva' => $input['iva'],
             'cat' => $input['categoria']
+        ];
+        $statement = $this->pdo->prepare($sql);
+        return $statement->execute($params);
+    }
+
+    public function updateProducto(string $codigo, array $input): bool
+    {
+        $sql = "UPDATE producto SET nombre = :nombre, descripcion = :desc, proveedor = :prov, coste = :coste,
+                    margen = :margen, stock = :stock, iva = :iva, id_categoria = :cat WHERE codigo = :codigo";
+        $params = [
+            'codigo' => $codigo,
+            'nombre' => $input['nombre'],
+            'desc' => $input['descripcion'],
+            'prov' => $input['proveedor'],
+            'coste' => $input['coste'],
+            'margen' => $input['margen'],
+            'stock' => $input['stock'],
         ];
         $statement = $this->pdo->prepare($sql);
         return $statement->execute($params);

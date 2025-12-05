@@ -21,7 +21,8 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="codigo">Código de artículo:</label>
                                 <input type="text" class="form-control" name="codigo" maxlength="10"
-                                       id="codigo" value="<?php echo $input['codigo'] ?? ''  ?>" />
+                                       id="codigo" value="<?php echo$input['codigo'] ??
+                                        ($producto['codigo'] ?? '') ?>" />
                                 <?php if (isset($errors['codigo'])) { ?>
                                     <div class="text-danger"><?php echo $errors['codigo'] ?></div>
                                 <?php } ?>
@@ -31,7 +32,8 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="nombre">Nombre de artículo:</label>
                                 <input type="text" class="form-control" name="nombre" maxlength="255"
-                                       id="nombre" value="<?php echo $input['nombre'] ?? ''  ?>" />
+                                       id="nombre" value="<?php echo $input['nombre'] ??
+                                        ($producto['nombre'] ?? '')  ?>" />
                                 <?php if (isset($errors['nombre'])) { ?>
                                     <div class="text-danger"><?php echo $errors['nombre'] ?></div>
                                 <?php } ?>
@@ -44,8 +46,8 @@ declare(strict_types=1);
                                     <option value="">-</option>
                                     <?php foreach ($listaProveedores ?? [] as $prov) { ?>
                                         <option value="<?php echo $prov['cif'] ?>" <?php echo
-                                        isset($_GET['proveedor']) && $prov['cif'] == $_GET['proveedor'] ?
-                                            'selected' : '' ?>>
+                                        ((isset($_GET['proveedor']) && $prov['cif'] == $_GET['proveedor']) ||
+                                            ($producto['proveedor'] == $prov['cif'])) ? 'selected' : '' ?>>
                                             <?php echo ucfirst($prov['nombre']) ?>
                                         </option>
                                     <?php } ?>
@@ -59,7 +61,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="coste">Coste:</label>
                                 <input type="number" class="form-control" name="coste" id="coste" step="0.01"
-                                       value="<?php echo $input['coste'] ?? '' ?>"/>
+                                       value="<?php echo $input['coste'] ?? ($producto['coste'] ?? '') ?>"/>
                                 <?php if (isset($errors['coste'])) { ?>
                                     <div class="text-danger"><?php echo $errors['coste'] ?></div>
                                 <?php } ?>
@@ -69,7 +71,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="margen">Margen:</label>
                                 <input type="number" class="form-control" name="margen" id="margen" step="0.01"
-                                       value="<?php echo $input['margen'] ?? '' ?>"/>
+                                       value="<?php echo $input['margen'] ?? ($producto['margen'] ?? '') ?>"/>
                                 <?php if (isset($errors['margen'])) { ?>
                                     <div class="text-danger"><?php echo $errors['margen'] ?></div>
                                 <?php } ?>
@@ -79,7 +81,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="stock">Stock:</label>
                                 <input type="number" class="form-control" name="stock" id="stock"
-                                       value="<?php echo $input['stock'] ?? '' ?>" />
+                                       value="<?php echo $input['stock'] ?? ($producto['stock'] ?? '') ?>" />
                                 <?php if (isset($errors['stock'])) { ?>
                                     <div class="text-danger"><?php echo $errors['stock'] ?></div>
                                 <?php } ?>
@@ -89,7 +91,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="iva">Iva:</label>
                                 <input type="number" class="form-control" name="iva" id="iva"
-                                       value="<?php echo $input['iva'] ?? '' ?>" />
+                                       value="<?php echo $input['iva'] ?? ($producto['iva'] ?? '') ?>" />
                             </div>
                             <?php if (isset($errors['iva'])) { ?>
                                 <div class="text-danger"><?php echo $errors['iva'] ?></div>
@@ -103,8 +105,8 @@ declare(strict_types=1);
                                     <option value="">-</option>
                                     <?php foreach ($listaCategorias ?? [] as $categoria) { ?>
                                         <option value="<?php echo $categoria['id_cat'] ?>" <?php echo
-                                        isset($_GET['categoria']) && $_GET['categoria'] == $categoria['id_cat'] ?
-                                            'selected' : '' ?>>
+                                        (isset($_GET['categoria']) && $_GET['categoria'] == $categoria['id_cat']) ||
+                                        ($producto['id_categoria'] == $categoria['id_cat']) ? 'selected' : '' ?>>
                                             <?php echo ucfirst($categoria['cat_name']) ?>
                                         </option>
                                     <?php } ?>
@@ -118,7 +120,9 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="descripcion">Descripción del producto</label>
                                 <textarea class="form-control"
-                                          name="descripcion" id="descripcion" placeholder="Descipcion"></textarea>
+                                          name="descripcion" id="descripcion"
+                                          placeholder="Descipcion"><?php echo $input['descripcion'] ??
+                                            ($producto['descripcion'] ?? '')?></textarea>
                             </div>
                             <?php if (isset($errors['descripcion'])) { ?>
                                 <div class="text-danger"><?php echo $errors['descripcion'] ?></div>

@@ -184,6 +184,7 @@ declare(strict_types=1);
                                             ($order === 14 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -220,6 +221,10 @@ declare(strict_types=1);
                                             '.'
                                         )
                                         ?>
+                                    </td>
+                                    <td>
+                                        <a href="/productos/editar/<?php echo $producto['codigo'] ?>"
+                                           class="btn btn-sm btn-primary">Editar</a>
                                     </td>
                                 </tr>
                             <?php } ?>
