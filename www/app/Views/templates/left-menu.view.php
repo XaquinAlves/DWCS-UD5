@@ -66,7 +66,7 @@
               $_ENV['host.folder'] . 'trabajadores-standard-assoc',
               $_ENV['host.folder'] . 'trabajadores-carlos-assoc'
           ])) ? 'menu-open' :
-                  '';?>">
+                                '';?>">
               <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-user-tie"></i>
                   <p>
@@ -160,7 +160,7 @@
               $_ENV['host.folder'] . 'poblacion-pontevedra',
               $_ENV['host.folder'] . 'poblacion-grupos-edad'
           ])) ? 'menu-open' :
-                        '';?>">
+                              '';?>">
               <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-file-archive"></i>
                   <p>
@@ -231,10 +231,10 @@
                     </li>
                 </ul>
             </li>
-            <?php } ?>
+          <?php } ?>
             <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2','3'])) {?>
-                <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'categorias'])) ? 'menu-open' :
-                        '';?>">
+                <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'categorias'])) ?
+                        'menu-open' : '';?>">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>

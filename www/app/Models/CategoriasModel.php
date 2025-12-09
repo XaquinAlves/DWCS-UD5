@@ -56,8 +56,10 @@ class CategoriasModel extends BaseDbModel
 
     public function getOrder(array $filters): int
     {
-        if (empty($filters['ordenar']) || filter_var($filters['ordenar'], FILTER_VALIDATE_INT) === false ||
-            $filters['ordenar'] < 1 || $filters['ordenar'] > count(self::ORDER_BY)) {
+        if (
+            empty($filters['ordenar']) || filter_var($filters['ordenar'], FILTER_VALIDATE_INT) === false ||
+            $filters['ordenar'] < 1 || $filters['ordenar'] > count(self::ORDER_BY)
+        ) {
             return 1;
         }
         return (int)$filters['ordenar'];
