@@ -494,6 +494,34 @@ class FrontController
             );
 
             Route::add(
+                '/categorias/alta',
+                function () {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
+                        $controlador = new CategoriasCotroller();
+                        $controlador->showAltaCategoria();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'get'
+            );
+
+            Route::add(
+                '/categorias/alta',
+                function () {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
+                        $controlador = new CategoriasCotroller();
+                        $controlador->doAltaCategoria();
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'post'
+            );
+
+            Route::add(
                 '/panel/temas',
                 function () {
                     $controlador = new InicioController();

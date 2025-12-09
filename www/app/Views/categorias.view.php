@@ -54,6 +54,7 @@ declare(strict_types=1);
                 <!-- Card footer -->
                 <div class="card-footer">
                     <div class="col-12 text-right">
+                        <a href="/categorias/alta" class="btn btn-success float-left">Nueva categoría</a>
                         <a href="/categorias" class="btn btn-danger">Limpiar filtros</a>
                         <input type="submit" value="Buscar" name="enviar" class="btn btn-primary ml-2"/>
                     </div>

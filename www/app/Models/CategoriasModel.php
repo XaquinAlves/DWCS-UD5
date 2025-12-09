@@ -64,4 +64,19 @@ class CategoriasModel extends BaseDbModel
         }
         return (int)$filters['ordenar'];
     }
+
+    public function addCategoria(array $data): bool
+    {
+        if ($data['padre'] === 'null') {
+            $data['padre'] = null;
+        }
+
+        $sql = "INSERT INTO categoria (nombre_categoria, id_padre) VALUES (:nombre, :padre)";
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            'nombre' => $data['nombre'],
+            'padre' => $data['padre']
+        ];
+        return $stmt->execute($params);
+    }
 }

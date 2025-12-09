@@ -25,4 +25,42 @@ class CategoriasCotroller extends BaseController
         $this->view->showViews(array('templates/header.view.php', 'categorias.view.php',
             'templates/footer.view.php'), $data);
     }
+
+    public function showAltaCategoria(array $errors = [], array $input = []): void
+    {
+        $model = new CategoriasModel();
+
+        $data = array(
+            'titulo' => 'Añadir nueva categoría',
+            'breadcrumb' => ['categorias', 'alta'],
+            'seccion' => '/categorias/alta',
+            'input' => $input,
+            'listaCategorias' => $model->getCategorias(),
+            'errors' => $errors,
+        );
+
+        $this->view->showViews(array('templates/header.view.php', 'categorias.edit.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
+    public function doAltaCategoria(): void
+    {
+        $model = new CategoriasModel();
+        $errors = [];
+
+        if ($_POST['nombre'] === '') {
+            $errors['nombre'] = 'Campo requerido';
+        }
+
+        if ($errors !== []) {
+            $this->showAltaCategoria($errors, filter_input_array(INPUT_POST));
+        } else {
+            if ($model->addCategoria($_POST)) {
+                header('location: /categorias');
+            } else {
+                $errors['db'] = 'Error en la inserción';
+                $this->showAltaCategoria($errors, $_POST);
+            }
+        }
+    }
 }
