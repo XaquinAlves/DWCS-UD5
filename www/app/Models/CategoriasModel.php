@@ -19,7 +19,7 @@ class CategoriasModel extends BaseDbModel
     public function getCategoriasByFilters(array $filters): array|false
     {
         $sql = "SELECT cat.id_categoria as id_cat, cat.nombre_categoria as cat_name, 
-       padre.nombre_categoria as padre_name FROM categoria as cat 
+       padre.nombre_categoria as padre_name, cat.id_padre FROM categoria as cat 
            LEFT JOIN categoria as padre ON cat.id_padre = padre.id_categoria";
         $params = [];
         $conditions = [];
@@ -78,5 +78,13 @@ class CategoriasModel extends BaseDbModel
             'padre' => $data['padre']
         ];
         return $stmt->execute($params);
+    }
+
+    public function findCategoria(int $id): array|false
+    {
+        $sql = "SELECT * FROM categoria WHERE id_categoria = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch();
     }
 }

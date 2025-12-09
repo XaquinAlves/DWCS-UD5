@@ -98,6 +98,7 @@ declare(strict_types=1);
                                             ($ordenar === 6 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                     </a>
                                 </th>
+                                <th>Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -106,6 +107,12 @@ declare(strict_types=1);
                                     <td><?php echo $categoria['id_cat'] ?></td>
                                     <td><?php echo $categoria['cat_name'] ?></td>
                                     <td><?php echo $categoria['padre_name'] ?></td>
+                                    <td>
+                                        <a href="/categorias/editar/<?php echo $categoria['id_cat'] ?>"
+                                           class="btn btn-success btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             <?php } ?>
                             </tbody>

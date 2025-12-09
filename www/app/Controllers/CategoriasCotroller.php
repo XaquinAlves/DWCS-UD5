@@ -63,4 +63,22 @@ class CategoriasCotroller extends BaseController
             }
         }
     }
+
+    public function showEditarCategoria(int $id_cat, array $errors = [], array $input = []): void
+    {
+        $model = new CategoriasModel();
+
+        $data = array(
+            'titulo' => 'Editar categoría',
+            'breadcrumb' => ['categorias', 'editar'],
+            'seccion' => '/categorias/editar',
+            'input' => $input,
+            'categoriaEditar' => $model->findCategoria($id_cat),
+            'listaCategorias' => $model->getCategorias(),
+            'errors' => $errors,
+        );
+
+        $this->view->showViews(array('templates/header.view.php', 'categorias.edit.view.php',
+            'templates/footer.view.php'), $data);
+    }
 }

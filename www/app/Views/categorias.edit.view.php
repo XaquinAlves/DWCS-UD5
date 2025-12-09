@@ -25,7 +25,7 @@ declare(strict_types=1);
                                 <label for="nombre">Nombre de categoría: </label>
                                 <input type="text" class="form-control" name="nombre" id="nombre"
                                        placeholder="Nombre de categoría"
-                                       value="<?php echo $input['nombre'] ?? '' ?>"/>
+                                       value="<?php echo $input['nombre'] ?? ($categoria['cat_name'] ?? '') ?>"/>
                                 <div class="text-danger">
                                     <?php echo $errors['nombre'] ?? '' ?>
                                 </div>
@@ -33,11 +33,16 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-6">
                             <div class="mb-3">
-                                <label for="padre">Id del padre: </label>
+                                <label for="padre">Categoría padre: </label>
                                 <select name="padre" id="padre" class="form-control">
                                     <option value="null">Sin padre</option>
                                     <?php foreach ($listaCategorias as $categoria) { ?>
-                                        <option value="<?php echo $categoria['id_cat'] ?>">
+                                        <option value="<?php echo $categoria['id_cat'] ?>"
+                                         <?php echo
+                                            (isset($input['padre']) && $input['padre'] === $categoria['id_padre']) ||
+                                            (isset($categoriaEditar) &&
+                                             $categoriaEditar['id_padre'] === $categoria['id_padre']) ?
+                                             'selected' : ''?>>
                                             <?php echo $categoria['cat_name'] ?>
                                         </option>
                                     <?php } ?>
