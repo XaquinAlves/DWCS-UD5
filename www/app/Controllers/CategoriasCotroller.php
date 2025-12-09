@@ -16,7 +16,9 @@ class CategoriasCotroller extends BaseController
             'titulo' => 'Categorías',
             'breadcrumb' => ['categorias'],
             'seccion' => '/categorias',
-            'listaCategorias' => $model->getCategoriasByFilters($_GET)
+            'input' => filter_input_array(INPUT_GET),
+            'listaCategorias' => $model->getCategoriasByFilters($_GET),
+            'ordenar' => $model->getOrder($_GET)
         );
 
         $this->view->showViews(array('templates/header.view.php', 'categorias.view.php',

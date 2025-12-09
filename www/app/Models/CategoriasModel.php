@@ -8,6 +8,7 @@ use Com\Daw2\Core\BaseDbModel;
 
 class CategoriasModel extends BaseDbModel
 {
+    private const ORDER_BY = ['id_cat', 'id_cat DESC', 'cat_name', 'cat_name DESC', 'padre_name', 'padre_name DESC'];
     public function getCategorias(): array
     {
         $sql = "SELECT id_categoria as id_cat, nombre_categoria as cat_name FROM categoria ORDER BY nombre_categoria";
@@ -46,9 +47,19 @@ class CategoriasModel extends BaseDbModel
         if (!empty($conditions)) {
             $sql .= " WHERE " . implode(' AND ', $conditions);
         }
+        $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrder($filters) - 1];
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();
+    }
+
+    public function getOrder(array $filters): int
+    {
+        if (empty($filters['ordenar']) || filter_var($filters['ordenar'], FILTER_VALIDATE_INT) === false ||
+            $filters['ordenar'] < 1 || $filters['ordenar'] > count(self::ORDER_BY)) {
+            return 1;
+        }
+        return (int)$filters['ordenar'];
     }
 }
