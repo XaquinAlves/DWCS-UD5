@@ -2,6 +2,7 @@
 
 namespace Com\Daw2\Core;
 
+use Com\Daw2\Controllers\CategoriasCotroller;
 use Com\Daw2\Controllers\CsvController;
 use Com\Daw2\Controllers\ErroresController;
 use Com\Daw2\Controllers\InicioController;
@@ -470,6 +471,20 @@ class FrontController
                     if (($_SESSION['usuario']['id_rol'] == '1')) {
                         $controlador = new TrabajadoresController();
                         $controlador->activarUsuario($username);
+                    } else {
+                        $controlador = new ErroresController();
+                        $controlador->error403();
+                    }
+                },
+                'get'
+            );
+
+            Route::add(
+                '/categorias',
+                function () {
+                    if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2','3']))) {
+                        $controlador = new CategoriasCotroller();
+                        $controlador->showCategorias();
                     } else {
                         $controlador = new ErroresController();
                         $controlador->error403();

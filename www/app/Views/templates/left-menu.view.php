@@ -232,6 +232,28 @@
                 </ul>
             </li>
             <?php } ?>
+            <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2','3'])) {?>
+                <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'categorias'])) ? 'menu-open' :
+                        '';?>">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Categorías
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo $_ENV['host.folder'] ?>categorias" class="nav-link
+                        <?php echo $seccion === $_ENV['host.folder'] . 'categorias' ?
+                                    'active' : ''; ?>">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>Categorías</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            <?php } ?>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
