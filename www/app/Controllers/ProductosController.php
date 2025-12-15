@@ -82,6 +82,8 @@ class ProductosController extends BaseController
 
         if ($_POST['codigo'] === '') {
             $errors['codigo'] = 'Campo requerido';
+        } elseif (strlen($_POST['codigo']) > 10) {
+            $errors['codigo'] = 'El codigo debe de ser de 10 caracteres máximo';
         } elseif ($codigo !== '' && $codigo !== $input['codigo']) {
             $model = new ProductosModel();
             $row = $model->findProductoCodigo($input['codigo']);
@@ -92,6 +94,8 @@ class ProductosController extends BaseController
 
         if ($_POST['nombre'] === '') {
             $errors['nombre'] = 'Campo requerido';
+        } elseif (strlen($_POST['nombre']) > 255) {
+            $errors['nombre'] = 'El nombre introducido es demasiado largo';
         }
 
         if ($_POST['proveedor'] === '') {
