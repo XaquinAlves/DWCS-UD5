@@ -278,11 +278,26 @@ class TrabajadoresController extends BaseController
 
         if ($user['activo'] == 1) {
             $user['activo'] = 0;
+            if ($model->updateUsuario($user)) {
+                $this->addFlashMessage(new Mensaje("Usuario $username desactivado correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->addFlashMessage(new Mensaje(
+                    "Error indeterminado al desactivar el usuario $username",
+                    Mensaje::ERROR
+                ));
+            }
         } else {
             $user['activo'] = 1;
+            if ($model->updateUsuario($user)) {
+                $this->addFlashMessage(new Mensaje("Usuario $username activado correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->addFlashMessage(new Mensaje(
+                    "Error indeterminado al activar el usuario $username",
+                    Mensaje::ERROR
+                ));
+            }
         }
 
-        $model->updateUsuario($user);
         header('location: /usuarios');
     }
 
