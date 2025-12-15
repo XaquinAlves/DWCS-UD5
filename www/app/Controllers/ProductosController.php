@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Libraries\Mensaje;
+use Com\Daw2\Models\CategoriasModel;
+use Com\Daw2\Models\ProductosModel;
+use Com\Daw2\Models\ProveedoresModel;
 
 class ProductosController extends BaseController
 {
     public function getProductos(): void
     {
-        $modelCats = new \Com\Daw2\Models\CategoriasModel();
-        $modelProv = new \Com\Daw2\Models\ProveedoresModel();
-        $model = new \Com\Daw2\Models\ProductosModel();
+        $model = new ProductosModel();
 
         $copiaGet = $_GET;
         unset($copiaGet['page']);
@@ -24,8 +26,8 @@ class ProductosController extends BaseController
             'seccion' => '/productos',
             'tituloEjercicio' => 'Listado de productos',
             'url' => '/productos?' . http_build_query($copiaGet),
-            'listaProveedores' => $modelProv->getProveedores(),
-            'listaCategorias' => $modelCats->getCategorias(),
+            'listaProveedores' => (new ProveedoresModel())->getProveedores(),
+            'listaCategorias' => (new CategoriasModel())->getCategorias(),
             'listaProductos' => $model->getProductosByFilter($_GET),
             'input' => filter_input_array(INPUT_GET),
             'page' => $model->getPage($_GET),
@@ -40,16 +42,13 @@ class ProductosController extends BaseController
 
     public function showAltaProducto(array $errors = [], array $input = []): void
     {
-        $modelCats = new \Com\Daw2\Models\CategoriasModel();
-        $modelProv = new \Com\Daw2\Models\ProveedoresModel();
-
         $data = array(
             'titulo' => 'Alta de Producto',
             'breadcrumb' => ['productos', 'alta'],
             'seccion' => '/productos/alta',
             'tituloCard' => 'Datos del producto',
-            'listaProveedores' => $modelProv->getProveedores(),
-            'listaCategorias' => $modelCats->getCategorias(),
+            'listaProveedores' => (new ProveedoresModel())->getProveedores(),
+            'listaCategorias' => (new CategoriasModel())->getCategorias(),
             'input' => $input,
             'errors' => $errors
         );
@@ -60,11 +59,35 @@ class ProductosController extends BaseController
 
     public function doAltaProducto(): void
     {
-        $model = new \Com\Daw2\Models\ProductosModel();
+        $errors = $this->checkInputProducto($_POST);
+
+        if ($errors === []) {
+            $model = new ProductosModel();
+            $result = $model->altaProducto($_POST);
+
+            if ($result) {
+                $this->addFlashMessage(new Mensaje("Producto guardadp correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->addFlashMessage(new Mensaje("Error indeterminado al guardar el producto", Mensaje::ERROR));
+            }
+            header('location: /productos');
+        } else {
+            $this->showAltaProducto($errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        }
+    }
+
+    private function checkInputProducto(array $input, ?string $codigo = ''): array
+    {
         $errors = [];
 
         if ($_POST['codigo'] === '') {
             $errors['codigo'] = 'Campo requerido';
+        } elseif ($codigo !== '' && $codigo !== $input['codigo']) {
+            $model = new ProductosModel();
+            $row = $model->findProductoCodigo($input['codigo']);
+            if ($row !== false) {
+                $errors['codigo'] = 'El codigo introducido ya está en uso por otro producto';
+            }
         }
 
         if ($_POST['nombre'] === '') {
@@ -99,40 +122,51 @@ class ProductosController extends BaseController
             $errors['descripcion'] = 'Campo requerido';
         }
 
-        if ($errors === []) {
-            $model->altaProducto($_POST);
-            header('location: /productos');
-        } else {
-            $this->showAltaProducto($errors, filter_input_array(INPUT_POST));
-        }
+        return $errors;
     }
 
     public function showEditarProducto(string $codigo, array $errors = [], array $input = []): void
     {
-        $modelCats = new \Com\Daw2\Models\CategoriasModel();
-        $modelProv = new \Com\Daw2\Models\ProveedoresModel();
-        $model = new \Com\Daw2\Models\ProductosModel();
-
         $data = array(
             'titulo' => 'Edición de Producto',
             'breadcrumb' => ['productos', 'editar'],
             'seccion' => '/productos/editar',
             'tituloCard' => 'Datos del producto',
-            'listaProveedores' => $modelProv->getProveedores(),
-            'listaCategorias' => $modelCats->getCategorias(),
-            'input' => $input,
-            'errors' => $errors,
-            'producto' => $model->findProductoCodigo($codigo)
+            'listaProveedores' => (new ProveedoresModel())->getProveedores(),
+            'listaCategorias' => (new CategoriasModel())->getCategorias()
         );
-
+        $model = new ProductosModel();
+        if ($input === []) {
+            $input = $model->findProductoCodigo($codigo);
+            if ($input === false) {
+                $this->addFlashMessage(new Mensaje("Producto $codigo no encontrado", Mensaje::ERROR));
+                header('location: /productos');
+                die;
+            }
+        }
+        $data['input'] = filter_var_array($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $data['errors'] = $errors;
         $this->view->showViews(array('templates/header.view.php', 'productos.edit.view.php',
             'templates/footer.view.php'), $data);
     }
 
     public function doEditarProducto(string $codigo): void
     {
-        $model = new \Com\Daw2\Models\ProductosModel();
-        $errors = [];
-        $producto = $model->findProductoCodigo($codigo);
+        $errors = $this->checkInputProducto($_POST, $codigo);
+        if ($errors === []) {
+            $model = new ProductosModel();
+            $result = $model->updateProducto($codigo, $_POST);
+            if ($result) {
+                $this->addFlashMessage(new Mensaje("Producto $codigo editado correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->addFlashMessage(new Mensaje(
+                    "Error indeterminado al editar el producto $codigo",
+                    Mensaje::ERROR
+                ));
+            }
+            header('location: /productos');
+        } else {
+            $this->showEditarProducto($codigo, $errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        }
     }
 }

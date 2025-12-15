@@ -224,7 +224,7 @@ declare(strict_types=1);
                                     </td>
                                     <td>
                                         <a href="/productos/editar/<?php echo $producto['codigo'] ?>"
-                                           class="btn btn-sm btn-primary">Editar</a>
+                                           class="btn btn-success"><i class="fas fa-edit"></i></a>
                                     </td>
                                 </tr>
                             <?php } ?>
