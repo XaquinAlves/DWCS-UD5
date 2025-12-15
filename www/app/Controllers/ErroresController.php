@@ -30,4 +30,22 @@ class ErroresController extends \Com\Daw2\Core\BaseController
 
         $this->view->showViews(array('templates/header.view.php', 'error.php', 'templates/footer.view.php'), $data);
     }
+
+    public function showThrowable(\Throwable $t): void
+    {
+        http_response_code(500);
+        $data = ['titulo' => 'Error'];
+        $data['cabecera'] = '500. Internal server error';
+        if ($_ENV['app.debug'] == 2) {
+            throw $t;
+        } elseif ($_ENV['app.debug'] == 1) {
+            $data['texto'][] = ['titulo' => 'Mensaje: ', 'valor' => $t->getMessage()];
+            $data['texto'][] = ['titulo' => 'Línea excepción: ', 'valor' => $t->getFile() . ':' . $t->getLine()];
+            $data['texto'][] = ['titulo' => 'Traza del error: ', 'valor' => '<pre>' . $t->getTraceAsString() .
+                '</pre>'];
+        } else {
+            $data['texto'] = 'Excepción en el flujo del sistema.';
+        }
+        $this->view->showViews(array('templates/header.view.php', 'error.php', 'templates/footer.view.php'), $data);
+    }
 }

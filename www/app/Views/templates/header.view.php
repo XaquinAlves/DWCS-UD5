@@ -129,6 +129,9 @@
 
 <section class="content">
       <div class="container-fluid">
+          <?php
+            include $_ENV['folder.views'] . '/templates/flash-messages.php';
+            ?>
           <!-- Modal -->
           <form method="post" action="/temas<?php echo $seccion ?? '' ?>">
               <div class="modal fade" id="temaModal" tabindex="-1" role="dialog" aria-labelledby="temaModalLabel"
