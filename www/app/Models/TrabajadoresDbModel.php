@@ -267,11 +267,16 @@ class TrabajadoresDbModel extends BaseDbModel
 
     public function deleteUsuario(string $username): bool
     {
-        $sql = "DELETE FROM trabajadores WHERE username = :username";
-        $statement = $this->pdo->prepare($sql);
-        if ($statement->execute(['username' => $username])) {
-            return $statement->rowCount() === 1;
+        $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare("DELETE FROM trabajadores WHERE username = :username");
+        $statement->execute(['username' => $username]);
+        if ($statement->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['delete', 'trabajadores', "Borrado el usuario $username"]);
+            $this->pdo->commit();
+            return true;
         } else {
+            $this->pdo->rollBack();
             return false;
         }
     }

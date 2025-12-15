@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Libraries\Mensaje;
 use Com\Daw2\Models\AuxPaisModel;
 use Com\Daw2\Models\AuxRolTrabajadorModel;
 use Com\Daw2\Models\TrabajadoresDbModel;
@@ -171,22 +172,17 @@ class TrabajadoresController extends BaseController
 
     public function showAltaUsuario(array $errors = [], array $input = []): void
     {
-        $modelAuxRol = new AuxRolTrabajadorModel();
-        $modelAuxPais = new AuxPaisModel();
 
         $data = array(
             'titulo' => 'Alta de usuario',
             'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
             'seccion' => '/usuarios-alta',
             'tituloEjercicio' => 'Datos del usuario',
-            'listaRoles' => $modelAuxRol->getAll(),
-            'listaPaises' => $modelAuxPais->getAll(),
-            'input' => $input
+            'listaRoles' => (new AuxRolTrabajadorModel())->getAll(),
+            'listaPaises' => (new AuxPaisModel())->getAll(),
+            'input' => $input,
+            'errors' => $errors
         );
-
-        if ($errors !== []) {
-            $data['errors'] = $errors;
-        }
 
         $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
             'templates/footer.view.php'), $data);
@@ -194,84 +190,83 @@ class TrabajadoresController extends BaseController
 
     public function doAltaUsuario(): void
     {
+        $data = [];
         $errors = $this->checkInputUsuario($_POST);
-
         if ($errors === []) {
             $model = new TrabajadoresDbModel();
-            if ($model->insertUsuario($_POST)) {
-                header('location: /usuarios');
+            $result = $model->insertUsuario($_POST);
+
+            if ($result == 1) {
+                $this->addFlashMessage(new Mensaje("Usuario insertado correctamente", Mensaje::SUCCESS));
             } else {
-                $this->showAltaUsuario(['error' => 'Error al insertar el usuario'], $_POST);
+                $this->addFlashMessage(new Mensaje("Error indeterminado al guardar el usuario", Mensaje::ERROR));
             }
         } else {
-            $this->showAltaUsuario($errors, $_POST);
+            $this->showAltaUsuario($errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         }
     }
 
     public function showEditUsuario(string $username, array $errors = [], array $input = []): void
     {
-        $modelAuxRol = new AuxRolTrabajadorModel();
-        $modelAuxPais = new AuxPaisModel();
+        $data = array(
+            'titulo' => 'Edición de usuario',
+            'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
+            'seccion' => '/usuarios/alta',
+            'listaRoles' => (new AuxRolTrabajadorModel())->getAll(),
+            'listaPaises' => (new AuxPaisModel())->getAll()
+        );
         $model = new TrabajadoresDbModel();
-        $user = $model->find($username);
-        if ($user === false) {
-            header('location: /usuarios');
-        } else {
-            $data = array(
-                'titulo' => 'Edición de usuario',
-                'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
-                'seccion' => '/usuarios/alta',
-                'listaRoles' => $modelAuxRol->getAll(),
-                'listaPaises' => $modelAuxPais->getAll(),
-                'input' => $input !== [] ? $input : $user,
-                'usuario' => $user,
-                'tituloEjercicio' => 'Datos del usuario ' . $user['username']
-            );
-
-            if ($errors !== []) {
-                $data['errors'] = $errors;
+        if ($input === []) {
+            $input = $model->find($username);
+            if ($input === false) {
+                $this->addFlashMessage(new Mensaje("Usuario $username no encontrado", Mensaje::ERROR));
+                header('location: /usuarios');
+                die;
             }
-
-            $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
-                'templates/footer.view.php'), $data);
         }
+        $data['input'] = filter_var_array($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $data['errors'] = $errors;
+        $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
+            'templates/footer.view.php'), $data);
     }
 
     public function doEditUsuario(string $username): void
     {
         $errors = $this->checkInputUsuario($_POST, $username);
-
         if ($errors === []) {
             $model = new TrabajadoresDbModel();
-            if ($model->updateUsuario($_POST)) {
-                header('location: /usuarios');
+            $result = $model->updateUsuario($_POST);
+            if ($result) {
+                $this->addFlashMessage(new Mensaje("Usuario $username editado correctamente", Mensaje::SUCCESS));
             } else {
-                $this->showEditUsuario(
-                    $_POST['username'],
-                    ['error' => 'Error al insertar el usuario'],
-                    filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS)
-                );
+                $this->addFlashMessage(new Mensaje(
+                    "Error indeterminado al editar el usuario $username",
+                    Mensaje::ERROR
+                ));
             }
+            header('location: /usuarios');
         } else {
             $this->showEditUsuario(
-                $_POST['username'],
+                $username,
                 $errors,
-                filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+                filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS)
             );
         }
     }
 
     public function deleteUsuario(string $username): void
     {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-
-        $model = new TrabajadoresDbModel();
-        if ($model->deleteUsuario($username)) {
+        try {
+            $model = new TrabajadoresDbModel();
+            $result = $model->deleteUsuario($username);
+            if ($result) {
+                $this->addFlashMessage(new Mensaje("Usuario $username borrado correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->addFlashMessage(new Mensaje("Error al borrar el usuario $username", Mensaje::ERROR));
+            }
             header('location: /usuarios');
-        } else {
-            $_SESSION['errors'] = ['userDeleted' => 'Error al borrar el usuario'];
+        } catch (\PDOException $e) {
+            $this->addFlashMessage(new Mensaje($e->getMessage(), Mensaje::WARNING));
             header('location: /usuarios');
         }
     }
