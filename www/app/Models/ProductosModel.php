@@ -171,7 +171,7 @@ class ProductosModel extends BaseDbModel
         $params = [
             'codigo' => $input['codigo'],
             'nombre' => $input['nombre'],
-            'desc' => $input['descripcion'],
+            'desc' => $input['descripcion'] ?? 'Inserte una descripcion',
             'prov' => $input['proveedor'],
             'coste' => $input['coste'],
             'margen' => $input['margen'],

@@ -104,26 +104,34 @@ class ProductosController extends BaseController
 
         if ($_POST['coste'] === '') {
             $errors['coste'] = 'Campo requerido';
+        } elseif (!is_numeric($_POST['coste'])) {
+            $errors['coste'] = 'El coste debe ser un número de hasta 2 decimales';
+        } elseif (strlen(substr(strrchr($_POST['coste'], '.'), 1)) > 2) {
+            $errors['coste'] = 'El coste debe tener hasta 2 decimales';
         }
 
         if ($_POST['margen'] === '') {
             $errors['margen'] = 'Campo requerido';
+        } elseif (!is_numeric($_POST['margen'])) {
+            $errors['margen'] = 'El margen debe ser un número de hasta 2 decimales';
+        } elseif (strlen(substr(strrchr($_POST['margen'], '.'), 1)) > 2) {
+            $errors['margen'] = 'El coste debe tener hasta 2 decimales';
         }
 
         if ($_POST['stock'] === '') {
             $errors['stock'] = 'Campo requerido';
+        } elseif (filter_var($_POST['stock'], FILTER_VALIDATE_INT) === false) {
+            $errors['stock'] = 'Debe ser un número entero';
         }
 
         if ($_POST['iva'] === '') {
             $errors['iva'] = 'Campo requerido';
+        } elseif (filter_var($_POST['iva'], FILTER_VALIDATE_FLOAT) === false) {
+            $errors['iva'] = 'Debe ser un número entero';
         }
 
         if ($_POST['categoria'] === '') {
             $errors['categoria'] = 'Campo requerido';
-        }
-
-        if ($_POST['descripcion'] === '') {
-            $errors['descripcion'] = 'Campo requerido';
         }
 
         return $errors;
