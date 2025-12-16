@@ -70,13 +70,13 @@ class UsuarioSistemaModel extends BaseDbModel
     {
         $this->pdo->beginTransaction();
         $sql = "UPDATE usuario_sistema SET last_date = NOW() WHERE email = :email";
-
+        $fecha = (new \DateTime())->format( 'd-m-Y H:i:s');
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['email' => $username]);
 
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
-            $stmtLog->execute(['update', 'usuario_sistema', "El usuario $username se ha conectado en " . NOW()]);
+            $stmtLog->execute(['update', 'usuario_sistema', "El usuario $username se ha conectado el $fecha" ]);
             $this->pdo->commit();
             return true;
         } else {
