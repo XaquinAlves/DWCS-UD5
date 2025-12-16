@@ -203,12 +203,12 @@ class TrabajadoresDbModel extends BaseDbModel
         }
 
         if (!empty($filters['input_pais'])) {
-            $sentence = "( ";
+            $sentence = " u.id_country IN (";
             for ($i = 0; $i < count($filters['input_pais']); $i++) {
-                $sentence .= " u.id_country = :pais" . $i . " OR";
+                $sentence .= " :pais" . $i . ",";
                 $params['pais' . $i] = $filters['input_pais'][$i];
             }
-            $conditions[] = rtrim($sentence, "OR") . ") ";
+            $conditions[] = rtrim($sentence, ",") . ") ";
         }
 
         if (!empty($conditions)) {
