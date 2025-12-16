@@ -134,19 +134,46 @@ class ProveedoresModel extends BaseDbModel
 
     public function altaProveedor(array $input): bool
     {
+        $this->pdo->beginTransaction();
+
         $sql = "INSERT INTO proveedor (cif, codigo, nombre, email, id_country, direccion, website, telefono)
             VALUES (:cif, :codigo, :nombre, :email, :id_country, :direccion, :website, :telefono)";
+
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute($input);
+        $stmt->execute($input);
+
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['insert', 'proveedor', "Añadido el proveedor " . $input['nombre']]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function updateProveedor(array $input): bool
     {
+        $this->pdo->beginTransaction();
+
         $sql = "UPDATE proveedor SET proveedor.codigo = :codigo, nombre = :nombre, email = :email,
                  direccion = :direccion, id_country = :id_country, website = :website, telefono = :telefono 
                  WHERE cif = :cif";
+
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute($input);
+        $stmt->execute($input);
+
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['update', 'proveedor', "Actualizado el proveedor " . $input['nombre'] . "con los datos: "
+            . json_encode($input)]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function findProveedor(string $cif): array|false
@@ -159,8 +186,20 @@ class ProveedoresModel extends BaseDbModel
 
     public function deleteProveedor(string $cif): bool
     {
+        $this->pdo->beginTransaction();
         $sql = "DELETE FROM proveedor WHERE cif = :cif";
+
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute(['cif' => $cif]);
+        $stmt->execute(['cif' => $cif]);
+
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['delete', 'proveedor', "Borrado el proveedor con cif $cif"]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 }
