@@ -19,9 +19,12 @@ class UsuarioSistemaModel extends BaseDbModel
 
     public function changeName(string $oldName, string $newName): bool
     {
+        $this->pdo->beginTransaction();
         $sql = "UPDATE usuario_sistema SET nombre = :newName WHERE nombre = :oldName";
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['oldName' => $oldName, 'newName' => $newName]);
+
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
             $stmtLog->execute(['update', 'usuario_sistema', "Cambiado el nombre de $oldName a $newName"]);
@@ -48,8 +51,10 @@ class UsuarioSistemaModel extends BaseDbModel
             'idioma' => 'es',
             'baja' => 0
         ];
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
+
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
             $stmtLog->execute(['insert', 'usuario_sistema', "Actualizado el usuario  de sistema " . $params['nombre']]);
@@ -65,8 +70,10 @@ class UsuarioSistemaModel extends BaseDbModel
     {
         $this->pdo->beginTransaction();
         $sql = "UPDATE usuario_sistema SET last_date = NOW() WHERE email = :email";
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['email' => $username]);
+
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
             $stmtLog->execute(['update', 'usuario_sistema', "El usuario $username se ha conectado en " . NOW()]);
@@ -82,8 +89,10 @@ class UsuarioSistemaModel extends BaseDbModel
     {
         $this->pdo->beginTransaction();
         $sql = "UPDATE usuario_sistema SET pass = :pass WHERE email = :email";
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['email' => $username, 'pass' => $password]);
+
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
             $stmtLog->execute(['update', 'usuario_sistema', "Actualizada la contraseña de $username"]);
