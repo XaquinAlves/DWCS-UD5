@@ -8,7 +8,6 @@ use Com\Daw2\Core\BaseDbModel;
 
 class UsuarioSistemaModel extends BaseDbModel
 {
-
     public function findUsuario(string $username): array|false
     {
         $sql = "SELECT * FROM usuario_sistema WHERE email = :email";
@@ -70,7 +69,7 @@ class UsuarioSistemaModel extends BaseDbModel
     {
         $this->pdo->beginTransaction();
         $sql = "UPDATE usuario_sistema SET last_date = NOW() WHERE email = :email";
-        $fecha = (new \DateTime())->format( 'd-m-Y H:i:s');
+        $fecha = (new \DateTime())->format('d-m-Y H:i:s');
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['email' => $username]);
 
