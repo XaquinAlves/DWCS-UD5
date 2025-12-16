@@ -81,7 +81,7 @@ class CategoriasModel extends BaseDbModel
         $stmt->execute($params);
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
-            $stmtLog->execute(['insert', 'categorías', "Añadida la categoría " . $params['nombre']]);
+            $stmtLog->execute(['insert', 'categoria', "Añadida la categoría " . $params['nombre']]);
             $this->pdo->commit();
             return true;
         } else {

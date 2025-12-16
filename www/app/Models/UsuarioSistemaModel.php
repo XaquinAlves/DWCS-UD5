@@ -21,7 +21,16 @@ class UsuarioSistemaModel extends BaseDbModel
     {
         $sql = "UPDATE usuario_sistema SET nombre = :newName WHERE nombre = :oldName";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute(['oldName' => $oldName, 'newName' => $newName]);
+        $stmt->execute(['oldName' => $oldName, 'newName' => $newName]);
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['update', 'usuario_sistema', "Cambiado el nombre de $oldName a $newName"]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function addUser(): bool
@@ -43,7 +52,7 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt->execute($params);
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
-            $stmtLog->execute(['insert', 'usuario', "Actualizado el usuario  de sistema " . $params['nombre']]);
+            $stmtLog->execute(['insert', 'usuario_sistema', "Actualizado el usuario  de sistema " . $params['nombre']]);
             $this->pdo->commit();
             return true;
         } else {
@@ -60,7 +69,7 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt->execute(['email' => $username]);
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
-            $stmtLog->execute(['update', 'usuario', "El usuario $username se ha conectado en " . NOW()]);
+            $stmtLog->execute(['update', 'usuario_sistema', "El usuario $username se ha conectado en " . NOW()]);
             $this->pdo->commit();
             return true;
         } else {
@@ -77,7 +86,7 @@ class UsuarioSistemaModel extends BaseDbModel
         $stmt->execute(['email' => $username, 'pass' => $password]);
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
-            $stmtLog->execute(['update', 'usuario', "Actualizada la contraseña de $username"]);
+            $stmtLog->execute(['update', 'usuario_sistema', "Actualizada la contraseña de $username"]);
             $this->pdo->commit();
             return true;
         } else {
