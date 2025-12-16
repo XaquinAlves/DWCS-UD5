@@ -106,7 +106,7 @@ class ProductosController extends BaseController
             $errors['coste'] = 'Campo requerido';
         } elseif (!is_numeric($_POST['coste'])) {
             $errors['coste'] = 'El coste debe ser un número de hasta 2 decimales';
-        } elseif (strlen(substr(strrchr($_POST['coste'], '.'), 1)) > 2) {
+        } elseif (strrchr($_POST['coste'], '.') && strlen(substr(strrchr($_POST['coste'], '.'), 1)) > 2) {
             $errors['coste'] = 'El coste debe tener hasta 2 decimales';
         }
 
@@ -114,7 +114,7 @@ class ProductosController extends BaseController
             $errors['margen'] = 'Campo requerido';
         } elseif (!is_numeric($_POST['margen'])) {
             $errors['margen'] = 'El margen debe ser un número de hasta 2 decimales';
-        } elseif (strlen(substr(strrchr($_POST['margen'], '.'), 1)) > 2) {
+        } elseif (strrchr($_POST['margen'], '.') && strlen(substr(strrchr($_POST['margen'], '.'), 1)) > 2) {
             $errors['margen'] = 'El coste debe tener hasta 2 decimales';
         }
 
