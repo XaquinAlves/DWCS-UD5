@@ -181,4 +181,20 @@ class ProductosController extends BaseController
             $this->showEditarProducto($codigo, $errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         }
     }
+
+    public function deleteProducto(string $codigo): void
+    {
+        try {
+            $model = new ProductosModel();
+            $result = $model->deleteProducto($codigo);
+            if ($result) {
+                $this->addFlashMessage(new Mensaje("Producto $codigo borrado correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->addFlashMessage(new Mensaje("Error al borrar el producto $codigo", Mensaje::ERROR));
+            }
+            header('location: /productos');
+        } catch (\PDOException $e) {
+
+        }
+    }
 }
