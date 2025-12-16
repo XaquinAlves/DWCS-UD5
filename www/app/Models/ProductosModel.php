@@ -166,6 +166,8 @@ class ProductosModel extends BaseDbModel
 
     public function altaProducto(array $input): bool
     {
+        $this->pdo->beginTransaction();
+
         $sql = "INSERT INTO producto (codigo, nombre, descripcion, proveedor, coste, margen, stock, iva, id_categoria)
             VALUES (:codigo, :nombre, :desc, :prov, :coste, :margen, :stock, :iva,  :cat)";
         $params = [
@@ -179,12 +181,25 @@ class ProductosModel extends BaseDbModel
             'iva' => $input['iva'],
             'cat' => $input['categoria']
         ];
+
         $statement = $this->pdo->prepare($sql);
-        return $statement->execute($params);
+        $statement->execute($params);
+
+        if ($statement->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['insert', 'producto', "Añadido el producto " . $params['nombre']]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function updateProducto(string $codigo, array $input): bool
     {
+        $this->pdo->beginTransaction();
+
         $sql = "UPDATE producto SET nombre = :nombre, descripcion = :desc, proveedor = :prov, coste = :coste,
                     margen = :margen, stock = :stock, iva = :iva, id_categoria = :cat WHERE codigo = :codigo";
         $params = [
@@ -196,7 +211,19 @@ class ProductosModel extends BaseDbModel
             'margen' => $input['margen'],
             'stock' => $input['stock'],
         ];
+
         $statement = $this->pdo->prepare($sql);
-        return $statement->execute($params);
+        $statement->execute($params);
+
+        if ($statement->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['update', 'producto', "Actualidado el producto " . $params['nombre'] . "con los datos: "
+                . json_encode($params)]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 }
