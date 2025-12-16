@@ -67,6 +67,7 @@ class CategoriasModel extends BaseDbModel
 
     public function addCategoria(array $data): bool
     {
+        $this->pdo->beginTransaction();
         if ($data['padre'] === 'null') {
             $data['padre'] = null;
         }
@@ -77,7 +78,16 @@ class CategoriasModel extends BaseDbModel
             'nombre' => $data['nombre'],
             'padre' => $data['padre']
         ];
-        return $stmt->execute($params);
+        $stmt->execute($params);
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['insert', 'categorías', "Añadida la categoría " . $params['nombre']]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function findCategoria(int $id): array|false
