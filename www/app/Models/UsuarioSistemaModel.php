@@ -24,8 +24,9 @@ class UsuarioSistemaModel extends BaseDbModel
         return $stmt->execute(['oldName' => $oldName, 'newName' => $newName]);
     }
 
-    public function addUser(): void
+    public function addUser(): bool
     {
+        $this->pdo->beginTransaction();
         $password = password_hash('TestTest1.', PASSWORD_DEFAULT);
         $sql = "INSERT INTO usuario_sistema (id_rol, nombre, email, pass, idioma, baja)
                     VALUES (:idrol, :nombre, :email, :pass , :idioma , :baja)";
@@ -40,19 +41,48 @@ class UsuarioSistemaModel extends BaseDbModel
         ];
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['insert', 'usuario', "Actualizado el usuario  de sistema " . $params['nombre']]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function updateLastLogin(string $username): bool
     {
+        $this->pdo->beginTransaction();
         $sql = "UPDATE usuario_sistema SET last_date = NOW() WHERE email = :email";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute(['email' => $username]);
+        $stmt->execute(['email' => $username]);
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['update', 'usuario', "El usuario $username se ha conectado en " . NOW()]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function updatePassword(string $username, string $password): bool
     {
+        $this->pdo->beginTransaction();
         $sql = "UPDATE usuario_sistema SET pass = :pass WHERE email = :email";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute(['email' => $username, 'pass' => $password]);
+        $stmt->execute(['email' => $username, 'pass' => $password]);
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['update', 'usuario', "Actualizada la contraseña de $username"]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 }
