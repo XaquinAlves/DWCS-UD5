@@ -223,6 +223,7 @@ class TrabajadoresDbModel extends BaseDbModel
 
     public function insertUsuario(array $input): bool
     {
+        $this->pdo->beginTransaction();
         $sql = "INSERT INTO trabajadores (username, salarioBruto, retencionIRPF, activo, id_rol, id_country) 
             VALUES (:username, :salario, :retencion, :activo, :rol, :pais)";
 
@@ -236,7 +237,16 @@ class TrabajadoresDbModel extends BaseDbModel
         ];
 
         $statement = $this->pdo->prepare($sql);
-        return $statement->execute($params);
+        $statement->execute($params);
+        if ($statement->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['insert', 'trabajadores', "Añadido el usuario " . $params['username']]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function find(string $username): array|false
@@ -249,6 +259,7 @@ class TrabajadoresDbModel extends BaseDbModel
 
     public function updateUsuario(array $input): bool
     {
+        $this->pdo->beginTransaction();
         $sql = "UPDATE trabajadores SET salarioBruto = :salario, retencionIRPF = :retencion, id_rol = :rol,
                         id_country = :pais, activo = :activo, username = :username WHERE username = :username";
 
@@ -262,7 +273,17 @@ class TrabajadoresDbModel extends BaseDbModel
         ];
 
         $statement = $this->pdo->prepare($sql);
-        return $statement->execute($params);
+        $statement->execute($params);
+        if ($statement->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['update', 'trabajadores', "Actualizado " . $params['username'] . " con los datos: " .
+                json_encode($params)]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function deleteUsuario(string $username): bool
