@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Libraries\Mensaje;
 use \Com\Daw2\Models\ProveedoresModel;
 
 class ProveedoresController extends BaseController
@@ -57,10 +58,9 @@ class ProveedoresController extends BaseController
 
     public function doAltaProveedor(): void
     {
-        $model = new ProveedoresModel();
         $errors = $this->checkErrorsProveedorCU($_POST);
-
         if ($errors === []) {
+            $model = new ProveedoresModel();
             $params = [
                 'cif' => $_POST['cif'],
                 'codigo' => $_POST['codigo'],
@@ -71,14 +71,17 @@ class ProveedoresController extends BaseController
                 'website' => $_POST['website'],
                 'telefono' => $_POST['telefono']
             ];
+            $nombre = $params['nombre'];
             if ($model->altaProveedor($params)) {
-                header('location: /proveedores');
+                $this->addFlashMessage(new Mensaje("Proveedor $nombre creado correctamente", Mensaje::SUCCESS));
             } else {
-                $errors['db'] = 'Error al insertar el proveedor';
+                $this->
+                addFlashMessage(new Mensaje("Error indeterminado al crear el proveedor $nombre", Mensaje::ERROR));
             }
+            header('location: /proveedores');
+        } else {
+            $this->showAltaProveedor($errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         }
-
-        $this->showAltaProveedor($errors, filter_input_array(INPUT_POST));
     }
 
     public function showEditProveedor(string $cif, array $errors = [], array $input = []): void
@@ -101,9 +104,9 @@ class ProveedoresController extends BaseController
 
     public function doEditProveedor(string $cif): void
     {
-        $model = new ProveedoresModel();
         $errors = $this->checkErrorsProveedorCU($_POST, $cif);
         if ($errors === []) {
+            $model = new ProveedoresModel();
             $params = [
                 'cif' => $_POST['cif'],
                 'codigo' => $_POST['codigo'],
@@ -115,21 +118,30 @@ class ProveedoresController extends BaseController
                 'telefono' => $_POST['telefono']
             ];
             if ($model->updateProveedor($params)) {
+                $this->addFlashMessage(new Mensaje("Proveedor $cif modificado correctamente", Mensaje::SUCCESS));
                 header('location: /proveedores');
             } else {
-                $errors['db'] = 'Error al modificar el proveedor en BBDD';
+                $this->
+                addFlashMessage(new Mensaje("Error indeterminado al modificar el proveedor $cif", Mensaje::ERROR));
             }
+            header('location: /proveedores');
+        } else {
+            $this->showEditProveedor($cif, $errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         }
-
-        $this->showEditProveedor($cif, $errors, filter_input_array(INPUT_POST));
     }
 
     public function doDeleteProveedor(string $cif): void
     {
-        $model = new ProveedoresModel();
-        if ($model->deleteProveedor($cif)) {
+        try {
+            $model = new ProveedoresModel();
+            if ($model->deleteProveedor($cif)) {
+                $this->addFlashMessage(new Mensaje("Proveedor $cif borrado correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->addFlashMessage(new Mensaje("Error indeterminado al borrar el proveedor $cif", Mensaje::ERROR));
+            }
             header('location: /proveedores');
-        } else {
+        } catch (\PDOException $e) {
+            $this->addFlashMessage(new Mensaje($e->getMessage(), Mensaje::WARNING));
             header('location: /proveedores');
         }
     }
