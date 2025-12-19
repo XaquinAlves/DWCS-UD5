@@ -138,7 +138,7 @@ class CategoriasModel extends BaseDbModel
         $this->pdo->beginTransaction();
         $sql = "DELETE FROM categoria WHERE id_categoria = :id";
 
-        $stmt = $this->pdo->query($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
 
         if ($stmt->rowCount() == 1) {

@@ -114,20 +114,20 @@ declare(strict_types=1);
                                         </a>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#<?php echo $categoria['id_cat'] ?>borradoModal">
+                                                data-target="#<?php echo "cat" . $categoria['id_cat'] ?>borradoModal">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="<?php echo $categoria['id_cat'] ?>borradoModal"
-                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <!-- Modal -->
+                                <div class="modal fade" id="<?php echo "cat" . $categoria['id_cat'] ?>borradoModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title"
-                                                    id="<?php echo $categoria['id_cat'] ?>borradoModalLabel">
+                                                <h5 class="modal-title" id="<?php echo "cat" . $categoria['id_cat'] ?>borradoModalLabel">
                                                     ¿Estás seguro de borrar la categoría
-                                                    <?php echo $categoria['cat_name']  ?> ?
+                                                    <?php echo $categoria['cat_name'] ?> ?
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
