@@ -56,7 +56,7 @@ class ProveedoresController extends BaseController
 
     public function doAltaProveedor(): void
     {
-        $errors = $this->checkErrorsProveedorCU($_POST);
+        $errors = $this->checkErrorsProveedor($_POST);
         if ($errors === []) {
             $model = new ProveedoresModel();
             $params = [
@@ -113,7 +113,7 @@ class ProveedoresController extends BaseController
 
     public function doEditProveedor(string $cif): void
     {
-        $errors = $this->checkErrorsProveedorCU($_POST, $cif);
+        $errors = $this->checkErrorsProveedor($_POST, $cif);
         if ($errors === []) {
             $model = new ProveedoresModel();
             $params = [
@@ -158,7 +158,7 @@ class ProveedoresController extends BaseController
         }
     }
 
-    public function checkErrorsProveedorCU(array $input, ?string $cif = ''): array
+    public function checkErrorsProveedor(array $input, ?string $cif = ''): array
     {
         $errors = [];
 
