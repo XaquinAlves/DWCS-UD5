@@ -6,6 +6,7 @@ namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
 use Com\Daw2\Libraries\Mensaje;
+use Com\Daw2\Models\AuxPaisModel;
 use \Com\Daw2\Models\ProveedoresModel;
 
 class ProveedoresController extends BaseController
@@ -13,7 +14,7 @@ class ProveedoresController extends BaseController
     public function showProveedores(): void
     {
         $model = new \Com\Daw2\Models\ProveedoresModel();
-        $modelCountrys = new \Com\Daw2\Models\AuxPaisModel();
+        $modelCountrys = new AuxPaisModel();
 
         $copiaGet = $_GET;
         unset($copiaGet['ordenar']);
@@ -40,14 +41,11 @@ class ProveedoresController extends BaseController
 
     public function showAltaProveedor(array $errors = [], array $input = []): void
     {
-        $model = new ProveedoresModel();
-        $modelCountrys = new \Com\Daw2\Models\AuxPaisModel();
-
         $data = array(
             'titulo' => 'Alta Proveedor',
             'breadcrumb' => ['proveedores', 'alta'],
             'seccion' => '/proveedores/alta',
-            'listaPaises' => $modelCountrys->getAll(),
+            'listaPaises' => (new AuxPaisModel())->getAll(),
             'input' => $input,
             'errors' => $errors
         );
@@ -87,17 +85,23 @@ class ProveedoresController extends BaseController
     public function showEditProveedor(string $cif, array $errors = [], array $input = []): void
     {
         $model = new ProveedoresModel();
-        $modelCountrys = new \Com\Daw2\Models\AuxPaisModel();
 
         $data = array(
             'titulo' => 'Edición Proveedor',
             'breadcrumb' => ['proveedores', 'editar'],
             'seccion' => '/proveedores/editar',
-            'listaPaises' => $modelCountrys->getAll(),
-            'input' => $input === [] ? $model->findProveedor($cif) : $input,
-            'errors' => $errors
+            'listaPaises' => (new AuxPaisModel())->getAll(),
         );
-
+        if ($input === []) {
+            $input = $model->findProveedor($cif);
+            if ($input === false) {
+                $this->addFlashMessage(new Mensaje("Proveedor con cif $cif no encontrado", Mensaje::ERROR));
+                header('location: /categorias');
+                die;
+            }
+        }
+        $data['input'] = filter_var_array($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $data['errors'] = $errors;
         $this->view->showViews(array('templates/header.view.php', 'proveedores.edit.view.php',
             'templates/footer.view.php'), $data);
     }
