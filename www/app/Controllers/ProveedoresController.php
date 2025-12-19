@@ -69,12 +69,17 @@ class ProveedoresController extends BaseController
                 'website' => $_POST['website'],
                 'telefono' => $_POST['telefono']
             ];
-            $nombre = $params['nombre'];
             if ($model->altaProveedor($params)) {
-                $this->addFlashMessage(new Mensaje("Proveedor $nombre creado correctamente", Mensaje::SUCCESS));
+                $this->addFlashMessage(new Mensaje(
+                    "Proveedor" . $params['nombre'] . " creado correctamente",
+                    Mensaje::SUCCESS
+                ));
             } else {
                 $this->
-                addFlashMessage(new Mensaje("Error indeterminado al crear el proveedor $nombre", Mensaje::ERROR));
+                addFlashMessage(new Mensaje(
+                    "Error indeterminado al crear el proveedor " . $params['nombre'],
+                    Mensaje::ERROR
+                ));
             }
             header('location: /proveedores');
         } else {
@@ -122,7 +127,10 @@ class ProveedoresController extends BaseController
                 'telefono' => $_POST['telefono']
             ];
             if ($model->updateProveedor($params)) {
-                $this->addFlashMessage(new Mensaje("Proveedor $cif modificado correctamente", Mensaje::SUCCESS));
+                $this->addFlashMessage(new Mensaje(
+                    "Proveedor " . $params['nombre'] . "modificado correctamente",
+                    Mensaje::SUCCESS
+                ));
                 header('location: /proveedores');
             } else {
                 $this->
