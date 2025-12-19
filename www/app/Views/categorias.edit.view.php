@@ -22,10 +22,21 @@ declare(strict_types=1);
                     <div class="row">
                         <div class="col-12 col-lg-6">
                             <div class="mb-3">
+                                <label for="id">Id: </label>
+                                <input type="text" class="form-control" name="id" id="id"
+                                       placeholder="Id"
+                                       value="<?php echo $input['id'] ?? '' ?>"/>
+                                <div class="text-danger">
+                                    <?php echo $errors['nombre'] ?? '' ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="mb-3">
                                 <label for="nombre">Nombre de categoría: </label>
                                 <input type="text" class="form-control" name="nombre" id="nombre"
                                        placeholder="Nombre de categoría"
-                                       value="<?php echo $input['nombre'] ?? ($categoria['cat_name'] ?? '') ?>"/>
+                                       value="<?php echo $input['nombre'] ?? '' ?>"/>
                                 <div class="text-danger">
                                     <?php echo $errors['nombre'] ?? '' ?>
                                 </div>
@@ -39,9 +50,7 @@ declare(strict_types=1);
                                     <?php foreach ($listaCategorias as $categoria) { ?>
                                         <option value="<?php echo $categoria['id_cat'] ?>"
                                          <?php echo
-                                            (isset($input['padre']) && $input['padre'] === $categoria['id_padre']) ||
-                                            (isset($categoriaEditar) &&
-                                             $categoriaEditar['id_padre'] === $categoria['id_padre']) ?
+                                            (isset($input['padre']) && $input['padre'] === $categoria['id_padre']) ?
                                              'selected' : ''?>>
                                             <?php echo $categoria['cat_name'] ?>
                                         </option>

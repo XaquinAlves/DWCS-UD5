@@ -21,6 +21,20 @@ class CategoriasModel extends BaseDbModel
         $sql = "SELECT cat.id_categoria as id_cat, cat.nombre_categoria as cat_name, 
        padre.nombre_categoria as padre_name, cat.id_padre FROM categoria as cat 
            LEFT JOIN categoria as padre ON cat.id_padre = padre.id_categoria";
+        $queryItems = $this->buildFiltersQuery($filters);
+
+        if (!empty($queryItems['conditions'])) {
+            $sql .= " WHERE " . implode(' AND ', $queryItems['conditions']);
+        }
+        $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrder($filters) - 1];
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($queryItems['params']);
+        return $stmt->fetchAll();
+    }
+
+    public function buildFiltersQuery(array $filters): array
+    {
         $params = [];
         $conditions = [];
 
@@ -44,14 +58,7 @@ class CategoriasModel extends BaseDbModel
             $params['id_padre'] = $filters['id_padre'];
         }
 
-        if (!empty($conditions)) {
-            $sql .= " WHERE " . implode(' AND ', $conditions);
-        }
-        $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrder($filters) - 1];
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll();
+        return ['conditions' => $conditions, 'params' => $params];
     }
 
     public function getOrder(array $filters): int
@@ -98,5 +105,35 @@ class CategoriasModel extends BaseDbModel
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch();
+    }
+
+    public function updateCategoria(array $data): bool
+    {
+        $this->pdo->beginTransaction();
+        $sql = "UPDATE categoria SET nombre_categoria = :nombre, id_padre = :idpadre WHERE id_categoria = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $params = [
+            'nombre' => $data['nombre'],
+            'idpadre' => $data['padre'],
+            'id' => $data['id']
+        ];
+        $stmt->execute($params);
+    }
+
+    public function deleteCategoria(int $id): bool
+    {
+        $this->pdo->beginTransaction();
+        $sql = "DELETE FROM categoria WHERE id_categoria = :id";
+
+        $stmt = $this->pdo->query($sql);
+        $stmt->execute(['id' => $id]);
+
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['delete', 'categoria', "Borrado la categoría con id $id"]);
+            $this->pdo->commit();
+            return true;
+        }
     }
 }
