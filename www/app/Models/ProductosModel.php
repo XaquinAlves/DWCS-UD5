@@ -226,4 +226,20 @@ class ProductosModel extends BaseDbModel
             return false;
         }
     }
+
+    public function deleteProducto(string $codigo): bool
+    {
+        $this->pdo->beginTransaction();
+        $statement = $this->pdo->prepare("DELETE FROM producto WHERE codigo = :codigo");
+        $statement->execute(['codigo' => $codigo]);
+        if ($statement->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['delete', 'producto', "Eliminado el producto con codigo $codigo"]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
 }

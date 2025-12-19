@@ -194,7 +194,8 @@ class ProductosController extends BaseController
             }
             header('location: /productos');
         } catch (\PDOException $e) {
-
+            $this->addFlashMessage(new Mensaje($e->getMessage(), Mensaje::WARNING));
+            header('location: /productos');
         }
     }
 }

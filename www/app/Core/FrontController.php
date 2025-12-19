@@ -314,6 +314,20 @@ class FrontController
                 );
 
                 Route::add(
+                    '/productos/borrar/(\w{3,50})',
+                    function ($producto) {
+                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3', '4']))) {
+                            $controlador = new ProductosController();
+                            $controlador->deleteProducto($producto);
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
                     '/proveedores',
                     function () {
                         if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
