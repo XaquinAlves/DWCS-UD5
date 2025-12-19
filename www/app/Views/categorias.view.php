@@ -119,12 +119,13 @@ declare(strict_types=1);
                                         </button>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="<?php echo $categoria['id_cat'] ?>borradoModal" tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="<?php echo $categoria['id_cat'] ?>borradoModal"
+                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="<?php echo $categoria['id_cat']  ?>borradoModalLabel">
+                                                <h5 class="modal-title"
+                                                    id="<?php echo $categoria['id_cat'] ?>borradoModalLabel">
                                                     ¿Estás seguro de borrar la categoría
                                                     <?php echo $categoria['cat_name']  ?> ?
                                                 </h5>

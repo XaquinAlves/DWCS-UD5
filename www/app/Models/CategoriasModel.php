@@ -8,19 +8,21 @@ use Com\Daw2\Core\BaseDbModel;
 
 class CategoriasModel extends BaseDbModel
 {
+    private const SELECT_FROM_JOIN = "SELECT cat.id_categoria as id_cat, cat.nombre_categoria as cat_name, 
+       padre.nombre_categoria as padre_name, cat.id_padre FROM categoria as cat 
+           LEFT JOIN categoria as padre ON cat.id_padre = padre.id_categoria";
     private const ORDER_BY = ['id_cat', 'id_cat DESC', 'cat_name', 'cat_name DESC', 'padre_name', 'padre_name DESC'];
     public function getCategorias(): array
     {
-        $sql = "SELECT id_categoria as id_cat, nombre_categoria as cat_name FROM categoria ORDER BY nombre_categoria";
+        $sql = "SELECT id_categoria as id_cat, nombre_categoria as cat_name, id_padre 
+            FROM categoria ORDER BY nombre_categoria";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
     }
 
     public function getCategoriasByFilters(array $filters): array|false
     {
-        $sql = "SELECT cat.id_categoria as id_cat, cat.nombre_categoria as cat_name, 
-       padre.nombre_categoria as padre_name, cat.id_padre FROM categoria as cat 
-           LEFT JOIN categoria as padre ON cat.id_padre = padre.id_categoria";
+        $sql = self::SELECT_FROM_JOIN;
         $queryItems = $this->buildFiltersQuery($filters);
 
         if (!empty($queryItems['conditions'])) {
@@ -101,7 +103,7 @@ class CategoriasModel extends BaseDbModel
 
     public function findCategoria(int $id): array|false
     {
-        $sql = "SELECT * FROM categoria WHERE id_categoria = :id";
+        $sql = self::SELECT_FROM_JOIN . " WHERE cat.id_categoria = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch();
@@ -114,11 +116,21 @@ class CategoriasModel extends BaseDbModel
 
         $stmt = $this->pdo->prepare($sql);
         $params = [
-            'nombre' => $data['nombre'],
-            'idpadre' => $data['padre'],
+            'nombre' => $data['cat_name'],
+            'idpadre' => $data['id_padre'],
             'id' => $data['id']
         ];
         $stmt->execute($params);
+
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['update', 'categoria', "Borrada la categoría" . $params['nombre']]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
     }
 
     public function deleteCategoria(int $id): bool

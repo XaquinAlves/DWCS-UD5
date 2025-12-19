@@ -566,6 +566,20 @@ class FrontController
                 );
 
                 Route::add(
+                    '/categorias/borrar/(\d{1,3})',
+                    function ($id_cat) {
+                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                            $controlador = new CategoriasCotroller();
+                            $controlador->deleteCategoria((int)$id_cat);
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
                     '/panel/temas',
                     function () {
                         $controlador = new InicioController();

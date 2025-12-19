@@ -22,40 +22,36 @@ declare(strict_types=1);
                     <div class="row">
                         <div class="col-12 col-lg-6">
                             <div class="mb-3">
-                                <label for="id">Id: </label>
-                                <input type="text" class="form-control" name="id" id="id"
-                                       placeholder="Id"
-                                       value="<?php echo $input['id'] ?? '' ?>"/>
-                                <div class="text-danger">
-                                    <?php echo $errors['nombre'] ?? '' ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6">
-                            <div class="mb-3">
-                                <label for="nombre">Nombre de categoría: </label>
-                                <input type="text" class="form-control" name="nombre" id="nombre"
+                                <label for="cat_name">Nombre de categoría: </label>
+                                <input type="text" class="form-control" name="cat_name" id="cat_name"
                                        placeholder="Nombre de categoría"
-                                       value="<?php echo $input['nombre'] ?? '' ?>"/>
-                                <div class="text-danger">
-                                    <?php echo $errors['nombre'] ?? '' ?>
-                                </div>
+                                       value="<?php echo $input['cat_name'] ?? '' ?>"/>
+                                <?php if (isset($errors['nombre'])) { ?>
+                                    <div class="text-danger">
+                                        <?php echo $errors['nombre'] ?? '' ?>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">
                             <div class="mb-3">
-                                <label for="padre">Categoría padre: </label>
-                                <select name="padre" id="padre" class="form-control">
+                                <label for="id_padre">Categoría padre: </label>
+                                <select name="id_padre" id="id_padre" class="form-control">
                                     <option value="null">Sin padre</option>
                                     <?php foreach ($listaCategorias as $categoria) { ?>
                                         <option value="<?php echo $categoria['id_cat'] ?>"
                                          <?php echo
-                                            (isset($input['padre']) && $input['padre'] === $categoria['id_padre']) ?
-                                             'selected' : ''?>>
+                                            (isset($input['id_padre']) && $input['id_padre'] ===
+                                                    $categoria['id_padre']) ? 'selected' : ''?>>
                                             <?php echo $categoria['cat_name'] ?>
                                         </option>
                                     <?php } ?>
                                 </select>
+                                <?php if (isset($errors['padre'])) { ?>
+                                    <div class="text-danger">
+                                        <?php echo $errors['padre'] ?? '' ?>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

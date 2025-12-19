@@ -66,10 +66,11 @@ class CategoriasCotroller extends BaseController
     private function checkInputCategoria(array $input): array
     {
         $errors = [];
+        $model = new CategoriasModel();
 
-        if ($_POST['nombre'] === '') {
+        if ($input['cat_name'] === '') {
             $errors['nombre'] = 'Campo requerido';
-        } elseif (strlen($_POST['nombre']) > 50) {
+        } elseif (strlen($input['cat_name']) > 50) {
             $errors['nombre'] = 'El nombre introducido es demasiado largo, 50 caracteres máximo';
         }
 
@@ -99,5 +100,46 @@ class CategoriasCotroller extends BaseController
 
         $this->view->showViews(array('templates/header.view.php', 'categorias.edit.view.php',
             'templates/footer.view.php'), $data);
+    }
+
+    public function doEditarCategoria(int $id): void
+    {
+        $errors = $this->checkInputCategoria($_POST);
+        if ($errors === []) {
+            $model = new CategoriasModel();
+            $data = $_POST;
+            $data['id'] = $id;
+            if ($model->updateCategoria($data)) {
+                $this->addFlashMessage(new Mensaje(
+                    "Categoria " . $_POST['cat_name'] . " editada correctamente",
+                    Mensaje::SUCCESS
+                ));
+            } else {
+                $this->addFlashMessage(new Mensaje(
+                    "Error indeterminado al editar la categoria " . $_POST['cat_name'],
+                    Mensaje::ERROR
+                ));
+            }
+            header('location: /categorias');
+        } else {
+            $this->showEditarCategoria($id, $errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        }
+    }
+
+    public function deleteCategoria(int $id_cat): void
+    {
+        try {
+            $model = new CategoriasModel();
+            if ($model->deleteCategoria($id_cat)) {
+                $this->addFlashMessage(new Mensaje("Categoria $id_cat eliminada correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->
+                addFlashMessage(new Mensaje("Error indeterminado al borrar la categoria $id_cat", Mensaje::ERROR));
+            }
+            header('location: /categorias');
+        } catch (\PDOException $e) {
+            $this->addFlashMessage(new Mensaje($e->getMessage(), Mensaje::WARNING));
+            header('location: /categorias');
+        }
     }
 }
