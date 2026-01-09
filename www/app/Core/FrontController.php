@@ -232,7 +232,7 @@ class FrontController
                 );
 
                 Route::add(
-                    '/usuarios',
+                    '/trabajadores',
                     function () {
                         if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
                             $controlador = new TrabajadoresController();
@@ -412,7 +412,7 @@ class FrontController
                 );
 
                 Route::add(
-                    '/usuarios/alta',
+                    '/trabajadores/alta',
                     function () {
                         if (($_SESSION['usuario']['id_rol'] == '1')) {
                             $controlador = new TrabajadoresController();
@@ -426,7 +426,7 @@ class FrontController
                 );
 
                 Route::add(
-                    '/usuarios/alta',
+                    '/trabajadores/alta',
                     function () {
                         if (($_SESSION['usuario']['id_rol'] == '1')) {
                             $controlador = new TrabajadoresController();
@@ -440,7 +440,7 @@ class FrontController
                 );
 
                 Route::add(
-                    '/usuarios/editar/(\w{3,50})',
+                    '/trabajadores/editar/(\w{3,50})',
                     function ($username) {
                         if (($_SESSION['usuario']['id_rol'] == '1')) {
                             $controlador = new TrabajadoresController();
@@ -454,7 +454,7 @@ class FrontController
                 );
 
                 Route::add(
-                    '/usuarios/editar/(\w{3,50})',
+                    '/trabajadores/editar/(\w{3,50})',
                     function ($username) {
                         if (($_SESSION['usuario']['id_rol'] == '1')) {
                             $controlador = new TrabajadoresController();
@@ -468,7 +468,7 @@ class FrontController
                 );
 
                 Route::add(
-                    '/usuarios/borrar/(\w{3,50})',
+                    '/trabajadores/borrar/(\w{3,50})',
                     function ($username) {
                         if (($_SESSION['usuario']['id_rol'] == '1')) {
                             $controlador = new TrabajadoresController();
@@ -482,7 +482,7 @@ class FrontController
                 );
 
                 Route::add(
-                    '/usuarios/activar/(\w{3,50})',
+                    '/trabajadores/activar/(\w{3,50})',
                     function ($username) {
                         if (($_SESSION['usuario']['id_rol'] == '1')) {
                             $controlador = new TrabajadoresController();

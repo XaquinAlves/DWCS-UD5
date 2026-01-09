@@ -118,7 +118,7 @@ declare(strict_types=1);
                 <div class="card-footer">
                     <div class="col-12 text-right">
                         <input type="submit" value="Guardar" name="enviar" class="btn btn-primary ml-2"/>
-                        <a href="/usuarios" class="btn btn-danger">Cancelar</a>
+                        <a href="/trabajadores" class="btn btn-danger">Cancelar</a>
                     </div>
                 </div>
             </form>

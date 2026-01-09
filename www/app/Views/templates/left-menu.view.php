@@ -57,7 +57,7 @@
           <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2'])) {?>
           <li class="nav-item <?php echo (in_array($seccion, [
               $_ENV['host.folder'] . 'trabajadores-all',
-              $_ENV['host.folder'] . 'usuarios',
+              $_ENV['host.folder'] . 'trabajadores',
               $_ENV['host.folder'] . 'trabajadores-salario',
               $_ENV['host.folder'] . 'trabajadores-standard',
               $_ENV['host.folder'] . 'trabajadores-carlos',
@@ -76,13 +76,13 @@
               </a>
               <ul class="nav nav-treeview">
                   <li class="nav-item">
-                      <a href="<?php echo $_ENV['host.folder'] ?>usuarios" class="nav-link
+                      <a href="<?php echo $_ENV['host.folder'] ?>trabajadores" class="nav-link
                         <?php echo
                         substr_compare(
                             $seccion,
-                            $_ENV['host.folder'] . 'usuarios',
+                            $_ENV['host.folder'] . 'trabajadores',
                             0,
-                            strlen($_ENV['host.folder'] . 'usuarios')
+                            strlen($_ENV['host.folder'] . 'trabajadores')
                         ) === 0 ? 'active' : '';?>">
                           <i class="fas fa-book nav-icon"></i>
                           <p>Filtrar Usuarios</p>

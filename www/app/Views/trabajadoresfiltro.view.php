@@ -12,7 +12,7 @@ declare(strict_types=1);
             <?php }
         } ?>
         <div class="card shadow mb-4">
-            <form method="get" action="/usuarios">
+            <form method="get" action="/trabajadores">
                 <input type="hidden" name="ordenar" value="<?php echo $ordenar ?? 1 ?>">
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -94,10 +94,10 @@ declare(strict_types=1);
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-6 text-left">
-                            <a href="/usuarios/alta" class="btn btn-primary">Añadir usuario</a>
+                            <a href="/trabajadores/alta" class="btn btn-primary">Añadir usuario</a>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="/usuarios" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
+                            <a href="/trabajadores" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
                             <input type="submit" value="Aplicar filtros" name="enviar" class="btn btn-primary ml-2"/>
                         </div>
                     </div>
@@ -177,11 +177,11 @@ declare(strict_types=1);
                                 ?></td>
                                 <td><?php echo $usuario['country_name'] ?></td>
                                 <td>
-                                    <a href="/usuarios/editar/<?php echo $usuario['username'] ?>"
+                                    <a href="/trabajadores/editar/<?php echo $usuario['username'] ?>"
                                         class="btn btn-success">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="/usuarios/activar/<?php echo $usuario['username'] ?>"
+                                    <a href="/trabajadores/activar/<?php echo $usuario['username'] ?>"
                                        class="btn <?php echo $usuario['activo'] ? 'btn-danger' : 'btn-success' ?>">
                                         <i class="fas <?php echo
                                         $usuario['activo'] ? 'fa-times' : 'fa-check' ?>"></i>
@@ -216,7 +216,7 @@ declare(strict_types=1);
                                                     data-dismiss="modal">
                                                 Cancelar
                                             </button>
-                                            <a href="/usuarios/borrar/<?php echo $usuario['username'] ?>"
+                                            <a href="/trabajadores/borrar/<?php echo $usuario['username'] ?>"
                                                class="btn btn-danger">
                                                 Confirmar
                                                 <a>

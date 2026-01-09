@@ -152,11 +152,11 @@ class TrabajadoresController extends BaseController
         $queryParams = http_build_query($copiaGet);
 
         $data = array(
-            'titulo' => 'Usuarios',
-            'breadcrumb' => ['trabajadores','Usuarios'],
-            'seccion' => '/usuarios',
+            'titulo' => 'Trabajadores',
+            'breadcrumb' => ['trabajadores','filtros'],
+            'seccion' => '/trabajadores',
             'tituloEjercicio' => 'Lista de usuarios',
-            'url' => '/usuarios?' . $queryParams,
+            'url' => '/trabajadores?' . $queryParams,
             'listaUsuarios' => $model->getByFilters($_GET),
             'listaRoles' => $modelAuxRol->getAll(),
             'listaPaises' => $modelAuxPais->getAll(),
@@ -166,7 +166,7 @@ class TrabajadoresController extends BaseController
             'lastPage' => $model->getNumberOfPages($_GET)
         );
 
-        $this->view->showViews(array('templates/header.view.php', 'usuarios.view.php',
+        $this->view->showViews(array('templates/header.view.php', 'trabajadoresfiltro.view.php',
             'templates/footer.view.php'), $data);
     }
 
@@ -174,17 +174,17 @@ class TrabajadoresController extends BaseController
     {
 
         $data = array(
-            'titulo' => 'Alta de usuario',
-            'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
-            'seccion' => '/usuarios-alta',
-            'tituloEjercicio' => 'Datos del usuario',
+            'titulo' => 'Alta de trabajador',
+            'breadcrumb' => ['trabajadores','Alta de trabajador'],
+            'seccion' => '/trabajadores-alta',
+            'tituloEjercicio' => 'Datos del trabajador',
             'listaRoles' => (new AuxRolTrabajadorModel())->getAll(),
             'listaPaises' => (new AuxPaisModel())->getAll(),
             'input' => $input,
             'errors' => $errors
         );
 
-        $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
+        $this->view->showViews(array('templates/header.view.php', 'trabajadores.edit.view.php',
             'templates/footer.view.php'), $data);
     }
 
@@ -209,9 +209,9 @@ class TrabajadoresController extends BaseController
     public function showEditUsuario(string $username, array $errors = [], array $input = []): void
     {
         $data = array(
-            'titulo' => 'Edición de usuario',
-            'breadcrumb' => ['trabajadores','Usuarios','Alta de usuario'],
-            'seccion' => '/usuarios/alta',
+            'titulo' => 'Edición de trabajador',
+            'breadcrumb' => ['trabajadores', 'Edición de trabajador'],
+            'seccion' => '/trabajadores/edicion',
             'listaRoles' => (new AuxRolTrabajadorModel())->getAll(),
             'listaPaises' => (new AuxPaisModel())->getAll()
         );
@@ -220,13 +220,13 @@ class TrabajadoresController extends BaseController
             $input = $model->find($username);
             if ($input === false) {
                 $this->addFlashMessage(new Mensaje("Usuario $username no encontrado", Mensaje::ERROR));
-                header('location: /usuarios');
+                header('location: /trabajadores');
                 die;
             }
         }
         $data['input'] = filter_var_array($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $data['errors'] = $errors;
-        $this->view->showViews(array('templates/header.view.php', 'usuario.edit.view.php',
+        $this->view->showViews(array('templates/header.view.php', 'trabajadores.edit.view.php',
             'templates/footer.view.php'), $data);
     }
 
@@ -244,7 +244,7 @@ class TrabajadoresController extends BaseController
                     Mensaje::ERROR
                 ));
             }
-            header('location: /usuarios');
+            header('location: /trabajadores');
         } else {
             $this->showEditUsuario(
                 $username,
@@ -264,10 +264,10 @@ class TrabajadoresController extends BaseController
             } else {
                 $this->addFlashMessage(new Mensaje("Error al borrar el usuario $username", Mensaje::ERROR));
             }
-            header('location: /usuarios');
+            header('location: /trabajadores');
         } catch (\PDOException $e) {
             $this->addFlashMessage(new Mensaje($e->getMessage(), Mensaje::WARNING));
-            header('location: /usuarios');
+            header('location: /trabajadores');
         }
     }
 
@@ -298,7 +298,7 @@ class TrabajadoresController extends BaseController
             }
         }
 
-        header('location: /usuarios');
+        header('location: /trabajadores');
     }
 
     private function checkInputUsuario(array $input, ?string $username = ''): array
