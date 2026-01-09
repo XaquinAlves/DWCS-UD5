@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Libraries\Permisos;
 use Com\Daw2\Models\UsuarioSistemaModel;
 
 class UsuariosSistemaController extends BaseController
@@ -102,6 +103,19 @@ class UsuariosSistemaController extends BaseController
         } else {
             header('location: ' . $_ENV['host.folder']);
         }
+    }
+
+    public function getPermisos(int $id_rol): array
+    {
+        $permisos = [
+            'trabajadores' => new Permisos(''),
+            'csv' => new Permisos(''),
+            'productos' => new Permisos(''),
+            'proveedores' => new Permisos(''),
+            'categorias' => new Permisos('')
+        ];
+
+        return $permisos;
     }
 
     public function logOut(): void
