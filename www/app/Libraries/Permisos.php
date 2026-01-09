@@ -1,9 +1,11 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Com\Daw2\Libraries;
 
-class Permisos {
+class Permisos
+{
     private $read;
 
     private $write;

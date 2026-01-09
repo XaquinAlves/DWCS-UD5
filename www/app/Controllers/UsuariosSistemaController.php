@@ -6,6 +6,7 @@ namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
 use Com\Daw2\Libraries\Permisos;
+use Com\Daw2\Models\PermisosModel;
 use Com\Daw2\Models\UsuarioSistemaModel;
 
 class UsuariosSistemaController extends BaseController
@@ -114,6 +115,11 @@ class UsuariosSistemaController extends BaseController
             'proveedores' => new Permisos(''),
             'categorias' => new Permisos('')
         ];
+
+        $model = new PermisosModel();
+        $permisos = $model->getPermisos($id_rol);
+
+
 
         return $permisos;
     }
