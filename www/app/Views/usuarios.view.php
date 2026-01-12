@@ -17,36 +17,68 @@ declare(strict_types=1);
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="id_cat">Id de categoría: </label>
-                                <input type="number" class="form-control" name="id_cat" id="id_cat" min="0"
-                                       max="99" placeholder="Id de categoría"
-                                       value="<?php echo $input['id_cat'] ?? '' ?>"/>
+                                <label for="id_usuario">Id de usuario: </label>
+                                <input type="number" class="form-control" name="id_usuario" id="id_usuario" min="0"
+                                       max="999" placeholder="Id de usuario"
+                                       value="<?php echo $input['id_usuario'] ?? '' ?>"/>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="cat_name">Nombre de categoría: </label>
-                                <input type="text" class="form-control" name="cat_name" id="cat_name"
-                                       placeholder="Nombre de categoría"
-                                       value="<?php echo $input['cat_name'] ?? '' ?>"/>
+                                <label for="nombre">Nombre: </label>
+                                <input type="text" class="form-control" name="nombre" id="nombre"
+                                       placeholder="Nombre de usuario"
+                                       value="<?php echo $input['nombre'] ?? '' ?>"/>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="id_padre">Id del padre: </label>
-                                <input type="number" class="form-control" name="id_padre" id="id_padre" min="0"
-                                       max="99" placeholder="Id del padre"
-                                       value="<?php echo $input['id_padre'] ?? '' ?>"/>
+                                <label for="email">Email: </label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                       placeholder="Email"
+                                       value="<?php echo $input['email'] ?? '' ?>"/>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="padre_name">Nombre del padre: </label>
-                                <input type="text" class="form-control" name="padre_name" id="padre_name"
-                                       placeholder="Nombre del padre"
-                                       value="<?php echo $input['padre_name'] ?? '' ?>"/>
+                                <label for="email">Email: </label>
+                                <input type="email" class="form-control" name="nombre" id="nombre"
+                                       placeholder="Email"
+                                       value="<?php echo $input['email'] ?? '' ?>"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="input_rol">Rol:</label>
+                                <select name="rol" id="rol" class="form-control"
+                                        data-placeholder="Rol">
+                                    <option value="">-</option>
+                                    <?php foreach ($listaRoles ?? [] as $rol) { ?>
+                                        <option value="<?php echo $rol['id_rol'] ?>" <?php echo
+                                        isset($_GET['id_rol']) && $_GET['id_rol'] == $rol['id_rol'] ?
+                                            'selected' : '' ?>>
+                                            <?php echo ucfirst($rol['rol']) ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="last_date">Ultima conexión: </label>
+                                <input type="date" class="form-control" name="last_date" id="last_date"
+                                       placeholder="Ultima conexión"
+                                       value="<?php echo $input['last_date'] ?? '' ?>"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="last_date">Idioma: </label>
+                                <input type="text" class="form-control" name="idioma" id="idioma"
+                                       placeholder="Idioma"
+                                       value="<?php echo $input['idioma'] ?? '' ?>"/>
                             </div>
                         </div>
                     </div>
@@ -134,7 +166,7 @@ declare(strict_types=1);
                         </thead>
                         <tbody>
                         <?php foreach ($listaUsuarios as $usuario) { ?>
-                            <tr>
+                            <tr class="<?php echo $usuario['baja'] != 0 ? 'bg-danger' : '' ?>">
                                 <td><?php echo $usuario['id_usuario'] ?></td>
                                 <td><?php echo $usuario['nombre'] ?></td>
                                 <td><?php echo $usuario['email'] ?></td>
