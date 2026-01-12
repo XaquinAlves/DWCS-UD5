@@ -40,14 +40,6 @@ class FrontController
                 );
 
                 Route::add(
-                    '/login/google',
-                    function () {
-                        $controller = new UsuariosSistemaController();
-                        $controller->showLoginGoogle();
-                    }
-                );
-
-                Route::add(
                     '/login/google-oauth.php',
                     function () {
                         $controller = new UsuariosSistemaController();

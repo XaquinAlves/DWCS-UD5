@@ -102,4 +102,13 @@ class UsuarioSistemaModel extends BaseDbModel
             return false;
         }
     }
+
+    public function getUserByFilters(array $filters): array
+    {
+        $sql = "SELECT usr.id_usuario, usr.nombre, usr.email, rol.rol,  usr.last_date, usr.idioma, usr.baja
+            FROM usuario_sistema as usr LEFT JOIN rol as rol ON usr.id_rol = rol.id_rol";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($filters);
+        return $stmt->fetchAll();
+    }
 }

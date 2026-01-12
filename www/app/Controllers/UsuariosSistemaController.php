@@ -67,15 +67,6 @@ class UsuariosSistemaController extends BaseController
         $this->view->show('login.view.php', $data);
     }
 
-    public function showLoginGoogle(array $errors = []): void
-    {
-        $data = [
-            'errors' => $errors
-        ];
-
-        $this->view->showGoogle('login.php', $data);
-    }
-
 
     public function doLogin(): void
     {
@@ -147,6 +138,32 @@ class UsuariosSistemaController extends BaseController
         }
 
         $this->showChangeUsername([], $errors);
+    }
+
+    public function showUsuarios(): void
+    {
+        $model = new UsuarioSistemaModel();
+
+        $copiaGet = $_GET;
+        unset($copiaGet['page']);
+        unset($copiaGet['order']);
+
+        $data = array(
+            'titulo' => 'Usuarios del sistema',
+            'breadcrumb' => ['Usuarios'],
+            'seccion' => '/usuarios-sistema',
+            'tituloEjercicio' => 'Listado de usuarios',
+            'url' => '/usuarios-sistema?' . http_build_query($copiaGet),
+            'listaUsuarios' => $model->getUserByFilters($_GET),
+            'input' => filter_input_array(INPUT_GET),
+            'page' => $model->getPage($_GET),
+            'lastPage' => $model->getNumberOfPages($_GET),
+            'page_size' => $model->getPageSize($_GET),
+            'order' => $model->getOrderInt($_GET)
+        );
+
+        $this->view->showViews(array('templates/header.view.php', 'usuarios.view.php',
+            'templates/footer.view.php'), $data);
     }
 
     public function googleLogin(): void
