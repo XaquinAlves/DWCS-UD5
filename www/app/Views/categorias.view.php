@@ -121,7 +121,7 @@ declare(strict_types=1);
                                         <td>
                                             <?php if ($_SESSION['permisos']['categoria']->canWrite()) { ?>
                                                 <a href="/categorias/editar/<?php echo $categoria['id_cat'] ?>"
-                                                   class="btn btn-success btn-sm">
+                                                   class="btn btn-success">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             <?php } ?>

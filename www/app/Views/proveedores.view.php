@@ -145,6 +145,7 @@ declare(strict_types=1);
                                     $_SESSION['permisos']['proveedor']->canWrite() ||
                                     $_SESSION['permisos']['proveedor']->canDelete()
 ) { ?>
+                                        <td>
                                             <?php if ($_SESSION['permisos']['proveedor']->canWrite()) { ?>
                                                 <a href="/proveedores/editar/<?php echo $proveedor['cif'] ?>"
                                                     class="btn btn-success">
@@ -152,15 +153,13 @@ declare(strict_types=1);
                                                 </a>
                                             <?php } ?>
                                             <?php if ($_SESSION['permisos']['proveedor']->canDelete()) { ?>
-                                                <td>
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                            data-target="#<?php echo $proveedor['cif'] ?>borradoModal">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                        data-target="#<?php echo $proveedor['cif'] ?>borradoModal">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             <?php } ?>
-
+                                        </td>
                                     <?php } ?>
                                 </tr>
                                 <!-- Modal -->
