@@ -64,7 +64,9 @@ declare(strict_types=1);
                 <!-- Card footer -->
                 <div class="card-footer">
                     <div class="col-12 text-right">
-                        <a href="/proveedores/alta" class="btn btn-success float-left">Nuevo proveedor</a>
+                        <?php if ($_SESSION['permisos']['proveedor']->canWrite()) { ?>
+                            <a href="/proveedores/alta" class="btn btn-success float-left">Nuevo proveedor</a>
+                        <?php } ?>
                         <a href="/proveedores" class="btn btn-danger">Cancelar</a>
                         <input type="submit" value="Enviar" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
@@ -122,6 +124,14 @@ declare(strict_types=1);
                                             ($ordenar === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
+                            <?php if (
+                                    $_SESSION['permisos']['proveedor']->canWrite() ||
+                                    $_SESSION['permisos']['proveedor']->canDelete()
+) { ?>
+                                <th>
+                                    Editar / Borrar
+                                </th>
+                            <?php } ?>
                         </thead>
                         <tbody>
                             <?php foreach ($listaProveedores ?? [] as $proveedor) { ?>
@@ -131,25 +141,36 @@ declare(strict_types=1);
                                     <td><?php echo $proveedor['nombre'] ?></td>
                                     <td><?php echo $proveedor['email'] ?></td>
                                     <td><?php echo $proveedor['country_name'] ?></td>
-                                    <td>
-                                        <a href="/proveedores/editar/<?php echo $proveedor['cif'] ?>"
-                                            class="btn btn-success">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#<?php echo $proveedor['cif'] ?>borradoModal">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
+                                    <?php if (
+                                    $_SESSION['permisos']['proveedor']->canWrite() ||
+                                    $_SESSION['permisos']['proveedor']->canDelete()
+) { ?>
+                                            <?php if ($_SESSION['permisos']['proveedor']->canWrite()) { ?>
+                                                <a href="/proveedores/editar/<?php echo $proveedor['cif'] ?>"
+                                                    class="btn btn-success">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['permisos']['proveedor']->canDelete()) { ?>
+                                                <td>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                            data-target="#<?php echo $proveedor['cif'] ?>borradoModal">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            <?php } ?>
+
+                                    <?php } ?>
                                 </tr>
                                 <!-- Modal -->
-                                <div class="modal fade" id="<?php echo $proveedor['cif'] ?>borradoModal" tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="<?php echo $proveedor['cif'] ?>borradoModal" tabindex="-1"
+                                     role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="<?php echo $proveedor['cif'] ?>borradoModalLabel">
+                                                <h5 class="modal-title"
+                                                    id="<?php echo $proveedor['cif'] ?>borradoModalLabel">
                                                     ¿Estás seguro de borrar al proveedor
                                                     <?php echo $proveedor['nombre'] ?> ?
                                                 </h5>

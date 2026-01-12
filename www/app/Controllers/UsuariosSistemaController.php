@@ -215,7 +215,7 @@ class UsuariosSistemaController extends BaseController
         $_SESSION['google_loggedin'] = true;
         $_SESSION['usuario']['email'] = $profile['email'];
         $_SESSION['usuario']['nombre'] = implode(' ', $google_name_parts);
-        $_SESSION['usuario']['id_rol'] = 3;
+        $_SESSION['usuario']['id_rol'] = 4;
         $_SESION['permisos'] = $this->getPermisos($_SESSION['usuario']['id_rol']);
         $_SESSION['google_picture'] = isset($profile['picture']) ? $profile['picture'] : '';
         header('Location: ' . $_ENV['host.folder']);
