@@ -93,9 +93,107 @@ class FrontController
                 );
 
                 Route::add(
+                    '/trabajadores',
+                    function () {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
+                            $controlador = new TrabajadoresController();
+                            $controlador->getUsuarios();
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
+                    '/trabajadores/alta',
+                    function () {
+                        if ($_SESSION['permisos']['trabajadores']->canWrite()) {
+                            $controlador = new TrabajadoresController();
+                            $controlador->showAltaUsuario();
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
+                    '/trabajadores/alta',
+                    function () {
+                        if ($_SESSION['permisos']['trabajadores']->canWrite()) {
+                            $controlador = new TrabajadoresController();
+                            $controlador->doAltaUsuario();
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'post'
+                );
+
+                Route::add(
+                    '/trabajadores/editar/(\w{3,50})',
+                    function ($username) {
+                        if ($_SESSION['permisos']['trabajadores']->canWrite()) {
+                            $controlador = new TrabajadoresController();
+                            $controlador->showEditUsuario($username);
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
+                    '/trabajadores/editar/(\w{3,50})',
+                    function ($username) {
+                        if ($_SESSION['permisos']['trabajadores']->canWrite()) {
+                            $controlador = new TrabajadoresController();
+                            $controlador->doEditUsuario($username);
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'post'
+                );
+
+                Route::add(
+                    '/trabajadores/borrar/(\w{3,50})',
+                    function ($username) {
+                        if ($_SESSION['permisos']['trabajadores']->canDelete()) {
+                            $controlador = new TrabajadoresController();
+                            $controlador->deleteUsuario($username);
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
+                    '/trabajadores/activar/(\w{3,50})',
+                    function ($username) {
+                        if ($_SESSION['permisos']['trabajadores']->canWrite()) {
+                            $controlador = new TrabajadoresController();
+                            $controlador->activarUsuario($username);
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
                     '/trabajadores-all',
                     function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getAllTrabajadores();
                         } else {
@@ -109,7 +207,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-all-assoc',
                     function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getAllTrabajadoresAssoc();
                         } else {
@@ -123,7 +221,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-salario',
                     function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getAllTrabajadoresBySalario();
                         } else {
@@ -137,7 +235,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-salario-assoc',
                     function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getAllTrabajadoresBySalarioAssoc();
                         } else {
@@ -151,7 +249,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-standard',
                     function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getTrabajadoresStandard();
                         } else {
@@ -165,7 +263,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-standard-assoc',
                     function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getTrabajadoresStandardAssoc();
                         } else {
@@ -179,7 +277,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-carlos',
                     function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getTrabajadoresCarlos();
                         } else {
@@ -193,7 +291,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-carlos-assoc',
                     function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
+                        if ($_SESSION['permisos']['trabajadores']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getTrabajadoresCarlosAssoc();
                         } else {
@@ -224,20 +322,6 @@ class FrontController
                         if ($_SESSION['permisos']['csv']->canRead()) {
                             $controlador = new CsvController();
                             $controlador->getPoblacionGruposEdad();
-                        } else {
-                            $controlador = new ErroresController();
-                            $controlador->error403();
-                        }
-                    },
-                    'get'
-                );
-
-                Route::add(
-                    '/trabajadores',
-                    function () {
-                        if ($_SESSION['permisos']['trabajador']->canRead()) {
-                            $controlador = new TrabajadoresController();
-                            $controlador->getUsuarios();
                         } else {
                             $controlador = new ErroresController();
                             $controlador->error403();
@@ -404,90 +488,6 @@ class FrontController
                         if ($_SESSION['permisos']['proveedor']->canDelete()) {
                             $controlador = new ProveedoresController();
                             $controlador->doDeleteProveedor($cif);
-                        } else {
-                            $controlador = new ErroresController();
-                            $controlador->error403();
-                        }
-                    },
-                    'get'
-                );
-
-                Route::add(
-                    '/trabajadores/alta',
-                    function () {
-                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
-                            $controlador = new TrabajadoresController();
-                            $controlador->showAltaUsuario();
-                        } else {
-                            $controlador = new ErroresController();
-                            $controlador->error403();
-                        }
-                    },
-                    'get'
-                );
-
-                Route::add(
-                    '/trabajadores/alta',
-                    function () {
-                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
-                            $controlador = new TrabajadoresController();
-                            $controlador->doAltaUsuario();
-                        } else {
-                            $controlador = new ErroresController();
-                            $controlador->error403();
-                        }
-                    },
-                    'post'
-                );
-
-                Route::add(
-                    '/trabajadores/editar/(\w{3,50})',
-                    function ($username) {
-                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
-                            $controlador = new TrabajadoresController();
-                            $controlador->showEditUsuario($username);
-                        } else {
-                            $controlador = new ErroresController();
-                            $controlador->error403();
-                        }
-                    },
-                    'get'
-                );
-
-                Route::add(
-                    '/trabajadores/editar/(\w{3,50})',
-                    function ($username) {
-                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
-                            $controlador = new TrabajadoresController();
-                            $controlador->doEditUsuario($username);
-                        } else {
-                            $controlador = new ErroresController();
-                            $controlador->error403();
-                        }
-                    },
-                    'post'
-                );
-
-                Route::add(
-                    '/trabajadores/borrar/(\w{3,50})',
-                    function ($username) {
-                        if ($_SESSION['permisos']['trabajador']->canDelete()) {
-                            $controlador = new TrabajadoresController();
-                            $controlador->deleteUsuario($username);
-                        } else {
-                            $controlador = new ErroresController();
-                            $controlador->error403();
-                        }
-                    },
-                    'get'
-                );
-
-                Route::add(
-                    '/trabajadores/activar/(\w{3,50})',
-                    function ($username) {
-                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
-                            $controlador = new TrabajadoresController();
-                            $controlador->activarUsuario($username);
                         } else {
                             $controlador = new ErroresController();
                             $controlador->error403();
