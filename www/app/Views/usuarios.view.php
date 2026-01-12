@@ -87,9 +87,9 @@ declare(strict_types=1);
                 <div class="card-footer">
                     <div class="col-12 text-right">
                         <?php if ($_SESSION['permisos']['usuario_sistema']->canWrite()) { ?>
-                            <a href="/usuarios-sistema/alta" class="btn btn-success float-left">Nueva categoría</a>
+                            <a href="/panel/usuario-sistema/alta" class="btn btn-success float-left">Nueva categoría</a>
                         <?php } ?>
-                        <a href="/usuarios-sistema" class="btn btn-danger">Limpiar filtros</a>
+                        <a href="/panel/usuario-sistema" class="btn btn-danger">Limpiar filtros</a>
                         <input type="submit" value="Buscar" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
                 </div>
@@ -109,7 +109,7 @@ declare(strict_types=1);
                         <thead>
                         <tr>
                             <th>
-                                <a href="/usuarios-sistema?ordenar=<?php echo $ordenar === 1 ? 2 : 1 ?>">
+                                <a href="/panel/usuario-sistema?ordenar=<?php echo $ordenar === 1 ? 2 : 1 ?>">
                                     Id de ususario
                                     <?php echo $ordenar === 1 ?
                                         '<i class="fas fa-sort-amount-down-alt"></i>' :
@@ -117,7 +117,7 @@ declare(strict_types=1);
                                 </a>
                             </th>
                             <th>
-                                <a href="/usuarios-sistema?ordenar=<?php echo $ordenar === 3 ? 4 : 3 ?>">
+                                <a href="/panel/usuario-sistema?ordenar=<?php echo $ordenar === 3 ? 4 : 3 ?>">
                                     Nombre
                                     <?php echo $ordenar === 3 ?
                                         '<i class="fas fa-sort-amount-down-alt"></i>' :
@@ -125,7 +125,7 @@ declare(strict_types=1);
                                 </a>
                             </th>
                             <th>
-                                <a href="/usuarios-sistema?ordenar=<?php echo $ordenar === 5 ? 6 : 5 ?>">
+                                <a href="/panel/usuario-sistema?ordenar=<?php echo $ordenar === 5 ? 6 : 5 ?>">
                                     Email
                                     <?php echo $ordenar === 5 ?
                                         '<i class="fas fa-sort-amount-down-alt"></i>' :
@@ -133,7 +133,7 @@ declare(strict_types=1);
                                 </a>
                             </th>
                             <th>
-                                <a href="/usuarios-sistema?ordenar=<?php echo $ordenar === 7 ? 8 : 7 ?>">
+                                <a href="/panel/usuario-sistema?ordenar=<?php echo $ordenar === 7 ? 8 : 7 ?>">
                                     Rol
                                     <?php echo $ordenar === 7 ?
                                         '<i class="fas fa-sort-amount-down-alt"></i>' :
@@ -141,7 +141,7 @@ declare(strict_types=1);
                                 </a>
                             </th>
                             <th>
-                                <a href="/usuarios-sistema?ordenar=<?php echo $ordenar === 9 ? 10 : 9 ?>">
+                                <a href="/panel/usuario-sistema?ordenar=<?php echo $ordenar === 9 ? 10 : 9 ?>">
                                     Ultima conexión
                                     <?php echo $ordenar === 9 ?
                                         '<i class="fas fa-sort-amount-down-alt"></i>' :
@@ -149,7 +149,7 @@ declare(strict_types=1);
                                 </a>
                             </th>
                             <th>
-                                <a href="/usuarios-sistema?ordenar=<?php echo $ordenar === 11 ? 12 : 11 ?>">
+                                <a href="/panel/usuario-sistema?ordenar=<?php echo $ordenar === 11 ? 12 : 11 ?>">
                                     Idioma
                                     <?php echo $ordenar === 11 ?
                                         '<i class="fas fa-sort-amount-down-alt"></i>' :
@@ -179,7 +179,7 @@ declare(strict_types=1);
 ) { ?>
                                     <td>
                                         <?php if ($_SESSION['permisos']['usuario-sistema']->canWrite()) { ?>
-                                            <a href="/usuarios-sistema/editar/<?php echo $usuario['id_usuario'] ?>"
+                                            <a href="/panel/usuario-sistema/editar/<?php echo $usuario['id_usuario'] ?>"
                                                class="btn btn-success">
                                                 <i class="fas fa-edit"></i>
                                             </a>
@@ -216,7 +216,7 @@ declare(strict_types=1);
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                                 Cancelar
                                             </button>
-                                            <a href="/usuarios-sistema/borrar/<?php echo $usuario['id_usuario'] ?>"
+                                            <a href="/panel/usuario-sistema/borrar/<?php echo $usuario['id_usuario'] ?>"
                                                class="btn btn-danger">
                                                 Borrar
                                             </a>

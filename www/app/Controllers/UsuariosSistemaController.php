@@ -151,10 +151,10 @@ class UsuariosSistemaController extends BaseController
 
         $data = array(
             'titulo' => 'Usuarios del sistema',
-            'breadcrumb' => ['Usuarios'],
+            'breadcrumb' => ['Panel', 'Usuarios Sistema'],
             'seccion' => '/usuarios-sistema',
             'tituloEjercicio' => 'Listado de usuarios',
-            'url' => '/usuarios-sistema?' . http_build_query($copiaGet),
+            'url' => '/panel/usuario-sistema?' . http_build_query($copiaGet),
             'listaUsuarios' => $model->getUserByFilters($_GET),
             'listaRoles' => (new RolModel())->getAllRoles(),
             'input' => filter_input_array(INPUT_GET),
