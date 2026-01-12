@@ -54,7 +54,9 @@ declare(strict_types=1);
                 <!-- Card footer -->
                 <div class="card-footer">
                     <div class="col-12 text-right">
-                        <a href="/categorias/alta" class="btn btn-success float-left">Nueva categoría</a>
+                        <?php if ($_SESSION['permisos']['categoria']->canWrite()) { ?>
+                            <a href="/categorias/alta" class="btn btn-success float-left">Nueva categoría</a>
+                        <?php } ?>
                         <a href="/categorias" class="btn btn-danger">Limpiar filtros</a>
                         <input type="submit" value="Buscar" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
@@ -98,7 +100,12 @@ declare(strict_types=1);
                                             ($ordenar === 6 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                     </a>
                                 </th>
-                                <th>Acciones</th>
+                                <?php if (
+                                             $_SESSION['permisos']['categoria']->canWrite() ||
+                                             $_SESSION['permisos']['categoria']->canDelete()
+) { ?>
+                                    <th>Editar / Borrar</th>
+                                <?php } ?>
                             </tr>
                             </thead>
                             <tbody>
@@ -107,25 +114,37 @@ declare(strict_types=1);
                                     <td><?php echo $categoria['id_cat'] ?></td>
                                     <td><?php echo $categoria['cat_name'] ?></td>
                                     <td><?php echo $categoria['padre_name'] ?></td>
-                                    <td>
-                                        <a href="/categorias/editar/<?php echo $categoria['id_cat'] ?>"
-                                           class="btn btn-success btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#<?php echo "cat" . $categoria['id_cat'] ?>borradoModal">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
+                                    <?php if (
+                                            $_SESSION['permisos']['categoria']->canWrite() ||
+                                            $_SESSION['permisos']['categoria']->canDelete()
+) { ?>
+                                        <td>
+                                            <?php if ($_SESSION['permisos']['categoria']->canWrite()) { ?>
+                                                <a href="/categorias/editar/<?php echo $categoria['id_cat'] ?>"
+                                                   class="btn btn-success btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['permisos']['categoria']->canDelete()) { ?>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                        data-target="#<?php
+                                                        echo "cat" . $categoria['id_cat'] ?>borradoModal">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            <?php } ?>
+                                        </td>
+                                    <?php } ?>
+
                                 </tr>
                                 <!-- Modal -->
-                                <div class="modal fade" id="<?php echo "cat" . $categoria['id_cat'] ?>borradoModal" tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="<?php echo "cat" . $categoria['id_cat'] ?>borradoModal"
+                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="<?php echo "cat" . $categoria['id_cat'] ?>borradoModalLabel">
+                                                <h5 class="modal-title"
+                                                    id="<?php echo "cat" . $categoria['id_cat'] ?>borradoModalLabel">
                                                     ¿Estás seguro de borrar la categoría
                                                     <?php echo $categoria['cat_name'] ?> ?
                                                 </h5>

@@ -190,7 +190,7 @@ declare(strict_types=1);
                                     $_SESSION['permisos']['producto']->canWrite() ||
                                     $_SESSION['permisos']['producto']->canDelete()
 ) { ?>
-                                <th>Acciones</th>
+                                <th>Editar / Borrar</th>
                             <?php } ?>
                         </tr>
                         </thead>
