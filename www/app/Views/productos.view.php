@@ -106,7 +106,9 @@ declare(strict_types=1);
                 </div>
                 <div class="card-footer">
                     <div class="col-12 text-right">
-                        <a href="/productos/alta" class="btn btn-success float-left">Nuevo Producto</a>
+                        <?php if ($_SESSION['permisos']['producto']->canWrite()) { ?>
+                            <a href="/productos/alta" class="btn btn-success float-left">Nuevo Producto</a>
+                        <?php } ?>
                         <a href="/productos" class="btn btn-danger">Reiniciar filtros</a>
                         <input type="submit" value="Aplicar filtros" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
@@ -184,7 +186,12 @@ declare(strict_types=1);
                                             ($order === 14 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
-                            <th>Acciones</th>
+                            <?php if (
+                                    $_SESSION['permisos']['producto']->canWrite() ||
+                                    $_SESSION['permisos']['producto']->canDelete()
+) { ?>
+                                <th>Acciones</th>
+                            <?php } ?>
                         </tr>
                         </thead>
                         <tbody>
@@ -222,15 +229,24 @@ declare(strict_types=1);
                                         )
                                         ?>
                                     </td>
-                                    <td>
-                                        <a href="/productos/editar/<?php echo $producto['codigo'] ?>"
-                                           class="btn btn-success"><i class="fas fa-edit"></i></a>
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#<?php echo $producto['codigo'] ?>borradoModal">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
+                                    <?php if (
+                                            $_SESSION['permisos']['producto']->canWrite() ||
+                                            $_SESSION['permisos']['producto']->canDelete()
+) { ?>
+                                        <td>
+                                            <?php if ($_SESSION['permisos']['producto']->canWrite()) { ?>
+                                                <a href="/productos/editar/<?php echo $producto['codigo'] ?>"
+                                                   class="btn btn-success"><i class="fas fa-edit"></i></a>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['permisos']['producto']->canDelete()) { ?>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                        data-target="#<?php echo $producto['codigo'] ?>borradoModal">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            <?php } ?>
+                                        </td>
+                                    <?php } ?>
                                 </tr>
                                 <div class="modal fade" id="<?php echo $producto['codigo'] ?>borradoModal"
                                      tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
