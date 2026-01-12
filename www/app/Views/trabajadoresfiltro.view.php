@@ -93,11 +93,13 @@ declare(strict_types=1);
                 </div>
                 <div class="card-footer">
                     <div class="row">
-                        <div class="col-6 text-left">
-                            <a href="/trabajadores/alta" class="btn btn-primary">Añadir usuario</a>
-                        </div>
+                        <?php if ($_SESSION['permisos']['trabajadores']->canWrite()) { ?>
+                            <div class="col-6 text-left">
+                                <a href="/trabajadores/alta" class="btn btn-primary">Añadir usuario</a>
+                            </div>
+                        <?php } ?>
                         <div class="col-6 text-right">
-                            <a href="/trabajadores" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
+                            <a href="/trabajadores" class="btn btn-danger">Reiniciar filtros</a>
                             <input type="submit" value="Aplicar filtros" name="enviar" class="btn btn-primary ml-2"/>
                         </div>
                     </div>
@@ -159,7 +161,12 @@ declare(strict_types=1);
                                             ($ordenar === 10 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
                                 </a>
                             </th>
-                            <th>Editar - Activar/Desactivar - Borrar</th>
+                            <?php if (
+                                    $_SESSION['permisos']['trabajadores']->canWrite() ||
+                                    $_SESSION['permisos']['trabajadores']->canDelete()
+) { ?>
+                                <th>Editar - Activar/Desactivar - Borrar</th>
+                            <?php } ?>
                         </tr>
                         </thead>
                         <tbody>
@@ -176,25 +183,36 @@ declare(strict_types=1);
                                         number_format(floatval($usuario['retencionIRPF']), 0, ',', '.') . '%'
                                 ?></td>
                                 <td><?php echo $usuario['country_name'] ?></td>
-                                <td>
-                                    <a href="/trabajadores/editar/<?php echo $usuario['username'] ?>"
-                                        class="btn btn-success">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="/trabajadores/activar/<?php echo $usuario['username'] ?>"
-                                       class="btn <?php echo $usuario['activo'] ? 'btn-danger' : 'btn-success' ?>">
-                                        <i class="fas <?php echo
-                                        $usuario['activo'] ? 'fa-times' : 'fa-check' ?>"></i>
-                                    </a>
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn <?php echo
-                                        $usuario['activo'] ? 'btn-danger' : 'btn-warning' ?>"
-                                            data-toggle="modal" data-target="#<?php echo $usuario['username'] ?>Modal">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    <!-- Modal -->
-                                </td>
+                                <?php if (
+                                        $_SESSION['permisos']['trabajadores']->canWrite() ||
+                                        $_SESSION['permisos']['trabajadores']->canDelete()
+) { ?>
+                                    <td>
+                                        <?php if ($_SESSION['permisos']['trabajadores']->canWrite()) { ?>
+                                            <a href="/trabajadores/editar/<?php echo $usuario['username'] ?>"
+                                               class="btn btn-success">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="/trabajadores/activar/<?php echo $usuario['username'] ?>"
+                                               class="btn <?php echo $usuario['activo'] ? 'btn-danger' :
+                                                       'btn-success' ?>">
+                                                <i class="fas <?php echo
+                                                $usuario['activo'] ? 'fa-times' : 'fa-check' ?>"></i>
+                                            </a>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['permisos']['trabajadores']->canDelete()) { ?>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn <?php echo
+                                            $usuario['activo'] ? 'btn-danger' : 'btn-warning' ?>"
+                                                    data-toggle="modal"
+                                                    data-target="#<?php echo $usuario['username'] ?>Modal">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        <?php } ?>
+                                    </td>
+                                <?php } ?>
                             </tr>
+                            <!-- Modal -->
                             <div class="modal fade" id="<?php echo $usuario['username'] ?>Modal"
                                  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                  aria-hidden="true">
