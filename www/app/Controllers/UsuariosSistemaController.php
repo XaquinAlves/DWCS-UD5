@@ -89,6 +89,7 @@ class UsuariosSistemaController extends BaseController
                     session_regenerate_id();
                     $model->updateLastLogin($user['email']);
                     $_SESSION['usuario'] = $user;
+                    $_SESSION['permisos'] = $this->getPermisos((int)$user['id_rol']);
                 } else {
                     $errors['login'] = "Usuario inactivo";
                 }
@@ -111,15 +112,18 @@ class UsuariosSistemaController extends BaseController
         $permisos = [
             'trabajadores' => new Permisos(''),
             'csv' => new Permisos(''),
-            'productos' => new Permisos(''),
-            'proveedores' => new Permisos(''),
-            'categorias' => new Permisos('')
+            'producto' => new Permisos(''),
+            'proveedor' => new Permisos(''),
+            'categoria' => new Permisos(''),
+            'usuario_sistema' => new Permisos(''),
         ];
 
         $model = new PermisosModel();
-        $permisos = $model->getPermisos($id_rol);
+        $permisosTabla = $model->getPermisos($id_rol);
 
-
+        foreach ($permisosTabla as $tabla => $permiso) {
+            $permisos[$tabla]->setPermisos($permiso);
+        }
 
         return $permisos;
     }
@@ -211,7 +215,8 @@ class UsuariosSistemaController extends BaseController
         $_SESSION['google_loggedin'] = true;
         $_SESSION['usuario']['email'] = $profile['email'];
         $_SESSION['usuario']['nombre'] = implode(' ', $google_name_parts);
-        $_SESSION['usuario']['id_rol'] = 4;
+        $_SESSION['usuario']['id_rol'] = 3;
+        $_SESION['permisos'] = $this->getPermisos($_SESSION['usuario']['id_rol']);
         $_SESSION['google_picture'] = isset($profile['picture']) ? $profile['picture'] : '';
         header('Location: ' . $_ENV['host.folder']);
     }

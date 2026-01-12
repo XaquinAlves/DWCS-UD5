@@ -11,6 +11,7 @@ use Com\Daw2\Controllers\ProveedoresController;
 use Com\Daw2\Controllers\TrabajadoresController;
 use Com\Daw2\Controllers\UsuariosController;
 use Com\Daw2\Controllers\UsuariosSistemaController;
+use Com\Daw2\Libraries\Permisos;
 use Steampixel\Route;
 
 class FrontController
@@ -80,7 +81,7 @@ class FrontController
                 Route::add(
                     '/demo-proveedores',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['proveedor']->canRead()) {
                             $controlador = new InicioController();
                             $controlador->demo();
                         } else {
@@ -94,7 +95,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-all',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getAllTrabajadores();
                         } else {
@@ -108,7 +109,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-all-assoc',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getAllTrabajadoresAssoc();
                         } else {
@@ -122,7 +123,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-salario',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getAllTrabajadoresBySalario();
                         } else {
@@ -136,7 +137,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-salario-assoc',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getAllTrabajadoresBySalarioAssoc();
                         } else {
@@ -150,7 +151,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-standard',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getTrabajadoresStandard();
                         } else {
@@ -164,7 +165,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-standard-assoc',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getTrabajadoresStandardAssoc();
                         } else {
@@ -178,7 +179,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-carlos',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getTrabajadoresCarlos();
                         } else {
@@ -192,7 +193,7 @@ class FrontController
                 Route::add(
                     '/trabajadores-carlos-assoc',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getTrabajadoresCarlosAssoc();
                         } else {
@@ -206,7 +207,7 @@ class FrontController
                 Route::add(
                     '/poblacion-pontevedra',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['csv']->canRead()) {
                             $controlador = new CsvController();
                             $controlador->getPoblacionPontevedra();
                         } else {
@@ -220,7 +221,7 @@ class FrontController
                 Route::add(
                     '/poblacion-grupos-edad',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['csv']->canRead()) {
                             $controlador = new CsvController();
                             $controlador->getPoblacionGruposEdad();
                         } else {
@@ -234,7 +235,7 @@ class FrontController
                 Route::add(
                     '/trabajadores',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2']))) {
+                        if ($_SESSION['permisos']['trabajador']->canRead()) {
                             $controlador = new TrabajadoresController();
                             $controlador->getUsuarios();
                         } else {
@@ -248,7 +249,7 @@ class FrontController
                 Route::add(
                     '/productos',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3', '4']))) {
+                        if ($_SESSION['permisos']['producto']->canRead()) {
                             $controlador = new ProductosController();
                             $controlador->getProductos();
                         } else {
@@ -262,7 +263,7 @@ class FrontController
                 Route::add(
                     '/productos/alta',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3', '4']))) {
+                        if ($_SESSION['permisos']['producto']->canWrite()) {
                             $controlador = new ProductosController();
                             $controlador->showAltaProducto();
                         } else {
@@ -275,7 +276,7 @@ class FrontController
                 Route::add(
                     '/productos/alta',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3', '4']))) {
+                        if ($_SESSION['permisos']['producto']->canWrite()) {
                             $controlador = new ProductosController();
                             $controlador->doAltaProducto();
                         } else {
@@ -289,7 +290,7 @@ class FrontController
                 Route::add(
                     '/productos/editar/(\w{3,50})',
                     function ($producto) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3', '4']))) {
+                        if ($_SESSION['permisos']['producto']->canWrite()) {
                             $controlador = new ProductosController();
                             $controlador->showEditarProducto($producto);
                         } else {
@@ -302,7 +303,7 @@ class FrontController
                 Route::add(
                     '/productos/editar/(\w{3,50})',
                     function ($producto) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3', '4']))) {
+                        if ($_SESSION['permisos']['producto']->canWrite()) {
                             $controlador = new ProductosController();
                             $controlador->doEditarProducto($producto);
                         } else {
@@ -316,7 +317,7 @@ class FrontController
                 Route::add(
                     '/productos/borrar/(\w{3,50})',
                     function ($producto) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3', '4']))) {
+                        if ($_SESSION['permisos']['producto']->canDelete()) {
                             $controlador = new ProductosController();
                             $controlador->deleteProducto($producto);
                         } else {
@@ -330,7 +331,7 @@ class FrontController
                 Route::add(
                     '/proveedores',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['proveedor']->canRead()) {
                             $controlador = new ProveedoresController();
                             $controlador->showProveedores();
                         } else {
@@ -344,7 +345,7 @@ class FrontController
                 Route::add(
                     '/proveedores/alta',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['proveedor']->canWrite()) {
                             $controlador = new ProveedoresController();
                             $controlador->showAltaProveedor();
                         } else {
@@ -358,7 +359,7 @@ class FrontController
                 Route::add(
                     '/proveedores/alta',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['proveedor']->canWrite()) {
                             $controlador = new ProveedoresController();
                             $controlador->doAltaProveedor();
                         } else {
@@ -372,7 +373,7 @@ class FrontController
                 Route::add(
                     '/proveedores/editar/(\w{3,50})',
                     function ($cif) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['proveedor']->canWrite()) {
                             $controlador = new ProveedoresController();
                             $controlador->showEditProveedor($cif);
                         } else {
@@ -386,7 +387,7 @@ class FrontController
                 Route::add(
                     '/proveedores/editar/(\w{3,50})',
                     function ($cif) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['proveedor']->canWrite()) {
                             $controlador = new ProveedoresController();
                             $controlador->doEditProveedor($cif);
                         } else {
@@ -400,7 +401,7 @@ class FrontController
                 Route::add(
                     '/proveedores/borrar/(\w{3,50})',
                     function ($cif) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['proveedor']->canDelete()) {
                             $controlador = new ProveedoresController();
                             $controlador->doDeleteProveedor($cif);
                         } else {
@@ -414,7 +415,7 @@ class FrontController
                 Route::add(
                     '/trabajadores/alta',
                     function () {
-                        if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
                             $controlador = new TrabajadoresController();
                             $controlador->showAltaUsuario();
                         } else {
@@ -428,7 +429,7 @@ class FrontController
                 Route::add(
                     '/trabajadores/alta',
                     function () {
-                        if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
                             $controlador = new TrabajadoresController();
                             $controlador->doAltaUsuario();
                         } else {
@@ -442,7 +443,7 @@ class FrontController
                 Route::add(
                     '/trabajadores/editar/(\w{3,50})',
                     function ($username) {
-                        if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
                             $controlador = new TrabajadoresController();
                             $controlador->showEditUsuario($username);
                         } else {
@@ -456,7 +457,7 @@ class FrontController
                 Route::add(
                     '/trabajadores/editar/(\w{3,50})',
                     function ($username) {
-                        if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
                             $controlador = new TrabajadoresController();
                             $controlador->doEditUsuario($username);
                         } else {
@@ -470,7 +471,7 @@ class FrontController
                 Route::add(
                     '/trabajadores/borrar/(\w{3,50})',
                     function ($username) {
-                        if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        if ($_SESSION['permisos']['trabajador']->canDelete()) {
                             $controlador = new TrabajadoresController();
                             $controlador->deleteUsuario($username);
                         } else {
@@ -484,7 +485,7 @@ class FrontController
                 Route::add(
                     '/trabajadores/activar/(\w{3,50})',
                     function ($username) {
-                        if (($_SESSION['usuario']['id_rol'] == '1')) {
+                        if ($_SESSION['permisos']['trabajador']->canWrite()) {
                             $controlador = new TrabajadoresController();
                             $controlador->activarUsuario($username);
                         } else {
@@ -498,7 +499,7 @@ class FrontController
                 Route::add(
                     '/categorias',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['categoria']->canRead()) {
                             $controlador = new CategoriasCotroller();
                             $controlador->showCategorias();
                         } else {
@@ -512,7 +513,7 @@ class FrontController
                 Route::add(
                     '/categorias/alta',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['categoria']->canWrite()) {
                             $controlador = new CategoriasCotroller();
                             $controlador->showAltaCategoria();
                         } else {
@@ -526,7 +527,7 @@ class FrontController
                 Route::add(
                     '/categorias/alta',
                     function () {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['categoria']->canWrite()) {
                             $controlador = new CategoriasCotroller();
                             $controlador->doAltaCategoria();
                         } else {
@@ -540,7 +541,7 @@ class FrontController
                 Route::add(
                     '/categorias/editar/(\d{1,3})',
                     function ($id_cat) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['categoria']->canWrite()) {
                             $controlador = new CategoriasCotroller();
                             $controlador->showEditarCategoria((int)$id_cat);
                         } else {
@@ -554,7 +555,7 @@ class FrontController
                 Route::add(
                     '/categorias/editar/(\d{1,3})',
                     function ($id_cat) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['categoria']->canWrite()) {
                             $controlador = new CategoriasCotroller();
                             $controlador->doEditarCategoria((int)$id_cat);
                         } else {
@@ -568,7 +569,7 @@ class FrontController
                 Route::add(
                     '/categorias/borrar/(\d{1,3})',
                     function ($id_cat) {
-                        if ((in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3']))) {
+                        if ($_SESSION['permisos']['categoria']->canDelete()) {
                             $controlador = new CategoriasCotroller();
                             $controlador->deleteCategoria((int)$id_cat);
                         } else {
@@ -662,4 +663,5 @@ class FrontController
             $controller->showThrowable($e);
         }
     }
+
 }

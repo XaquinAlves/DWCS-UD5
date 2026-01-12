@@ -27,7 +27,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2', '3'])) { ?>
+              <?php if ($_SESSION['permisos']['proveedor']->canRead()) { ?>
               <li class="nav-item">
                 <a href="<?php echo $_ENV['host.folder'] ?>demo-proveedores" class="nav-link
                     <?php echo $seccion === $_ENV['host.folder'] . 'demo-proveedores' ? 'active' : ''; ?>">
@@ -54,7 +54,7 @@
                 </li>
             </ul>
           </li>
-          <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2'])) {?>
+          <?php if ($_SESSION['permisos']['trabajadores']->canRead()) {?>
           <li class="nav-item <?php echo (in_array($seccion, [
               $_ENV['host.folder'] . 'trabajadores-all',
               $_ENV['host.folder'] . 'trabajadores',
@@ -155,7 +155,7 @@
               </ul>
           </li>
           <?php } ?>
-          <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2'])) { ?>
+          <?php if ($_SESSION['permisos']['csv']->canRead()) { ?>
           <li class="nav-item <?php echo (in_array($seccion, [
               $_ENV['host.folder'] . 'poblacion-pontevedra',
               $_ENV['host.folder'] . 'poblacion-grupos-edad'
@@ -188,7 +188,7 @@
              </ul>
           </li>
           <?php } ?>
-          <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2','3','4'])) {?>
+          <?php if ($_SESSION['permisos']['producto']->canRead()) {?>
           <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'productos'])) ? 'menu-open' :
                   '';?>">
               <a href="#" class="nav-link">
@@ -210,7 +210,7 @@
               </ul>
           </li>
           <?php } ?>
-          <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2','3'])) {?>
+          <?php if ($_SESSION['permisos']['proveedor']->canRead()) {?>
             <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'proveedores'])) ? 'menu-open' :
             '';?>">
                 <a href="#" class="nav-link">
@@ -232,7 +232,7 @@
                 </ul>
             </li>
           <?php } ?>
-            <?php if (in_array($_SESSION['usuario']['id_rol'], ['1', '2','3'])) {?>
+            <?php if ($_SESSION['permisos']['categoria']->canRead()) {?>
                 <li class="nav-item <?php echo (in_array($seccion, [$_ENV['host.folder'] . 'categorias'])) ?
                         'menu-open' : '';?>">
                     <a href="#" class="nav-link">

@@ -6,11 +6,11 @@ namespace Com\Daw2\Libraries;
 
 class Permisos
 {
-    private $read;
+    private bool $read;
 
-    private $write;
+    private bool $write;
 
-    private $delete;
+    private bool $delete;
 
     public function __construct(string $permisos)
     {
@@ -19,17 +19,17 @@ class Permisos
         $this->delete = str_contains($permisos, 'd');
     }
 
-    public function isRead(): bool
+    public function canRead(): bool
     {
         return $this->read;
     }
 
-    public function isWrite(): bool
+    public function canWrite(): bool
     {
         return $this->write;
     }
 
-    public function isDelete(): bool
+    public function canDelete(): bool
     {
         return $this->delete;
     }
