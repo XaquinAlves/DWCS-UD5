@@ -184,6 +184,60 @@ class UsuariosSistemaController extends BaseController
             'templates/footer.view.php'), $data);
     }
 
+    public function doAltaUsuario(): void
+    {
+        $errors = $this->checkInputUsuario($_POST);
+
+        if ($errors === []) {
+
+        } else {
+            $this->showAltaUsuario($errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        }
+    }
+
+    public function checkInputUsuario(array $input): array
+    {
+        $errors = [];
+
+        if ($input['nombre'] === '') {
+            $errors['nombre'] = 'Campo requerido';
+        } elseif (strlen($input['nombre']) > 255) {
+            $errors['nombre'] = 'Máximo de 255 caracteres';
+        }
+
+        if ($input['email'] === '') {
+            $errors['email'] = 'Campo requerido';
+        } elseif (!filter_var($input['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Formato de email incorrecto';
+        } elseif (strlen($input['email']) > 255) {
+            $errors['email'] = 'Máximo de 255 caracteres';
+        }
+
+        if ($input['pass'] === '') {
+            $errors['pass'] = 'Campo requerido';
+        } elseif (strlen($input['pass']) > 255) {
+            $errors['pass'] = 'Máximo de 255 caracteres';
+        }
+
+        if ($input['rol'] === '') {
+            $errors['rol'] = 'Campo requerido';
+        }
+
+        if ($input['idioma'] === '') {
+            $errors['idioma'] = 'Campo requerido';
+        } elseif (strlen($input['idioma']) > 2) {
+            $errors['idioma'] = 'Máximo de 2 caracteres';
+        }
+
+        if ($input['baja'] === '') {
+            $errors['baja'] = 'Campo requerido';
+        } elseif ($input['baja'] !== '0' && $input['baja'] !== '1') {
+            $errors['baja'] = 'Valor incorrecto. 0 activo, 1 inactivo';
+        }
+
+        return $errors;
+    }
+
     public function googleLogin(): void
     {
         // Update the following variables

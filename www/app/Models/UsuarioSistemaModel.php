@@ -37,28 +37,19 @@ class UsuarioSistemaModel extends BaseDbModel
         }
     }
 
-    public function addUser(array $filters): bool
+    public function addUser(array $input): bool
     {
         $this->pdo->beginTransaction();
         $password = password_hash('TestTest1.', PASSWORD_DEFAULT);
         $sql = "INSERT INTO usuario_sistema (id_rol, nombre, email, pass, idioma, baja)
-                    VALUES (:idrol, :nombre, :email, :pass , :idioma , :baja)";
-
-        $params = [
-            'idrol' => 4,
-            'nombre' => 'EncargadoProductos',
-            'email' => 'encargadop@test.es',
-            'pass' => $password,
-            'idioma' => 'es',
-            'baja' => 0
-        ];
+                    VALUES (:rol, :nombre, :email, :pass , :idioma , :baja)";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
+        $stmt->execute($input);
 
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
-            $stmtLog->execute(['insert', 'usuario_sistema', "Actualizado el usuario  de sistema " . $params['nombre']]);
+            $stmtLog->execute(['insert', 'usuario_sistema', "Añadido el usuario  de sistema " . $input['nombre']]);
             $this->pdo->commit();
             return true;
         } else {

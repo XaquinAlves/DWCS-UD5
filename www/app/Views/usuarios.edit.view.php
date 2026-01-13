@@ -19,18 +19,13 @@ declare(strict_types=1);
                     <div class="row">
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="id_usuario">Id de usuario: </label>
-                                <input type="number" class="form-control" name="id_usuario" id="id_usuario" min="0"
-                                       max="999" placeholder="Id de usuario"
-                                       value="<?php echo $input['id_usuario'] ?? '' ?>"/>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="mb-3">
                                 <label for="nombre">Nombre: </label>
                                 <input type="text" class="form-control" name="nombre" id="nombre"
                                        placeholder="Nombre de usuario"
                                        value="<?php echo $input['nombre'] ?? '' ?>"/>
+                                <?php if (isset($errors['nombre'])) { ?>
+                                    <p class="text-danger"><?php echo $errors['nombre'] ?></p>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -39,6 +34,9 @@ declare(strict_types=1);
                                 <input type="email" class="form-control" name="email" id="email"
                                        placeholder="Email"
                                        value="<?php echo $input['email'] ?? '' ?>"/>
+                                <?php if (isset($errors['email'])) { ?>
+                                    <p class="text-danger"><?php echo $errors['email'] ?></p>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -47,6 +45,9 @@ declare(strict_types=1);
                                 <input type="password" class="form-control" name="pass" id="pass"
                                        placeholder="Contraseña"
                                        value="<?php echo $input['pass'] ?? '' ?>"/>
+                                <?php if (isset($errors['pass'])) { ?>
+                                    <p class="text-danger"><?php echo $errors['pass'] ?></p>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -63,6 +64,9 @@ declare(strict_types=1);
                                         </option>
                                     <?php } ?>
                                 </select>
+                                <?php if (isset($errors['rol'])) { ?>
+                                    <p class="text-danger"><?php echo $errors['rol'] ?></p>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -71,15 +75,21 @@ declare(strict_types=1);
                                 <input type="text" class="form-control" name="idioma" id="idioma"
                                        placeholder="Idioma" maxlength="2"
                                        value="<?php echo $input['idioma'] ?? '' ?>"/>
+                                <?php if (isset($errors['idioma'])) { ?>
+                                    <p class="text-danger"><?php echo $errors['idioma'] ?></p>
+                                <?php } ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-lg-4">
-                        <div class="mb-3">
-                            <label for="id_usuario">Baja: </label>
-                            <input type="number" class="form-control" name="id_usuario" id="id_usuario" min="0"
-                                   max="1" placeholder="baja"
-                                   value="<?php echo $input['baja'] ?? '' ?>"/>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="baja">Baja: </label>
+                                <input type="number" class="form-control" name="baja" id="baja" min="0"
+                                       max="1" placeholder="baja"
+                                       value="<?php echo $input['baja'] ?? '' ?>"/>
+                                <?php if (isset($errors['baja'])) { ?>
+                                    <p class="text-danger"><?php echo $errors['baja'] ?></p>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
