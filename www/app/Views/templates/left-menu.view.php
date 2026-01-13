@@ -17,7 +17,7 @@
                 $_ENV['host.folder'] . 'demo-proveedores',
                 $_ENV['host.folder'] . 'panel/temas',
                 $_ENV['host.folder'] . 'panel/usuario',
-                $_ENV['host.folder'] . 'panel/usuarios-sistema'
+                $_ENV['host.folder'] . 'panel/usuario-sistema'
         ])) ? 'menu-open' :
                 ''; ?>">
             <a href="#" class="nav-link">
@@ -53,7 +53,7 @@
                 </li>
                 <?php if ($_SESSION['permisos']['usuario_sistema']->canRead()) { ?>
                     <li class="nav-item">
-                        <a href="<?php echo $_ENV['host.folder'] ?>panel/usuarios-sistema" class="nav-link
+                        <a href="<?php echo $_ENV['host.folder'] ?>panel/usuario-sistema" class="nav-link
                     <?php echo $seccion === $_ENV['host.folder'] . 'panel/usuario-sistema' ? 'active' : ''; ?>">
                             <i class="fas fa-user nav-icon"></i>
                             <p>Usuarios del Sistema</p>

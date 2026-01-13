@@ -9,7 +9,6 @@ use Com\Daw2\Controllers\InicioController;
 use Com\Daw2\Controllers\ProductosController;
 use Com\Daw2\Controllers\ProveedoresController;
 use Com\Daw2\Controllers\TrabajadoresController;
-use Com\Daw2\Controllers\UsuariosController;
 use Com\Daw2\Controllers\UsuariosSistemaController;
 use Com\Daw2\Libraries\Permisos;
 use Steampixel\Route;
@@ -627,6 +626,15 @@ class FrontController
                 );
 
                 Route::add(
+                    '/panel/usuario-sistema',
+                    function () {
+                        $controlador = new UsuariosSistemaController();
+                        $controlador->showUsuarios();
+                    },
+                    'get'
+                );
+
+                Route::add(
                     '/logout',
                     function () {
                         $controlador = new UsuariosSistemaController();
@@ -655,5 +663,4 @@ class FrontController
             $controller->showThrowable($e);
         }
     }
-
 }
