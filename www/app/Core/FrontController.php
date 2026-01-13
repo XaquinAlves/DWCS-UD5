@@ -672,7 +672,21 @@ class FrontController
                     function ($id_usuario) {
                         if ($_SESSION['permisos']['usuario_sistema']->canWrite()) {
                             $controlador = new UsuariosSistemaController();
-                            $controlador->showAltaUsuario();
+                            $controlador->showEditUsuario($id_usuario);
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
+                    '/panel/usuario-sistema/editar/(\d{1,3})',
+                    function ($id_usuario) {
+                        if ($_SESSION['permisos']['usuario_sistema']->canWrite()) {
+                            $controlador = new UsuariosSistemaController();
+                            $controlador->doEditUsuario($id_usuario);
                         } else {
                             $controlador = new ErroresController();
                             $controlador->error403();

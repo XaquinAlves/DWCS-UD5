@@ -231,6 +231,17 @@ class UsuariosSistemaController extends BaseController
             'templates/footer.view.php'), $data);
     }
 
+    public function doEditUsuario(int $id_usuario): void
+    {
+        $errors = $this->checkInputUsuario($_POST, $id_usuario);
+
+        if ($errors === []) {
+            $model = new UsuarioSistemaModel();
+        } else {
+            $this->showEditUsuario($id_usuario, $errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        }
+    }
+
     public function checkInputUsuario(array $input, ?int $idUsuario = null): array
     {
         $errors = [];
