@@ -13,6 +13,7 @@ use Com\Daw2\Models\UsuarioSistemaModel;
 
 class UsuariosSistemaController extends BaseController
 {
+    private const passRegEx = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/u';
     public function showChangeUsername(array $input = [], array $errors = []): void
     {
         if ($input === []) {
@@ -176,7 +177,7 @@ class UsuariosSistemaController extends BaseController
             'titulo' => 'Añadir nuevo usuario',
             'breadcrumb' => ['Panel', 'Usuarios Sistema', 'Alta'],
             'seccion' => '/usuarios-sistema/alta',
-            'erros' => $errors,
+            'errors' => $errors,
             'input' => $input,
             'listaRoles' => (new RolModel())->getAllRoles()
         );
@@ -199,13 +200,13 @@ class UsuariosSistemaController extends BaseController
                 $this->addFlashMessage(new Mensaje("Error indeterminado al guardar el usuario", Mensaje::ERROR));
             }
 
-            header('location: /usuario-sistema');
+            header('location: /panel/usuario-sistema');
         } else {
             $this->showAltaUsuario($errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         }
     }
 
-    public function checkInputUsuario(array $input): array
+    public function checkInputUsuario(array $input, ?int $idUsuario = null): array
     {
         $errors = [];
 
@@ -221,10 +222,25 @@ class UsuariosSistemaController extends BaseController
             $errors['email'] = 'Formato de email incorrecto';
         } elseif (strlen($input['email']) > 255) {
             $errors['email'] = 'Máximo de 255 caracteres';
+        } else {
+            $userModel = new UsuarioSistemaModel();
+            $userMail = $userModel->findUsuario($input['email']);
+            if ($userMail !== false) {
+                if ($idUsuario !== null || (int)$userMail['id_usuario'] !== $idUsuario) {
+                    $errors['email'] = "El email ya está en uso";
+                }
+            }
         }
 
         if ($input['pass'] === '') {
-            $errors['pass'] = 'Campo requerido';
+            if ($idUsuario === null) {
+                $errors['pass'] = 'Campo requerido';
+            }
+        } elseif (!preg_match(self::passRegEx, $input['pass'])) {
+            $errors['pass'] = 'El password debe contener una letra minúscula, una mayúscula y un dígito. 
+            Longitud mínima de 6 caracteres';
+        } elseif ($input['pass'] !== $input['pass2']) {
+            $errors['pass2'] = 'Los passwords no coinciden';
         } elseif (strlen($input['pass']) > 255) {
             $errors['pass'] = 'Máximo de 255 caracteres';
         }

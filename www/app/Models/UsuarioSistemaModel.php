@@ -40,12 +40,22 @@ class UsuarioSistemaModel extends BaseDbModel
     public function addUser(array $input): bool
     {
         $this->pdo->beginTransaction();
-        $password = password_hash('TestTest1.', PASSWORD_DEFAULT);
+        $password = password_hash($input['pass'], PASSWORD_DEFAULT);
+
         $sql = "INSERT INTO usuario_sistema (id_rol, nombre, email, pass, idioma, baja)
                     VALUES (:rol, :nombre, :email, :pass , :idioma , :baja)";
 
+        $params = [
+            'rol' => $input['rol'],
+            'nombre' => $input['nombre'],
+            'email' => $input['email'],
+            'pass' => $password,
+            'idioma' => $input['idioma'],
+            'baja' => $input['baja']
+        ];
+
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($input);
+        $stmt->execute($params);
 
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');

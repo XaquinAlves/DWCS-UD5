@@ -8,7 +8,7 @@ declare(strict_types=1);
     <div class="col-12">
         <!-- Card con textarea -->
         <div class="card shadow mb-4">
-            <form method="get" action="">
+            <form method="post" action="">
                 <!-- Card Header -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -52,13 +52,24 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
+                                <label for="pass2">Repita la Contraseña: </label>
+                                <input type="password" class="form-control" name="pass2" id="pass2"
+                                       placeholder="Contraseña"
+                                       value="<?php echo $input['pass2'] ?? '' ?>"/>
+                                <?php if (isset($errors['pass2'])) { ?>
+                                    <p class="text-danger"><?php echo $errors['pass2'] ?></p>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
                                 <label for="rol">Rol:</label>
                                 <select name="rol" id="rol" class="form-control"
                                         data-placeholder="Rol">
                                     <option value="">-</option>
                                     <?php foreach ($listaRoles ?? [] as $rol) { ?>
                                         <option value="<?php echo $rol['id_rol'] ?>" <?php echo
-                                        isset($_GET['rol']) && $_GET['rol'] == $rol['id_rol'] ?
+                                        isset($input['rol']) && $input['rol'] == $rol['id_rol'] ?
                                             'selected' : '' ?>>
                                             <?php echo ucfirst($rol['rol']) ?>
                                         </option>
