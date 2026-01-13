@@ -43,7 +43,7 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="input_rol">Rol:</label>
+                                <label for="rol">Rol:</label>
                                 <select name="rol" id="rol" class="form-control"
                                         data-placeholder="Rol">
                                     <option value="">-</option>
@@ -73,7 +73,7 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="last_date">Idioma: </label>
+                                <label for="idioma">Idioma: </label>
                                 <input type="text" class="form-control" name="idioma" id="idioma"
                                        placeholder="Idioma" maxlength="2"
                                        value="<?php echo $input['idioma'] ?? '' ?>"/>
