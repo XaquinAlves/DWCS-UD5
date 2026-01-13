@@ -49,7 +49,7 @@ declare(strict_types=1);
                                     <option value="">-</option>
                                     <?php foreach ($listaRoles ?? [] as $rol) { ?>
                                         <option value="<?php echo $rol['id_rol'] ?>" <?php echo
-                                        isset($_GET['id_rol']) && $_GET['id_rol'] == $rol['id_rol'] ?
+                                        isset($_GET['rol']) && $_GET['rol'] == $rol['id_rol'] ?
                                             'selected' : '' ?>>
                                             <?php echo ucfirst($rol['rol']) ?>
                                         </option>
@@ -61,14 +61,14 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="last_date_bf">Ultima conexión antes de: </label>
                                 <input type="date" class="form-control" name="last_date_bf" id="last_date_bf"
-                                       value="<?php echo $input['last_date'] ?? '' ?>"/>
+                                       value="<?php echo $input['last_date_bf'] ?? '' ?>"/>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <label for="last_date_af">Ultima conexión después de: </label>
                                 <input type="date" class="form-control" name="last_date_af" id="last_date_af"
-                                       value="<?php echo $input['last_date'] ?? '' ?>"/>
+                                       value="<?php echo $input['last_date_af'] ?? '' ?>"/>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
