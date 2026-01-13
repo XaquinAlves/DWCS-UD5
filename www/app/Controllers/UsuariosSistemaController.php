@@ -169,6 +169,21 @@ class UsuariosSistemaController extends BaseController
             'templates/footer.view.php'), $data);
     }
 
+    public function showAltaUsuario(array $errors = [], array $input = [])
+    {
+        $data = array(
+            'titulo' => 'Añadir nuevo usuario',
+            'breadcrumb' => ['Panel', 'Usuarios Sistema', 'Alta'],
+            'seccion' => '/usuarios-sistema/alta',
+            'erros' => $errors,
+            'input' => $input,
+            'listaRoles' => (new RolModel())->getAllRoles()
+        );
+
+        $this->view->showViews(array('templates/header.view.php', 'usuarios.edit.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
     public function googleLogin(): void
     {
         // Update the following variables

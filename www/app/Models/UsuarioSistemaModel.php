@@ -37,7 +37,7 @@ class UsuarioSistemaModel extends BaseDbModel
         }
     }
 
-    public function addUser(): bool
+    public function addUser(array $filters): bool
     {
         $this->pdo->beginTransaction();
         $password = password_hash('TestTest1.', PASSWORD_DEFAULT);

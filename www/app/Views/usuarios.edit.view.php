@@ -9,7 +9,6 @@ declare(strict_types=1);
         <!-- Card con textarea -->
         <div class="card shadow mb-4">
             <form method="get" action="">
-                <input type="hidden" id="ordenar" name="ordenar" value="<?php echo $ordenar ?>">
                 <!-- Card Header -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">

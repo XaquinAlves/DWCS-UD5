@@ -628,8 +628,41 @@ class FrontController
                 Route::add(
                     '/panel/usuario-sistema',
                     function () {
-                        $controlador = new UsuariosSistemaController();
-                        $controlador->showUsuarios();
+                        if ($_SESSION['permisos']['usuario_sistema']->canRead()) {
+                            $controlador = new UsuariosSistemaController();
+                            $controlador->showUsuarios();
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
+                    '/panel/usuario-sistema/alta',
+                    function () {
+                        if ($_SESSION['permisos']['usuario_sistema']->canWrite()) {
+                            $controlador = new UsuariosSistemaController();
+                            $controlador->showAltaUsuario();
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
+                    '/panel/usuario-sistema/editar/(\d{1,3})',
+                    function ($id_usuario) {
+                        if ($_SESSION['permisos']['usuario_sistema']->canWrite()) {
+                            $controlador = new UsuariosSistemaController();
+                            $controlador->showAltaUsuario();
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
                     },
                     'get'
                 );
