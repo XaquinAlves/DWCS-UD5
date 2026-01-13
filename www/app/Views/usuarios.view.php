@@ -108,7 +108,7 @@ declare(strict_types=1);
                         <tr>
                             <th>
                                 <a href="/panel/usuario-sistema?ordenar=<?php echo $ordenar === 1 ? 2 : 1 ?>">
-                                    Id de ususario
+                                    Id de usuario
                                     <?php echo $ordenar === 1 ?
                                         '<i class="fas fa-sort-amount-down-alt"></i>' :
                                         ($ordenar === 2 ? '<i class="fas fa-sort-amount-up-alt"></i>' : '') ?>
@@ -184,7 +184,8 @@ declare(strict_types=1);
                                         <?php } ?>
                                         <?php if ($_SESSION['permisos']['usuario_sistema']->canDelete()) { ?>
                                             <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            <button type="button" class="btn btn-<?php echo
+                                                $usuario['baja'] == 0 ? 'danger' : 'warning' ?>" data-toggle="modal"
                                                     data-target="#<?php
                                                     echo "user" . $usuario['id_usuario'] ?>borradoModal">
                                                 <i class="fas fa-trash"></i>

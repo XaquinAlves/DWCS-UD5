@@ -13,7 +13,7 @@ use Com\Daw2\Models\UsuarioSistemaModel;
 
 class UsuariosSistemaController extends BaseController
 {
-    private const passRegEx = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/u';
+    private const PASS_REGEX = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/u';
     public function showChangeUsername(array $input = [], array $errors = []): void
     {
         if ($input === []) {
@@ -206,6 +206,31 @@ class UsuariosSistemaController extends BaseController
         }
     }
 
+    public function showEditUsuario(int $id_usuario, array $errors = [], array $input = []): void
+    {
+        $data = array(
+            'titulo' => 'Edición de usuario',
+            'breadcrumb' => ['Panel', 'Usuarios Sistema', 'Edición'],
+            'seccion' => '/usuarios-sistema/editar',
+            'listaRoles' => (new RolModel())->getAllRoles()
+        );
+        $model = new UsuarioSistemaModel();
+        if ($input === []) {
+            $input = $model->findUsuarioById($id_usuario);
+            if ($input === false) {
+                $this->addFlashMessage(new Mensaje("Usuario no encontrado", Mensaje::ERROR));
+                header('location: /panel/usuario-sistema');
+                die;
+            }
+        }
+
+        $data['input'] = filter_var_array($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $data['errors'] = $errors;
+
+        $this->view->showViews(array('templates/header.view.php', 'usuarios.edit.view.php',
+            'templates/footer.view.php'), $data);
+    }
+
     public function checkInputUsuario(array $input, ?int $idUsuario = null): array
     {
         $errors = [];
@@ -226,7 +251,7 @@ class UsuariosSistemaController extends BaseController
             $userModel = new UsuarioSistemaModel();
             $userMail = $userModel->findUsuario($input['email']);
             if ($userMail !== false) {
-                if ($idUsuario !== null || (int)$userMail['id_usuario'] !== $idUsuario) {
+                if ($idUsuario === null || (int)$userMail['id_usuario'] !== $idUsuario) {
                     $errors['email'] = "El email ya está en uso";
                 }
             }
@@ -236,7 +261,7 @@ class UsuariosSistemaController extends BaseController
             if ($idUsuario === null) {
                 $errors['pass'] = 'Campo requerido';
             }
-        } elseif (!preg_match(self::passRegEx, $input['pass'])) {
+        } elseif (!preg_match(self::PASS_REGEX, $input['pass'])) {
             $errors['pass'] = 'El password debe contener una letra minúscula, una mayúscula y un dígito. 
             Longitud mínima de 6 caracteres';
         } elseif ($input['pass'] !== $input['pass2']) {
@@ -253,12 +278,6 @@ class UsuariosSistemaController extends BaseController
             $errors['idioma'] = 'Campo requerido';
         } elseif (strlen($input['idioma']) > 2) {
             $errors['idioma'] = 'Máximo de 2 caracteres';
-        }
-
-        if ($input['baja'] === '') {
-            $errors['baja'] = 'Campo requerido';
-        } elseif ($input['baja'] !== '0' && $input['baja'] !== '1') {
-            $errors['baja'] = 'Valor incorrecto. 0 activo, 1 inactivo';
         }
 
         return $errors;

@@ -18,6 +18,14 @@ class UsuarioSistemaModel extends BaseDbModel
         return $stmt->fetch();
     }
 
+    public function findUsuarioById(int $id_usuario): array|false
+    {
+        $sql = "SELECT * FROM usuario_sistema WHERE id_usuario = :id_usuario";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id_usuario' => $id_usuario]);
+        return $stmt->fetch();
+    }
+
     public function changeName(string $oldName, string $newName): bool
     {
         $this->pdo->beginTransaction();
@@ -51,8 +59,13 @@ class UsuarioSistemaModel extends BaseDbModel
             'email' => $input['email'],
             'pass' => $password,
             'idioma' => $input['idioma'],
-            'baja' => $input['baja']
         ];
+
+        if (isset($input['baja'])) {
+            $params['baja'] = 1;
+        } else {
+            $params['baja'] = 0;
+        }
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);

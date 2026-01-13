@@ -93,10 +93,9 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="baja">Baja: </label>
-                                <input type="number" class="form-control" name="baja" id="baja" min="0"
-                                       max="1" placeholder="baja"
-                                       value="<?php echo $input['baja'] ?? '' ?>"/>
+                                <input type="checkbox" class="form-check-inline" name="baja" id="baja"
+                                       <?php echo isset($input['baja']) ? 'checked' : '' ?>"/>
+                                <label for="baja">Dar de Baja</label>
                                 <?php if (isset($errors['baja'])) { ?>
                                     <p class="text-danger"><?php echo $errors['baja'] ?></p>
                                 <?php } ?>
