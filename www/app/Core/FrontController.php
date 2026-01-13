@@ -654,6 +654,20 @@ class FrontController
                 );
 
                 Route::add(
+                    '/panel/usuario-sistema/alta',
+                    function () {
+                        if ($_SESSION['permisos']['usuario_sistema']->canWrite()) {
+                            $controlador = new UsuariosSistemaController();
+                            $controlador->doAltaUsuario();
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'post'
+                );
+
+                Route::add(
                     '/panel/usuario-sistema/editar/(\d{1,3})',
                     function ($id_usuario) {
                         if ($_SESSION['permisos']['usuario_sistema']->canWrite()) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Libraries\Mensaje;
 use Com\Daw2\Libraries\Permisos;
 use Com\Daw2\Models\PermisosModel;
 use Com\Daw2\Models\RolModel;
@@ -189,7 +190,16 @@ class UsuariosSistemaController extends BaseController
         $errors = $this->checkInputUsuario($_POST);
 
         if ($errors === []) {
+            $model = new UsuarioSistemaModel();
+            $result = $model->addUser($_POST);
 
+            if ($result) {
+                $this->addFlashMessage(new Mensaje("Usuario insertado correctamente", Mensaje::SUCCESS));
+            } else {
+                $this->addFlashMessage(new Mensaje("Error indeterminado al guardar el usuario", Mensaje::ERROR));
+            }
+
+            header('location: /usuario-sistema');
         } else {
             $this->showAltaUsuario($errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         }
