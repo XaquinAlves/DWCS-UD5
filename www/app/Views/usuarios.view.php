@@ -36,15 +36,7 @@ declare(strict_types=1);
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <label for="email">Email: </label>
-                                <input type="email" class="form-control" name="email" id="email"
-                                       placeholder="Email"
-                                       value="<?php echo $input['email'] ?? '' ?>"/>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="mb-3">
-                                <label for="email">Email: </label>
-                                <input type="email" class="form-control" name="nombre" id="nombre"
+                                <input type="text" class="form-control" name="email" id="email"
                                        placeholder="Email"
                                        value="<?php echo $input['email'] ?? '' ?>"/>
                             </div>
@@ -67,9 +59,15 @@ declare(strict_types=1);
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
-                                <label for="last_date">Ultima conexión: </label>
-                                <input type="date" class="form-control" name="last_date" id="last_date"
-                                       placeholder="Ultima conexión"
+                                <label for="last_date_bf">Ultima conexión antes de: </label>
+                                <input type="date" class="form-control" name="last_date_bf" id="last_date_bf"
+                                       value="<?php echo $input['last_date'] ?? '' ?>"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="mb-3">
+                                <label for="last_date_af">Ultima conexión después de: </label>
+                                <input type="date" class="form-control" name="last_date_af" id="last_date_af"
                                        value="<?php echo $input['last_date'] ?? '' ?>"/>
                             </div>
                         </div>
@@ -77,7 +75,7 @@ declare(strict_types=1);
                             <div class="mb-3">
                                 <label for="last_date">Idioma: </label>
                                 <input type="text" class="form-control" name="idioma" id="idioma"
-                                       placeholder="Idioma"
+                                       placeholder="Idioma" maxlength="2"
                                        value="<?php echo $input['idioma'] ?? '' ?>"/>
                             </div>
                         </div>
@@ -87,7 +85,7 @@ declare(strict_types=1);
                 <div class="card-footer">
                     <div class="col-12 text-right">
                         <?php if ($_SESSION['permisos']['usuario_sistema']->canWrite()) { ?>
-                            <a href="/panel/usuario-sistema/alta" class="btn btn-success float-left">Nueva categoría</a>
+                            <a href="/panel/usuario-sistema/alta" class="btn btn-success float-left">Nuevo usuario</a>
                         <?php } ?>
                         <a href="/panel/usuario-sistema" class="btn btn-danger">Limpiar filtros</a>
                         <input type="submit" value="Buscar" name="enviar" class="btn btn-primary ml-2"/>
@@ -157,8 +155,8 @@ declare(strict_types=1);
                                 </a>
                             </th>
                             <?php if (
-                                $_SESSION['permisos']['usuario-sistema']->canWrite() ||
-                                $_SESSION['permisos']['usuario-sistema']->canDelete()
+                                $_SESSION['permisos']['usuario_sistema']->canWrite() ||
+                                $_SESSION['permisos']['usuario_sistema']->canDelete()
 ) { ?>
                                 <th>Editar / Borrar</th>
                             <?php } ?>
@@ -174,17 +172,17 @@ declare(strict_types=1);
                                 <td><?php echo $usuario['last_date'] ?></td>
                                 <td><?php echo $usuario['idioma'] ?></td>
                                 <?php if (
-                                    $_SESSION['permisos']['usuario-sistema']->canWrite() ||
-                                    $_SESSION['permisos']['usuario-sistema']->canDelete()
+                                    $_SESSION['permisos']['usuario_sistema']->canWrite() ||
+                                    $_SESSION['permisos']['usuario_sistema']->canDelete()
 ) { ?>
                                     <td>
-                                        <?php if ($_SESSION['permisos']['usuario-sistema']->canWrite()) { ?>
+                                        <?php if ($_SESSION['permisos']['usuario_sistema']->canWrite()) { ?>
                                             <a href="/panel/usuario-sistema/editar/<?php echo $usuario['id_usuario'] ?>"
                                                class="btn btn-success">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         <?php } ?>
-                                        <?php if ($_SESSION['permisos']['usuario-sistema']->canDelete()) { ?>
+                                        <?php if ($_SESSION['permisos']['usuario_sistema']->canDelete()) { ?>
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-danger" data-toggle="modal"
                                                     data-target="#<?php

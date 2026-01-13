@@ -8,6 +8,8 @@ use Com\Daw2\Core\BaseDbModel;
 
 class UsuarioSistemaModel extends BaseDbModel
 {
+    private const ORDER_BY = ['id_usuario','id_usuario DESC' ,'nombre', 'nombre DESC', 'email', 'email DESC', 'rol',
+        'rol DESC' ,'last_date', 'last_date DESC', 'idioma', 'idioma DESC'];
     public function findUsuario(string $username): array|false
     {
         $sql = "SELECT * FROM usuario_sistema WHERE email = :email";
@@ -107,8 +109,72 @@ class UsuarioSistemaModel extends BaseDbModel
     {
         $sql = "SELECT usr.id_usuario, usr.nombre, usr.email, rol.rol,  usr.last_date, usr.idioma, usr.baja
             FROM usuario_sistema as usr LEFT JOIN rol as rol ON usr.id_rol = rol.id_rol";
+
+        $queryItems = $this->userFilterBuildQuery($filters);
+        if (!empty($queryItems['conditions'])) {
+            $sql .= " WHERE " . implode(' AND ', $queryItems['conditions']);
+        }
+
+        $sql .= " ORDER BY " . self::ORDER_BY[$this->getOrderInt($filters) - 1];
+
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($filters);
+        $stmt->execute($queryItems['params']);
+
         return $stmt->fetchAll();
+    }
+
+    public function userFilterBuildQuery(array $filters): array
+    {
+        $params = [];
+        $conditions = [];
+
+        if (!empty($filters['id_usuario'])) {
+            $conditions[] = " usr.id_usuario = :id_usuario";
+            $params['id_usuario'] = $filters['id_usuario'];
+        }
+
+        if (!empty($filters['nombre'])) {
+            $conditions[] = " usr.nombre LIKE :nombre";
+            $params['nombre'] = '%' . $filters['nombre'] . '%';
+        }
+
+        if (!empty($filters['email'])) {
+            $conditions[] = " usr.email LIKE :email";
+            $params['email'] = '%' . $filters['email'] . '%';
+        }
+
+        if (!empty($filters['rol'])) {
+            $conditions[] = " usr.id_rol = :rol";
+            $params['rol'] = $filters['rol'];
+        }
+
+        if (!empty($filters['last_date_bf'])) {
+            $conditions[] = " usr.last_date <= :last_date_bf";
+            $params['last_date_bf'] = $filters['last_date_bf'];
+        }
+
+        if (!empty($filters['last_date_af'])) {
+            $conditions[] = " usr.last_date >= :last_date_af";
+            $params['last_date_af'] = $filters['last_date_af'];
+        }
+
+        if (!empty($filters['idioma'])) {
+            $conditions[] = " usr.idioma = :idioma";
+            $params['idioma'] = $filters['idioma'];
+        }
+
+        return ['conditions' => $conditions, 'params' => $params];
+    }
+
+    public function getOrderInt(array $filters): int
+    {
+        if (
+            empty($filters['ordenar']) || filter_var($filters['ordenar'], FILTER_VALIDATE_INT) === false ||
+            $filters['ordenar'] < 1 || $filters['ordenar'] > count(self::ORDER_BY)
+        ) {
+            return 1;
+        } else {
+            return (int)$filters['ordenar'];
+        }
     }
 }
