@@ -52,14 +52,25 @@ declare(strict_types=1);
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <div class="mb-3">
-                                <label for="usuario">Contraseña: </label>
+                                <label for="pass">Contraseña: </label>
                                 <input type="password" class="form-control" id="pass" name="pass">
                             </div>
                             <?php if (isset($errors['pass'])) { ?>
                                 <p class="text-danger small" >
                                     <?php echo $errors['pass'] ?>
+                                </p>
+                            <?php } ?>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="pass2">Repita la contraseña: </label>
+                                <input type="password" class="form-control" id="pass2" name="pass2">
+                            </div>
+                            <?php if (isset($errors['pass2'])) { ?>
+                                <p class="text-danger small" >
+                                    <?php echo $errors['pass2'] ?>
                                 </p>
                             <?php } ?>
                         </div>

@@ -94,7 +94,7 @@ declare(strict_types=1);
                         <div class="col-12 col-lg-4">
                             <div class="mb-3">
                                 <input type="checkbox" class="form-check-inline" name="baja" id="baja"
-                                       <?php echo isset($input['baja']) ? 'checked' : '' ?>"/>
+                                       <?php echo isset($input['baja']) ? 'checked' : '' ?>/>
                                 <label for="baja">Dar de Baja</label>
                                 <?php if (isset($errors['baja'])) { ?>
                                     <p class="text-danger"><?php echo $errors['baja'] ?></p>

@@ -692,7 +692,7 @@ class FrontController
                             $controlador->error403();
                         }
                     },
-                    'get'
+                    'post'
                 );
 
                 Route::add(

@@ -81,7 +81,7 @@ class UsuariosSistemaController extends BaseController
             if ($user && password_verify($_POST['pass'], $user['pass'])) {
                 if ($user['baja'] == 0) {
                     session_regenerate_id();
-                    $model->updateLastLogin($user['id_usuario']);
+                    $model->updateLastLogin((int)$user['id_usuario']);
                     $_SESSION['usuario'] = $user;
                     $_SESSION['permisos'] = $this->getPermisos((int)$user['id_rol']);
                 } else {
@@ -133,11 +133,18 @@ class UsuariosSistemaController extends BaseController
         $errors = [];
         $model = new UsuarioSistemaModel();
 
-        if (isset($_POST['pass']) && $_POST['pass'] !== '') {
+        if ($_POST['pass'] === '') {
+                $errors['pass'] = 'Campo requerido';
+        } elseif (!preg_match(self::PASS_REGEX, $_POST['pass'])) {
+            $errors['pass'] = 'El password debe contener una letra minúscula, una mayúscula y un dígito. 
+            Longitud mínima de 6 caracteres';
+        } elseif ($_POST['pass'] !== $_POST['pass2']) {
+            $errors['pass2'] = 'Los passwords no coinciden';
+        } elseif (strlen($_POST['pass']) > 255) {
+            $errors['pass'] = 'Máximo de 255 caracteres';
+        } else {
             $pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
             $model->updatePassword((int)$_SESSION['usuario']['id_usuario'], $pass);
-        } else {
-            $errors['pass'] = 'Campo contraseña vacío';
         }
 
         $this->showChangeUsername([], $errors);
@@ -217,6 +224,10 @@ class UsuariosSistemaController extends BaseController
         $model = new UsuarioSistemaModel();
         if ($input === []) {
             $input = $model->findUsuarioById($id_usuario);
+            unset($input['pass']);
+            if ($input['baja'] == 0) {
+                unset($input['baja']);
+            }
             if ($input === false) {
                 $this->addFlashMessage(new Mensaje("Usuario no encontrado", Mensaje::ERROR));
                 header('location: /panel/usuario-sistema');
@@ -237,12 +248,13 @@ class UsuariosSistemaController extends BaseController
 
         if ($errors === []) {
             $model = new UsuarioSistemaModel();
-            $result = $model->findUsuarioById($id_usuario);
+            $result = $model->updateUsuario($id_usuario, $_POST);
             if ($result) {
-
+                $this->addFlashMessage(new Mensaje("Usuario editado correctamente", Mensaje::SUCCESS));
             } else {
-
+                $this->addFlashMessage(new Mensaje("Error indeterminado al editar el usuario", Mensaje::ERROR));
             }
+            header('location: /panel/usuario-sistema');
         } else {
             $this->showEditUsuario($id_usuario, $errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         }

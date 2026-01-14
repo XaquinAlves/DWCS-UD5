@@ -20,7 +20,8 @@ class UsuarioSistemaModel extends BaseDbModel
 
     public function findUsuarioById(int $id_usuario): array|false
     {
-        $sql = "SELECT * FROM usuario_sistema WHERE id_usuario = :id_usuario";
+        $sql = "SELECT id_usuario, nombre, email, id_rol as rol, idioma, baja
+                    FROM usuario_sistema WHERE id_usuario = :id_usuario";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id_usuario' => $id_usuario]);
         return $stmt->fetch();
@@ -102,7 +103,10 @@ class UsuarioSistemaModel extends BaseDbModel
 
     public function updatePassword(int $id_usuario, string $password): bool
     {
-        $this->pdo->beginTransaction();
+        if (!$this->pdo::inTransaction()) {
+            $this->pdo->beginTransaction();
+        }
+
         $sql = "UPDATE usuario_sistema SET pass = :pass WHERE id_usuario = :id";
 
         $stmt = $this->pdo->prepare($sql);
@@ -122,9 +126,56 @@ class UsuarioSistemaModel extends BaseDbModel
     public function updateUsuario(int $id_usuario, array $input): bool
     {
         $this->pdo->beginTransaction();
-        $sql = "UPDATE usuario_sistema SET nombre = :nombre, email = :email, id_rol = :rol, idioma = :idioma, 
-                           baja = :baja WHERE id_usuario = :id_usuario";
+        $sql = "UPDATE usuario_sistema SET ";
+        $params = [ 'id' => $id_usuario ];
 
+        if (isset($input['nombre'])) {
+            $sql .= "nombre = :nombre, ";
+            $params['nombre'] = $input['nombre'];
+        }
+        if (isset($input['email'])) {
+            $sql .= "email = :email, ";
+            $params['email'] = $input['email'];
+        }
+        if (isset($input['rol'])) {
+            $sql .= "id_rol = :rol, ";
+            $params['rol'] = $input['rol'];
+        } if (isset($input['idioma'])) {
+            $sql .= "idioma = :idioma, ";
+            $params['idioma'] = $input['idioma'];
+        }
+
+        if (isset($input['baja'])) {
+            $params['baja'] = 1;
+        } else {
+            $params['baja'] = 0;
+        }
+        $sql .= "baja = :baja WHERE id_usuario = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+        if ($stmt->execute($params)) {
+            if ($input['pass'] !== '') {
+                $result = $this->updatePassword($id_usuario, $input['pass']);
+                if ($result) {
+                    $this->pdo->commit();
+
+                    $logStmt = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+                    $logStmt->execute(['update', 'usuario_sistema', "Actualizado el usuario $id_usuario"]);
+                } else {
+                    $this->pdo->rollBack();
+                }
+            } else {
+                $this->pdo->commit();
+
+                $logStmt = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+                $logStmt->execute(['update', 'usuario_sistema', "Actualizado el usuario $id_usuario"]);
+            }
+        } else {
+            $this->pdo->rollBack();
+        }
+
+
+        return true;
     }
 
     public function getUserByFilters(array $filters): array
