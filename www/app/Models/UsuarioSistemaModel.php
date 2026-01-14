@@ -262,4 +262,21 @@ class UsuarioSistemaModel extends BaseDbModel
             return (int)$filters['ordenar'];
         }
     }
+
+    public function deleteUsuario(int $id_usuario): bool
+    {
+        $this->pdo->beginTransaction();
+        $sql = "DELETE FROM usuario_sistema WHERE id_usuario = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id_usuario]);
+        if ($stmt->rowCount() == 1) {
+            $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
+            $stmtLog->execute(['delete', 'usuario_sistema', "Eliminado el usuario $id_usuario"]);
+            $this->pdo->commit();
+            return true;
+        } else {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
 }

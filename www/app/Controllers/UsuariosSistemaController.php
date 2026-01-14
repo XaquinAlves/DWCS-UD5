@@ -311,6 +311,18 @@ class UsuariosSistemaController extends BaseController
         return $errors;
     }
 
+    public function doDeleteUsuario(int $id_usuario): void
+    {
+        $model = new UsuarioSistemaModel();
+        $result = $model->deleteUsuario($id_usuario);
+        if ($result) {
+            $this->addFlashMessage(new Mensaje("Usuario eliminado correctamente", Mensaje::SUCCESS));
+        } else {
+            $this->addFlashMessage(new Mensaje("Error indeterminado al eliminar el usuario", Mensaje::ERROR));
+        }
+        header('location: /panel/usuario-sistema');
+    }
+
     public function googleLogin(): void
     {
         // Update the following variables

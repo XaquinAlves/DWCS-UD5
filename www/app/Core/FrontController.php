@@ -696,6 +696,20 @@ class FrontController
                 );
 
                 Route::add(
+                    '/panel/usuario-sistema/borrar/(\d{1,3})',
+                    function ($id_usuario) {
+                        if ($_SESSION['permisos']['usuario_sistema']->canDelete()) {
+                            $controlador = new UsuariosSistemaController();
+                            $controlador->doDeleteUsuario($id_usuario);
+                        } else {
+                            $controlador = new ErroresController();
+                            $controlador->error403();
+                        }
+                    },
+                    'get'
+                );
+
+                Route::add(
                     '/logout',
                     function () {
                         $controlador = new UsuariosSistemaController();
