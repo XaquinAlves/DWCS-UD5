@@ -10,6 +10,7 @@ class UsuarioSistemaModel extends BaseDbModel
 {
     private const ORDER_BY = ['id_usuario','id_usuario DESC' ,'nombre', 'nombre DESC', 'email', 'email DESC', 'rol',
         'rol DESC' ,'last_date', 'last_date DESC', 'idioma', 'idioma DESC'];
+    private bool $isTransaction = false;
     public function findUsuario(string $username): array|false
     {
         $sql = "SELECT * FROM usuario_sistema WHERE email = :email";
@@ -103,10 +104,10 @@ class UsuarioSistemaModel extends BaseDbModel
 
     public function updatePassword(int $id_usuario, string $password): bool
     {
-        if (!$this->pdo::inTransaction()) {
+        if (!$this->isTransaction) {
             $this->pdo->beginTransaction();
         }
-
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $sql = "UPDATE usuario_sistema SET pass = :pass WHERE id_usuario = :id";
 
         $stmt = $this->pdo->prepare($sql);
@@ -115,10 +116,17 @@ class UsuarioSistemaModel extends BaseDbModel
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
             $stmtLog->execute(['update', 'usuario_sistema', "Actualizada la contraseña del usuario $id_usuario"]);
-            $this->pdo->commit();
+
+            if (!$this->isTransaction) {
+                $this->pdo->commit();
+            }
+
             return true;
         } else {
-            $this->pdo->rollBack();
+            if (!$this->isTransaction) {
+                $this->pdo->rollBack();
+            }
+
             return false;
         }
     }
@@ -126,6 +134,7 @@ class UsuarioSistemaModel extends BaseDbModel
     public function updateUsuario(int $id_usuario, array $input): bool
     {
         $this->pdo->beginTransaction();
+        $this->isTransaction = true;
         $sql = "UPDATE usuario_sistema SET ";
         $params = [ 'id' => $id_usuario ];
 
@@ -158,6 +167,7 @@ class UsuarioSistemaModel extends BaseDbModel
                 $result = $this->updatePassword($id_usuario, $input['pass']);
                 if ($result) {
                     $this->pdo->commit();
+                    $this->isTransaction = false;
 
                     $logStmt = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
                     $logStmt->execute(['update', 'usuario_sistema', "Actualizado el usuario $id_usuario"]);
@@ -166,12 +176,14 @@ class UsuarioSistemaModel extends BaseDbModel
                 }
             } else {
                 $this->pdo->commit();
+                $this->isTransaction = false;
 
                 $logStmt = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
                 $logStmt->execute(['update', 'usuario_sistema', "Actualizado el usuario $id_usuario"]);
             }
         } else {
             $this->pdo->rollBack();
+            $this->isTransaction = false;
         }
 
 

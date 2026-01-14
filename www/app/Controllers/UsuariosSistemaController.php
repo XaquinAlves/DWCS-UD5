@@ -143,8 +143,7 @@ class UsuariosSistemaController extends BaseController
         } elseif (strlen($_POST['pass']) > 255) {
             $errors['pass'] = 'Máximo de 255 caracteres';
         } else {
-            $pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
-            $model->updatePassword((int)$_SESSION['usuario']['id_usuario'], $pass);
+            $model->updatePassword((int)$_SESSION['usuario']['id_usuario'], $_POST['pass']);
         }
 
         $this->showChangeUsername([], $errors);
