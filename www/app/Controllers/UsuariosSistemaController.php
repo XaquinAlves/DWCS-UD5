@@ -81,7 +81,7 @@ class UsuariosSistemaController extends BaseController
             if ($user && password_verify($_POST['pass'], $user['pass'])) {
                 if ($user['baja'] == 0) {
                     session_regenerate_id();
-                    $model->updateLastLogin($user['email']);
+                    $model->updateLastLogin($user['id_usuario']);
                     $_SESSION['usuario'] = $user;
                     $_SESSION['permisos'] = $this->getPermisos((int)$user['id_rol']);
                 } else {
@@ -135,7 +135,7 @@ class UsuariosSistemaController extends BaseController
 
         if (isset($_POST['pass']) && $_POST['pass'] !== '') {
             $pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
-            $model->updatePassword($_SESSION['usuario']['email'], $pass);
+            $model->updatePassword((int)$_SESSION['usuario']['id_usuario'], $pass);
         } else {
             $errors['pass'] = 'Campo contraseña vacío';
         }
@@ -237,6 +237,12 @@ class UsuariosSistemaController extends BaseController
 
         if ($errors === []) {
             $model = new UsuarioSistemaModel();
+            $result = $model->findUsuarioById($id_usuario);
+            if ($result) {
+
+            } else {
+
+            }
         } else {
             $this->showEditUsuario($id_usuario, $errors, filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         }

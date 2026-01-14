@@ -81,17 +81,17 @@ class UsuarioSistemaModel extends BaseDbModel
         }
     }
 
-    public function updateLastLogin(string $username): bool
+    public function updateLastLogin(int $id_usuario): bool
     {
         $this->pdo->beginTransaction();
-        $sql = "UPDATE usuario_sistema SET last_date = NOW() WHERE email = :email";
+        $sql = "UPDATE usuario_sistema SET last_date = NOW() WHERE id_usuario = :id";
         $fecha = (new \DateTime())->format('d-m-Y H:i:s');
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['email' => $username]);
+        $stmt->execute(['id' => $id_usuario]);
 
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
-            $stmtLog->execute(['update', 'usuario_sistema', "El usuario $username se ha conectado el $fecha" ]);
+            $stmtLog->execute(['update', 'usuario_sistema', "El usuario $id_usuario se ha conectado el $fecha" ]);
             $this->pdo->commit();
             return true;
         } else {
@@ -100,23 +100,31 @@ class UsuarioSistemaModel extends BaseDbModel
         }
     }
 
-    public function updatePassword(string $username, string $password): bool
+    public function updatePassword(int $id_usuario, string $password): bool
     {
         $this->pdo->beginTransaction();
-        $sql = "UPDATE usuario_sistema SET pass = :pass WHERE email = :email";
+        $sql = "UPDATE usuario_sistema SET pass = :pass WHERE id_usuario = :id";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['email' => $username, 'pass' => $password]);
+        $stmt->execute(['id' => $id_usuario, 'pass' => $password]);
 
         if ($stmt->rowCount() == 1) {
             $stmtLog = $this->pdo->prepare('INSERT INTO log (operacion,tabla,detalle) VALUES (?,?,?)');
-            $stmtLog->execute(['update', 'usuario_sistema', "Actualizada la contraseña de $username"]);
+            $stmtLog->execute(['update', 'usuario_sistema', "Actualizada la contraseña del usuario $id_usuario"]);
             $this->pdo->commit();
             return true;
         } else {
             $this->pdo->rollBack();
             return false;
         }
+    }
+
+    public function updateUsuario(int $id_usuario, array $input): bool
+    {
+        $this->pdo->beginTransaction();
+        $sql = "UPDATE usuario_sistema SET nombre = :nombre, email = :email, id_rol = :rol, idioma = :idioma, 
+                           baja = :baja WHERE id_usuario = :id_usuario";
+
     }
 
     public function getUserByFilters(array $filters): array
